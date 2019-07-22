@@ -1,0 +1,27 @@
+<div class=flex>
+    <form class="register-form">
+        <mat-form-field class="field-register">
+            <input type="text" matInput placeholder="Insert Name" #nameRegister>
+        </mat-form-field>
+        <mat-form-field class="field-register">
+            <input type="email" matInput placeholder="Insert Mail" #emailRegister>
+        </mat-form-field>
+
+        <mat-form-field class="field-register">
+            <input type="password" matInput placeholder="Insert Password" #passwordRegister>
+        </mat-form-field>
+    </form>
+    <mat-form-field>
+        <mat-label>User task</mat-label>
+        <mat-select #taskRegister>
+            <mat-option *ngFor="let task of tasks" [value]="task.value">
+                {{task.viewValue}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <button class="btn_register" mat-raised-button color="accent"
+        (click)="sendRegister(nameRegister.value, emailRegister.value, passwordRegister.value, taskRegister.value)">
+        Registrazione
+    </button>
+</div>

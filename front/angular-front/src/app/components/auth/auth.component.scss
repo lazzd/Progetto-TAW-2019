@@ -1,0 +1,19 @@
+.flex{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+}
+
+button{
+    width: 250px;
+}
+
+.btn_register{
+    height: 50px;
+}
+
+.btn_login{
+    height: 150px;
+}
