@@ -53,14 +53,16 @@ router.get("/:id_order/suborders/:id_suborder", verifyAccessToken, async functio
   try {
     if (isNaN(req.params.id_order))
       return res.status(400).send("Id_order isn't a number");
+    if (isNaN(req.params.id_suborder))
+      return res.status(400).send("Id_suborder isn't a number");
     await OrdersModel.findOne({ id_order: req.params.id_order })
       .then(order => {
         if (isNaN(req.params.id_suborder))
           return res.status(400).send("Id_suborder isn't a number");
         if (req.params.id_suborder < 1 || req.params.id_suborder > order.num_suborders)
           return res.status(400).send("Id_suborder not present");
-        const elem = order.elements_order.find(obj => obj.id_suborder == req.params.id_suborder);
-        return res.json(elem);
+        const suborder = order.elements_order.find(obj => obj.id_suborder == req.params.id_suborder);
+        return res.json(suborder);
       })
       .catch(err => res.status(500).json(err));
   } catch (err) {
@@ -207,10 +209,10 @@ router.put("/:id_order/complete", verifyAccessToken, async function (req, res, n
   }
 });
 
-/*
-// descriminate by task. OK
-router.put("/:id_order", verifyAccessToken, async function (req, res, next) {
+router.put("/:id_order/suborders/:id_suborder/complete", verifyAccessToken, async function (req, res, next) {
   try {
+    if (isNaN(req.params.id_order))
+      return res.status(400).send("Id_order isn't a number");
     if (!req.body)
       return res.status(400).send('Request body is missing');
     else if (!req.body.state)
@@ -219,19 +221,17 @@ router.put("/:id_order", verifyAccessToken, async function (req, res, next) {
       // verifica se così o a stringa
       return res.status(400).send("Parameter isn't correct");
     else {
+      // serve validazione per Cashier
+      const task = jwt.decode(req.header('auth-token')).task;
+      console.log(task);
+      if (task != 'cook' && task != 'barman')
+        return res.status(400).send('Missing permissions');
       const isOrderPresent = await OrdersModel.findOne({ id_order: req.params.id_order });
       if (!isOrderPresent) return res.status(400).send("Order isn't present");
-      // serve validazione per Waiter
-      const task = jwt.decode(req.header('auth-token')).task;
-      //console.log(task);
-      if (task == 'cashier')
-        isOrderPresent.state.complete = req.body.state;
-      else if (task == 'barman')
-        isOrderPresent.state.drinks_complete = req.body.state;
-      else if (task == 'cook')
-        isOrderPresent.state.foods_complete = req.body.state;
-      else
-        return res.status(400).send('Missing permissions');
+      if (req.params.id_suborder < 1 || req.params.id_suborder > isOrderPresent.num_suborders)
+        return res.status(400).send("Id_suborder not present")
+      const suborders = isOrderPresent.elements_order.find(obj => obj.id_suborder == req.params.id_suborder);
+      (task == "cook") ? suborders.state.foods_complete = req.body.state : suborders.state.drinks_complete = req.body.state;
       await isOrderPresent.save()
         .then(doc => {
           if (!doc || doc.length === 0) {
@@ -246,7 +246,6 @@ router.put("/:id_order", verifyAccessToken, async function (req, res, next) {
     return res.status(400).send(err);
   }
 });
-*/
 
 // da aggiungere i PUT state per i barman, e cuochi e il cassiere per la terminazione in complete
 
