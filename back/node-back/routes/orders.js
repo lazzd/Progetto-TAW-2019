@@ -119,6 +119,39 @@ router.put("/:id_order", verifyAccessToken, async function (req, res, next) {
   }
 });
 
+// OK
+router.put("/:id_order/complete", verifyAccessToken, async function (req, res, next) {
+  try {
+    if (!req.body)
+      return res.status(400).send('Request body is missing');
+    else if (!req.body.state)
+      return res.status(400).send('Missing parameters');
+    else if (req.body.state != "false" && req.body.state != "true")
+      // verifica se così o a stringa
+      return res.status(400).send("Parameter isn't correct");
+    else {
+      // serve validazione per Cashier
+      const task = jwt.decode(req.header('auth-token')).task;
+      if (task != 'cashier')
+        return res.status(400).send('Missing permissions');
+      const isOrderPresent = await OrdersModel.findOne({ id_order: req.params.id_order });
+      if (!isOrderPresent) return res.status(400).send("Order isn't present");
+      isOrderPresent.complete = req.body.state;
+      await isOrderPresent.save()
+        .then(doc => {
+          if (!doc || doc.length === 0) {
+            return res.status(500).send(doc);
+          }
+          console.log(doc);
+          res.status(201).type("application/json").send(doc);
+        })
+        .catch(err => res.status(500).json(err));
+    }
+  } catch (err) {
+    return res.status(400).send(err);
+  }
+});
+
 /*
 // descriminate by task. OK
 router.put("/:id_order", verifyAccessToken, async function (req, res, next) {
