@@ -26,16 +26,22 @@ router.get("/", verifyAccessToken, async function (req, res, next) {
 // GET by id field
 router.get('/:name_table', verifyAccessToken, async function (req, res, next) {
     try {
+        await TablesModel.find({ name_table: req.params.name_table})
+        .then(doc => res.json(doc))
+        .catch(err => res.status(500).send(err));
+
+        /*
         let param_name_table = req.params.name_table;
         //Se non presente l'id NON dovrebbe mai cadere qui dentro per la presenza del GET all without id. Array vuoto, no vuoto
         if (!param_name_table) {
-            res.send("ERRORE");
+            return res.status(400).send('Missing parameters');
         }
         else {
             await TablesModel.find({ name_table: param_name_table })
                 .then(doc => res.json(doc))
                 .catch(err => res.status(500).send(err));
         }
+        */
     } catch (err) {
         return res.status(400).send(err);
     }

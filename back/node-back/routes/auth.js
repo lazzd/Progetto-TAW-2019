@@ -55,8 +55,8 @@ router.post("/register", async function (req, res, next) {
     try {
         if (!req.body)
             return res.status(400).send('Request body is missing');
-        else if (!req.body.name || !req.body.email || !req.body.password || !req.body.task)
-            return res.status(400).send('Missing parameters');
+        /*else if (!req.body.name || !req.body.email || !req.body.password || !req.body.task)
+            return res.status(400).send('Missing parameters');*/
         else {
             // VALIDATE WITH JOI , guarda video per scrivere il documento
             //const validation = Joi.validate(req.body, schema);
@@ -101,8 +101,8 @@ router.post("/login", async function (req, res, next) {
     try {
         if (!req.body)
             return res.status(400).send('Request body is missing');
-        else if (!req.body.email || !req.body.password)
-            return res.status(400).send('Missing parameters');
+        /*else if (!req.body.email || !req.body.password)
+            return res.status(400).send('Missing parameters');*/
         else {
             // VALIDATE WITH JOI , guarda video per scrivere il documento
             //const validation = Joi.validate(req.body, schema);
@@ -125,6 +125,7 @@ router.post("/login", async function (req, res, next) {
     }
 });
 
+// OK
 router.post("/refresh-token", RefreshVerify, async function (req, res, next) {
     try {
         if (!req.body)

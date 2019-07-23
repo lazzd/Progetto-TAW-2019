@@ -26,18 +26,18 @@ router.get("/", verifyAccessToken, async function (req, res, next) {
 // only users that are "..." can access in the post method
 router.post("/", verifyAccessToken, async function (req, res, next) {
   try {
-    /*
+    if (!req.body)
+      return res.status(400).send('Request body is missing');
+    /*else if (!req.body.name_table || !req.body.seats)
+      return res.status(400).send('Missing parameters');*/
+    else {
+          /*
       // serve validazione per ...
       const task = jwt.decode(req.header('auth-token')).task;
       console.log(task);
       if (task != '...')
           return res.status(400).send('Missing permissions');
       console.log(req.body);*/
-    if (!req.body)
-      return res.status(400).send('Request body is missing');
-    /*else if (!req.body.name_table || !req.body.seats)
-      return res.status(400).send('Missing parameters');*/
-    else {
       const { error } = orderValidation(req.body);
       // problema nella validazione
       if (error) return res.status(400).send(error.details[0].message);
@@ -57,7 +57,7 @@ router.post("/", verifyAccessToken, async function (req, res, next) {
   }
 });
 
-// descriminate by task
+// descriminate by task. OK
 router.put("/:id_order", verifyAccessToken, async function (req, res, next) {
   try {
     if (!req.body)

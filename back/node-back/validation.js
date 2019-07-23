@@ -20,7 +20,7 @@ const loginValidation = function (data) {
     return Joi.validate(data, LoginSchema);
 }
 
-const tableValidation = function(data) {
+const tableValidation = function (data) {
     const TablesSchema = {
         name_table: Joi.string().min(1).required(),
         seats: Joi.number().min(1).required(),
@@ -28,7 +28,7 @@ const tableValidation = function(data) {
     return Joi.validate(data, TablesSchema);
 }
 
-const elementMenuValidation = function(data){
+const elementMenuValidation = function (data) {
     const ElementMenuValidation = {
         name_element_menu: Joi.string().required(),
         category: Joi.string().required(),
@@ -50,7 +50,7 @@ const ElementMenuNestedSchema = {
     price: Joi.number().required()
 };
 
-const orderValidation = function(data){
+const orderValidation = function (data) {
     const OrderValidation = {
         drinks_order: Joi.array().items(Joi.object(ElementMenuNestedSchema)).required(),
         foods_order: Joi.array().items(Joi.object(ElementMenuNestedSchema)).required(),
