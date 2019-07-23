@@ -13,6 +13,10 @@ let OrdersSchema = new mongoose.Schema ({
         type: [ElementOrderSchema],
         require: true
     },
+    num_suborders: {
+        type: Number,
+        require: true
+    },
     table: {
         type: String,
         require: true

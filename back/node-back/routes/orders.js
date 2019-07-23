@@ -24,6 +24,50 @@ router.get("/", verifyAccessToken, async function (req, res, next) {
   }
 });
 
+router.get("/:id_order", verifyAccessToken, async function (req, res, next) {
+  try {
+    if (isNaN(req.params.id_order))
+      return res.status(400).send("Id_order isn't a number");
+    await OrdersModel.findOne({ id_order: req.params.id_order })
+      .then(doc => res.json(doc))
+      .catch(err => res.status(500).json(err));
+  } catch (err) {
+    return res.status(400).send(err);
+  }
+});
+
+router.get("/:id_order/suborders", verifyAccessToken, async function (req, res, next) {
+  try {
+    if (isNaN(req.params.id_order))
+      return res.status(400).send("Id_order isn't a number");
+    await OrdersModel.findOne({ id_order: req.params.id_order })
+      .then(doc => res.json(doc.elements_order))
+      .catch(err => res.status(500).json(err));
+  } catch (err) {
+    return res.status(400).send(err);
+  }
+});
+
+// OK
+router.get("/:id_order/suborders/:id_suborder", verifyAccessToken, async function (req, res, next) {
+  try {
+    if (isNaN(req.params.id_order))
+      return res.status(400).send("Id_order isn't a number");
+    await OrdersModel.findOne({ id_order: req.params.id_order })
+      .then(order => {
+        if (isNaN(req.params.id_suborder))
+          return res.status(400).send("Id_suborder isn't a number");
+        if (req.params.id_suborder < 1 || req.params.id_suborder > order.num_suborders)
+          return res.status(400).send("Id_suborder not present");
+        const elem = order.elements_order.find(obj => obj.id_suborder == req.params.id_suborder);
+        return res.json(elem);
+      })
+      .catch(err => res.status(500).json(err));
+  } catch (err) {
+    return res.status(400).send(err);
+  }
+});
+
 // only users that are "..." can access in the post method
 router.post("/", verifyAccessToken, async function (req, res, next) {
   try {
@@ -58,6 +102,9 @@ router.post("/", verifyAccessToken, async function (req, res, next) {
         if (!req.body.foods_order)
           model_element_order.state.foods_complete = true;
         let model = new OrdersModel(req.body);
+        // first order with this id_order
+        model.num_suborders = 1;
+        model_element_order.id_suborder = model.num_suborders;
         model.elements_order.push(model_element_order);
         await model.save()
           .then(doc => {
@@ -76,6 +123,8 @@ router.post("/", verifyAccessToken, async function (req, res, next) {
 
 router.put("/:id_order", verifyAccessToken, async function (req, res, next) {
   try {
+    if (isNaN(req.params.id_order))
+      return res.status(400).send("Id_order isn't a number");
     if (!req.body)
       return res.status(400).send('Request body is missing');
     else {
@@ -102,6 +151,10 @@ router.put("/:id_order", verifyAccessToken, async function (req, res, next) {
           model_element_order.state.drinks_complete = true;
         if (!req.body.foods_order)
           model_element_order.state.foods_complete = true;
+        // update num suborders
+        console.log(isOrderPresent.num_suborders);
+        isOrderPresent.num_suborders += 1;
+        model_element_order.id_suborder = isOrderPresent.num_suborders;
         isOrderPresent.elements_order.push(model_element_order);
         await isOrderPresent.save()
           .then(doc => {
@@ -122,6 +175,8 @@ router.put("/:id_order", verifyAccessToken, async function (req, res, next) {
 // OK
 router.put("/:id_order/complete", verifyAccessToken, async function (req, res, next) {
   try {
+    if (isNaN(req.params.id_order))
+      return res.status(400).send("Id_order isn't a number");
     if (!req.body)
       return res.status(400).send('Request body is missing');
     else if (!req.body.state)

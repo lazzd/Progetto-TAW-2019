@@ -19,6 +19,10 @@ let ElementOrderSchema = new mongoose.Schema ({
     state: {
         type: StateOrderSchema,
         default: StateOrderSchema
+    },
+    id_suborder: {
+        type:  Number,
+        require: true
     }
 });
 
