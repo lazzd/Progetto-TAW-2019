@@ -35,10 +35,35 @@ const elementMenuValidation = function(data){
         time: Joi.number().required(),
         price: Joi.number().required()
     }
-    return Joi.validate(data, ElementMenuValidation)
+    return Joi.validate(data, ElementMenuValidation);
 }
+
+// Posso fare il validate anche di menu POST
+
+// -----------------------------------------
+
+const ElementMenuNestedSchema = {
+    _id: Joi.string(),
+    name_element_menu: Joi.string().required(),
+    category: Joi.string().required(),
+    time: Joi.number().required(),
+    price: Joi.number().required()
+};
+
+const orderValidation = function(data){
+    const OrderValidation = {
+        drinks_order: Joi.array().items(Joi.object(ElementMenuNestedSchema)).required(),
+        foods_order: Joi.array().items(Joi.object(ElementMenuNestedSchema)).required(),
+        table: Joi.string().required(),
+        waiter: Joi.string().required()
+    }
+    return Joi.validate(data, OrderValidation);
+}
+
+// -----------------------------------------
 
 module.exports.registerValidation = registerValidation;
 module.exports.loginValidation = loginValidation;
 module.exports.tableValidation = tableValidation;
 module.exports.elementMenuValidation = elementMenuValidation;
+module.exports.orderValidation = orderValidation;

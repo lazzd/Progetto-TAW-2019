@@ -17,8 +17,12 @@ let ElementMenuSchema = new mongoose.Schema({
     price: {
         type: Number,
         require: true,
+    },
+    // quantity is necessary only for orders
+    quantity: {
+        type: Number,
+        require: false
     }
-
 });
 
 module.exports = mongoose.model("ElementMenu", ElementMenuSchema);

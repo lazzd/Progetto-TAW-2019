@@ -27,19 +27,19 @@ router.get("/", verifyAccessToken, async function (req, res, next) {
 // only users that are ... can access in the post method
 router.post("/", verifyAccessToken, async function (req, res, next) {
     try {
-        /*
-        // serve validazione per ...
-        const task = jwt.decode(req.header('auth-token')).task;
-        console.log(task);
-        if(task != '...')
-            return res.status(400).send('Missing permissions');
-        console.log(req.body);
-        */
         if (!req.body)
             return res.status(400).send('Request body is missing');
-        else if (!req.body.name_element_menu || !req.body.category || !req.body.time || !req.body.price)
-            return res.status(400).send('Missing parameters');
+        /*else if (!req.body.name_element_menu || !req.body.category || !req.body.time || !req.body.price)
+            return res.status(400).send('Missing parameters');*/
         else {
+            /*
+// serve validazione per ...
+const task = jwt.decode(req.header('auth-token')).task;
+console.log(task);
+if(task != '...')
+    return res.status(400).send('Missing permissions');
+console.log(req.body);
+*/
             const { error } = elementMenuValidation(req.body);
             if (error) return res.status(400).send(error.details[0].message);
             const elementMenu = new elementMenuModel(req.body);

@@ -3,4 +3,5 @@ export class ElementMenu{
     category: string;
     time: number;
     price: number;
+    quantity?: number;
 }
