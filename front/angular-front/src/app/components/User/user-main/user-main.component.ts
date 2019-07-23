@@ -7,11 +7,11 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 const presetTasks: string[] = ['waiter', 'barman', 'cook', 'cashier'];
 
 @Component({
-  selector: 'app-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.scss']
+  selector: 'app-user-main',
+  templateUrl: './user-main.component.html',
+  styleUrls: ['./user-main.component.scss']
 })
-export class UserComponent implements OnInit {
+export class UserMainComponent implements OnInit {
 
   constructor(
     private router: Router,

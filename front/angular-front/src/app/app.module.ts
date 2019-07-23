@@ -24,9 +24,9 @@ import { RegisterComponent } from './components/register/register.component';
 import { AppRoutingModule } from './app-routing.module';
 import { OrderComponent } from './components/order/order.component';
 import { InitComponent } from './components/init/init.component';
-import { UserComponent } from './components/user/user.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { UserBarmanComponent } from './components/user-barman/user-barman.component';
+import { UserMainComponent } from './components/User/user-main/user-main.component';
 
 export function tokenGetter() {
   //console.log(localStorage.getItem('AccessToken'))
@@ -41,9 +41,9 @@ export function tokenGetter() {
     AuthComponent,
     OrderComponent,
     InitComponent,
-    UserComponent,
     SidenavComponent,
-    UserBarmanComponent
+    UserBarmanComponent,
+    UserMainComponent
   ],
   imports: [
     BrowserModule,

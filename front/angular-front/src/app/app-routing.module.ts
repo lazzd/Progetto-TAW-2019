@@ -8,7 +8,7 @@ import { LoginComponent } from './components/login/login.component';
 import { OrderComponent } from './components/order/order.component';
 
 // User
-import { UserComponent } from './components/user/user.component';
+import { UserMainComponent } from './components/User/user-main/user-main.component';
 // User Barista
 import { UserBarmanComponent } from './components/user-barman/user-barman.component';
 
@@ -41,7 +41,7 @@ const routes: Routes = [
   },
   {
     path: 'user',
-    component: UserComponent,
+    component: UserMainComponent,
     canActivate: [AuthGuard],
     children: [
       {
