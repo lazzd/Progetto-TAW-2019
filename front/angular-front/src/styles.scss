@@ -40,3 +40,9 @@ h1.sidenav-app-name {
        `<body>` to be our scrolling element for mobile layouts. */
   flex: 1 0 auto;
 }
+
+.logout-item {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
