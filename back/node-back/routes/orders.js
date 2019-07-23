@@ -3,6 +3,7 @@ var router = express.Router();
 
 //import dishesModel
 let ElementOrderModel = require('../models/element_order.model');
+let MenuModel = require('../models/menu.model');
 let OrdersModel = require('../models/orders.model');
 
 // require jsonwebtoken
@@ -13,6 +14,25 @@ let verifyAccessToken = require('./verifyAccessToken');
 
 // per validazione schema
 const { orderValidation, elementOrderValidation } = require('../validation');
+
+async function isElementMenuPresent(elem) {
+  try {
+    await MenuModel.findOne({ category: elem.category })
+      .then(category => {
+        if (!category)
+          return false;
+        let res = category.elements_category.some(ElementMenu => ElementMenu.name_element_menu == elem.name_element_menu);
+        return (res) ? true : false;
+      })
+      .catch(err => {
+        console.log(err);
+        return false;
+      });
+  } catch (err) {
+    return false;
+  }
+}
+
 
 router.get("/", verifyAccessToken, async function (req, res, next) {
   try {
@@ -97,7 +117,30 @@ router.post("/", verifyAccessToken, async function (req, res, next) {
         return res.status(400).send("No Order Request");
       }
       else {
-        // vedere se ti butta giá dentro il table ed il waiter presenti nel body
+        // verify if elementMenu item are present in mongo
+        const drinks_order = req.body.drinks_order;
+        if (drinks_order) {
+          for (let elem of drinks_order) {
+            let category = await MenuModel.findOne({ category: elem.category });
+            if (!category)
+              return res.status(400).send("Not all drink's category are present in DB");
+            let isPresent = category.elements_category.some(ElementMenu => ElementMenu.name_element_menu == elem.name_element_menu);
+            if (!isPresent)
+              return res.status(400).send("Not all drinks are present in DB");
+          }
+        }
+        const foods_order = req.body.foods_order;
+        if (foods_order) {
+          for (let elem of foods_order) {
+            let category = await MenuModel.findOne({ category: elem.category });
+            if (!category)
+              return res.status(400).send("Not all food's category are present in DB");
+            let isPresent = category.elements_category.some(ElementMenu => ElementMenu.name_element_menu == elem.name_element_menu);
+            if (!isPresent)
+              return res.status(400).send("Not all foods are present in DB");
+          }
+        }
+        // vedere se ti butta giá dentro il table ed il waiter presenti nel body;
         let model_element_order = new ElementOrderModel(req.body);
         if (!req.body.drinks_order)
           model_element_order.state.drinks_complete = true;
@@ -119,6 +162,7 @@ router.post("/", verifyAccessToken, async function (req, res, next) {
       }
     }
   } catch (err) {
+    console.log(err);
     return res.status(400).send(err);
   }
 });
@@ -137,17 +181,39 @@ router.put("/:id_order", verifyAccessToken, async function (req, res, next) {
         return res.status(400).send("No Order Request");
       }
       else {
+        /*
+// serve validazione per Waiter
+const task = jwt.decode(req.header('auth-token')).task;
+//console.log(task);
+if (task == 'waiter')
+  isOrderPresent.state.complete = req.body.state;
+else
+  return res.status(400).send('Missing permissions');
+*/
         const isOrderPresent = await OrdersModel.findOne({ id_order: req.params.id_order }, { state: false });
         if (!isOrderPresent) return res.status(400).send("Order isn't present");
-        /*
-        // serve validazione per Waiter
-        const task = jwt.decode(req.header('auth-token')).task;
-        //console.log(task);
-        if (task == 'waiter')
-          isOrderPresent.state.complete = req.body.state;
-        else
-          return res.status(400).send('Missing permissions');
-        */
+        const drinks_order = req.body.drinks_order;
+        if (drinks_order) {
+          for (let elem of drinks_order) {
+            let category = await MenuModel.findOne({ category: elem.category });
+            if (!category)
+              return res.status(400).send("Not all drink's category are present in DB");
+            let isPresent = category.elements_category.some(ElementMenu => ElementMenu.name_element_menu == elem.name_element_menu);
+            if (!isPresent)
+              return res.status(400).send("Not all drinks are present in DB");
+          }
+        }
+        const foods_order = req.body.foods_order;
+        if (foods_order) {
+          for (let elem of foods_order) {
+            let category = await MenuModel.findOne({ category: elem.category });
+            if (!category)
+              return res.status(400).send("Not all food's category are present in DB");
+            let isPresent = category.elements_category.some(ElementMenu => ElementMenu.name_element_menu == elem.name_element_menu);
+            if (!isPresent)
+              return res.status(400).send("Not all foods are present in DB");
+          }
+        }
         let model_element_order = new ElementOrderModel(req.body);
         if (!req.body.drinks_order)
           model_element_order.state.drinks_complete = true;

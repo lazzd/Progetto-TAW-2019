@@ -7,7 +7,7 @@ const registerValidation = function (data) {
         name: Joi.string().min(6).required(),
         email: Joi.string().min(6).required().email(),
         password: Joi.string().min(6).required(),
-        task: Joi.string().min(6).required(),
+        task: Joi.string().required(),
     }
     return Joi.validate(data, UsersSchema);
 }
