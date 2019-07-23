@@ -27,6 +27,11 @@ import { InitComponent } from './components/init/init.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { UserBarmanComponent } from './components/user-barman/user-barman.component';
 import { UserMainComponent } from './components/User/user-main/user-main.component';
+import { SidenavWaiterComponent } from './components/User/Waiter/sidenav-waiter/sidenav-waiter.component';
+import { WaiterComponent } from './components/User/Waiter/waiter/waiter.component';
+import { WaiterTablesComponent } from './components/User/Waiter/waiter-tables/waiter-tables.component';
+import { SidenavBarmanComponent } from './components/User/Barman/sidenav-barman/sidenav-barman.component';
+import { BarmanComponent } from './components/User/Barman/barman/barman.component';
 
 export function tokenGetter() {
   //console.log(localStorage.getItem('AccessToken'))
@@ -43,7 +48,12 @@ export function tokenGetter() {
     InitComponent,
     SidenavComponent,
     UserBarmanComponent,
-    UserMainComponent
+    UserMainComponent,
+    SidenavWaiterComponent,
+    WaiterComponent,
+    WaiterTablesComponent,
+    SidenavBarmanComponent,
+    BarmanComponent
   ],
   imports: [
     BrowserModule,

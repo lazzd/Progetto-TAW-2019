@@ -9,11 +9,18 @@ import { OrderComponent } from './components/order/order.component';
 
 // User
 import { UserMainComponent } from './components/User/user-main/user-main.component';
-// User Barista
+
+// User Waiter
+import { WaiterComponent } from './components/User/Waiter/waiter/waiter.component';
+import { WaiterTablesComponent } from './components/User/Waiter/waiter-tables/waiter-tables.component';
+
+// User Barman
+import { BarmanComponent } from './components/User/Barman/barman/barman.component';
 import { UserBarmanComponent } from './components/user-barman/user-barman.component';
 
 // import AuthGuard Service for Guard Routing
 import { AuthGuardService as AuthGuard } from './services/authGuard/auth-guard.service';
+import { RoleGuardService as RoleGuard } from './services/roleGuard/role-guard.service';
 
 // per le categorie, usare i childer, più app-router
 
@@ -42,10 +49,32 @@ const routes: Routes = [
   {
     path: 'user',
     component: UserMainComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'user/waiter',
+    component: WaiterComponent,
+    canActivate: [RoleGuard],
+    data: {
+      expectedTask: 'waiter'
+    },
     children: [
       {
-        path: 'barman',
+        path: 'tables',
+        component: WaiterTablesComponent
+      }
+    ]
+  },
+  {
+    path: 'user/barman',
+    component: BarmanComponent,
+    canActivate: [RoleGuard],
+    data: {
+      expectedTask: 'barman'
+    },
+    children: [
+      {
+        path: 'barman1',
         component: UserBarmanComponent
       }
     ]

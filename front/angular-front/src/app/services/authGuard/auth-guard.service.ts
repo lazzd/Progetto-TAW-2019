@@ -10,8 +10,8 @@ import { RefreshTokenService } from '../refresh-token/refresh-token.service';
 export class AuthGuardService implements CanActivate{
 
   constructor(
-    public auth: RefreshTokenService,
-    public router: Router) { }
+    private auth: RefreshTokenService,
+    private router: Router) { }
 
   canActivate(): boolean {
     if (!this.auth.isAuthenticated()) {
