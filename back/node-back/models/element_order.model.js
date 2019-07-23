@@ -3,8 +3,8 @@ let mongoose =  require('mongoose');
 // necessary for the right type of ElementMenu key
 let ElementMenuModel = require('../models/element_menu.model');
 let ElementMenuSchema = ElementMenuModel.schema;
-let StateOrderModel = require('../models/state_order.model');
-let StateOrderSchema = StateOrderModel.schema;
+let StateElementOrderModel = require('../models/state_element_order.model');
+let StateElementOrderSchema = StateElementOrderModel.schema;
 
 //creazione dell'array su angular
 let ElementOrderSchema = new mongoose.Schema ({
@@ -17,8 +17,8 @@ let ElementOrderSchema = new mongoose.Schema ({
         require: false
     },
     state: {
-        type: StateOrderSchema,
-        default: StateOrderSchema
+        type: StateElementOrderSchema,
+        default: StateElementOrderSchema
     },
     id_suborder: {
         type:  Number,

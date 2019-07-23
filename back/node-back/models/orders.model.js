@@ -7,6 +7,9 @@ const AutoIncrement = require('mongoose-sequence')(mongoose);
 let ElementOrderModel = require('../models/element_order.model');
 let ElementOrderSchema = ElementOrderModel.schema;
 
+let StateOrderModel = require('../models/state_order.model');
+let StateOrderSchema = StateOrderModel.schema;
+
 //creazione dell'array su angular
 let OrdersSchema = new mongoose.Schema ({
     elements_order: {
@@ -29,9 +32,9 @@ let OrdersSchema = new mongoose.Schema ({
         type: Date,
         default: Date.now
     },
-    complete: {
-        type: Boolean,
-        default: false
+    state_order: {
+        type: StateOrderSchema,
+        default: StateOrderSchema
     }
 });
 
