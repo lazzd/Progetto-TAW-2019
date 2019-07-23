@@ -50,14 +50,23 @@ const ElementMenuNestedSchema = {
     price: Joi.number().required()
 };
 
-const orderValidation = function (data) {
+const orderValidation =  function(data) {
     const OrderValidation = {
-        drinks_order: Joi.array().items(Joi.object(ElementMenuNestedSchema)).required(),
-        foods_order: Joi.array().items(Joi.object(ElementMenuNestedSchema)).required(),
+        drinks_order: Joi.array().items(Joi.object(ElementMenuNestedSchema)),
+        foods_order: Joi.array().items(Joi.object(ElementMenuNestedSchema)),
         table: Joi.string().required(),
         waiter: Joi.string().required()
     }
     return Joi.validate(data, OrderValidation);
+
+}
+
+const elementOrderValidation = function (data) {
+    const ElementOrderValidation = {
+        drinks_order: Joi.array().items(Joi.object(ElementMenuNestedSchema)),
+        foods_order: Joi.array().items(Joi.object(ElementMenuNestedSchema))
+    }
+    return Joi.validate(data, ElementOrderValidation);
 }
 
 // -----------------------------------------
@@ -67,3 +76,4 @@ module.exports.loginValidation = loginValidation;
 module.exports.tableValidation = tableValidation;
 module.exports.elementMenuValidation = elementMenuValidation;
 module.exports.orderValidation = orderValidation;
+module.exports.elementOrderValidation = elementOrderValidation;

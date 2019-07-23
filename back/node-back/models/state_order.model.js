@@ -9,10 +9,6 @@ let StateOrderSchema = new mongoose.Schema({
     foods_complete: {
         type: Boolean,
         default: false
-    },
-    complete: {
-        type: Boolean,
-        default: false
     }
 });
 

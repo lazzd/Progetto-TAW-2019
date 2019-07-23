@@ -47,13 +47,13 @@ console.log(req.body);
             // la categoria é giá presente, basta pusharci dentro il nuovo Element Menu (req)
             if (isCategoryPresent) {
                 // devi fare la map, verifica il predicato per ogni elemento dell'array
-                console.log(isCategoryPresent.element_category);
+                console.log(isCategoryPresent.elements_category);
                 // Il metodo some() verifica se almeno un elemento nell'array passa la verifica implementata dalla funzione fornita
-                const isElementMenuPresent = isCategoryPresent.element_category
+                const isElementMenuPresent = isCategoryPresent.elements_category
                     .some((obj) => (obj.name_element_menu == req.body.name_element_menu));
                 console.log("eeeee");
                 if (!isElementMenuPresent) {
-                    isCategoryPresent.element_category.push(elementMenu);
+                    isCategoryPresent.elements_category.push(elementMenu);
                     await isCategoryPresent.save()
                         .then(doc => {
                             if (!doc || doc.length === 0) {
@@ -74,7 +74,7 @@ console.log(req.body);
                 // qui non é presente la category, bisogna prima crearla e poi buttare dentro il new element.
                 const menu = new MenuModel({ category: req.body.category });
                 console.log(elementMenu);
-                menu.element_category.push(elementMenu);
+                menu.elements_category.push(elementMenu);
                 await menu.save()
                     .then(doc => {
                         if (!doc || doc.length === 0) {

@@ -4,19 +4,13 @@ let mongoose =  require('mongoose');
 const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 // necessary for the right type of ElementMenu key
-let ElementMenuModel = require('../models/element_menu.model');
-let ElementMenuSchema = ElementMenuModel.schema;
-let StateOrderModel = require('../models/state_order.model');
-let StateOrderSchema = StateOrderModel.schema;
+let ElementOrderModel = require('../models/element_order.model');
+let ElementOrderSchema = ElementOrderModel.schema;
 
 //creazione dell'array su angular
 let OrdersSchema = new mongoose.Schema ({
-    drinks_order: {
-        type: [ElementMenuSchema],
-        require: true
-    },
-    foods_order: {
-        type: [ElementMenuSchema],
+    elements_order: {
+        type: [ElementOrderSchema],
         require: true
     },
     table: {
@@ -31,9 +25,9 @@ let OrdersSchema = new mongoose.Schema ({
         type: Date,
         default: Date.now
     },
-    state: {
-        type: StateOrderSchema,
-        default: StateOrderSchema
+    complete: {
+        type: Boolean,
+        default: false
     }
 });
 

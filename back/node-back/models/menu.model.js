@@ -10,7 +10,7 @@ let MenuSchema = new mongoose.Schema ({
         type: String,
         required: true,
     },
-    element_category: {
+    elements_category: {
         type: [ElementMenuSchema],
         default: []
     }
