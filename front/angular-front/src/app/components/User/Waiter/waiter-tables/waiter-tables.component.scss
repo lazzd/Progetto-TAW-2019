@@ -1,4 +1,14 @@
-.box{
-    display: flex;
-    justify-content: center;
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.tables-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+}
+
+.tables-radio-button {
+  margin: 5px;
 }

@@ -6,9 +6,9 @@
         <h1 class="sidenav-app-name">Logical Dishes</h1>
     </mat-toolbar>
 
-    <mat-sidenav-container class="sidenav-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+    <mat-sidenav-container class="sidenav-sidenav-container" [style.paddingTop.%]="mobileQuery.matches ? 5 : 2">
         <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches"
-            fixedTopGap="56">
+            fixedTopGap="5%">
             <mat-nav-list>
                 <!--Funzione che ti setta i link correttamente-->
                 <!--Perfetto, cosí con i link funziona-->

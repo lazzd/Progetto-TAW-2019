@@ -1,13 +1,24 @@
 <router-outlet></router-outlet>
-<div class="box">
+<div class="container">
     <div>
-        <form [formGroup]="form_table" (ngSubmit)="onSubmit()" class="form_search_table">
-            <mat-form-field>
-                <mat-label>Cerca Tavolo</mat-label>
-                <input matInput type="number" placeholder="Persone" formControlName="num_seats" min="1">
-            </mat-form-field>
-            <button type="submit" mat-flat-button color="primary">Primary</button>
-        </form>
+        <span>
+            <form [formGroup]="form_table" (ngSubmit)="getTablesBySeats()" class="form_search_table">
+                <mat-form-field>
+                    <mat-label>Cerca Tavolo</mat-label>
+                    <input matInput type="number" placeholder="Numero Persone" formControlName="num_seats" min="1">
+                </mat-form-field>
+                <button type="submit" mat-flat-button color="primary">CERCA</button>
+            </form>
+        </span>
+        <span *ngIf=view_tables>
+            <label id="tables-radio-group-label">Seleziona il Tavolo</label>
+            <mat-radio-group aria-labelledby="tables-radio-group-label" class="tables-radio-group"
+                [(ngModel)]="selectTable">
+                <mat-radio-button class="tables-radio-button" *ngFor="let table of getTables" [value]="table.name_table">
+                    {{table.name_table}}
+                </mat-radio-button>
+            </mat-radio-group>
+            <div>Tavolo selezionato: {{selectTable}}</div>
+        </span>
     </div>
-
 </div>

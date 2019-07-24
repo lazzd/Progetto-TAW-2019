@@ -15,9 +15,19 @@ const { tableValidation } = require('../validation');
 
 router.get("/", verifyAccessToken, async function (req, res, next) {
     try {
-        await TablesModel.find({})
-            .then(doc => res.json(doc))
-            .catch(err => res.status(500).json(err));
+        // search by seats
+        if (req.query.seats) {
+            if (isNaN(req.query.seats))
+                return res.status(400).send("Id_order isn't a number");
+            await TablesModel.find({ seats: { $gte: req.query.seats } })
+                .then(doc => res.json(doc))
+                .catch(err => res.status(500).json(err));
+        }
+        else {
+            await TablesModel.find({})
+                .then(doc => res.json(doc))
+                .catch(err => res.status(500).json(err));
+        }
     } catch (err) {
         return res.status(400).send(err);
     }
@@ -26,9 +36,9 @@ router.get("/", verifyAccessToken, async function (req, res, next) {
 // GET by id field
 router.get('/:name_table', verifyAccessToken, async function (req, res, next) {
     try {
-        await TablesModel.find({ name_table: req.params.name_table})
-        .then(doc => res.json(doc))
-        .catch(err => res.status(500).send(err));
+        await TablesModel.find({ name_table: req.params.name_table })
+            .then(doc => res.json(doc))
+            .catch(err => res.status(500).send(err));
 
         /*
         let param_name_table = req.params.name_table;

@@ -14,7 +14,7 @@ let DishesModel = require('../models/dishes.model');
 let verifyAccessToken = require('./verifyAccessToken');
 
 /* GET all dishes page. */
-router.get('/', verifyAccessToken, async function (req, res, next) {
+router.get('/', async function (req, res, next) {
     try {
         await DishesModel.find({})
             .then(doc => res.json(doc))
@@ -24,7 +24,7 @@ router.get('/', verifyAccessToken, async function (req, res, next) {
     }
 });
 
-router.get('/categories', verifyAccessToken, async function (req, res, next) {
+router.get('/categories', async function (req, res, next) {
     try {
         if (req.query.category) {
             await DishesModel.find({ category: req.query.category })
