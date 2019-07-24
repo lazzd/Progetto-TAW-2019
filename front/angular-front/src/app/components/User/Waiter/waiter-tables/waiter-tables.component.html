@@ -15,10 +15,13 @@
             <mat-radio-group aria-labelledby="tables-radio-group-label" class="tables-radio-group"
                 [(ngModel)]="selectTable">
                 <mat-radio-button class="tables-radio-button" *ngFor="let table of getTables" [value]="table.name_table">
-                    {{table.name_table}}
+                    Nome Tavolo: {{table.name_table}}, Posti: {{table.seats}}
                 </mat-radio-button>
             </mat-radio-group>
             <div>Tavolo selezionato: {{selectTable}}</div>
+            <div *ngIf=selectTable class="send_table">
+                <button mat-raised-button color="warn" (click)="pairTable()">Associa Tavolo</button>
+            </div>
         </span>
     </div>
 </div>

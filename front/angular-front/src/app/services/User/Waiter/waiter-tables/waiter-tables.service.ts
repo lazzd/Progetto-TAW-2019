@@ -7,6 +7,7 @@ import { HttpClient, HttpHeaders, HttpEventType, HttpResponse } from '@angular/c
 // import for refresh-token
 import { RefreshTokenService } from '../../../refresh-token/refresh-token.service';
 import { Table } from 'src/app/classes/table';
+import { State } from 'src/app/classes/state';
 
 const url = "http://localhost:3000/tables";
 
@@ -25,6 +26,18 @@ export class WaiterTablesService {
       console.log(promRefeshToken);
       // Ora posso fare la richiesta...
       return this.http.get<Array<Table>>(url + '?seats=' + seats);
+    } catch (ErrorRefreshToken) {
+      return throwError(ErrorRefreshToken);
+    }
+  };
+
+  async pairTable(name_table: string, state: State): Promise<Observable<Table>> {
+    console.log(name_table, state);
+    try {
+      let promRefeshToken = await this.refreshToken.refreshToken();
+      console.log(promRefeshToken);
+      // Ora posso fare la richiesta...
+      return this.http.put<Table>((url + '/' + name_table), state);
     } catch (ErrorRefreshToken) {
       return throwError(ErrorRefreshToken);
     }

@@ -19,7 +19,7 @@ router.get("/", verifyAccessToken, async function (req, res, next) {
         if (req.query.seats) {
             if (isNaN(req.query.seats))
                 return res.status(400).send("Id_order isn't a number");
-            await TablesModel.find({ seats: { $gte: req.query.seats } })
+            await TablesModel.find({ $and: [{ seats: { $gte: req.query.seats } }, { busy: false }] })
                 .then(doc => res.json(doc))
                 .catch(err => res.status(500).json(err));
         }
@@ -94,20 +94,19 @@ router.post("/", verifyAccessToken, async function (req, res, next) {
 // update state of PUT by waiter
 router.put("/:name_table", verifyAccessToken, async function (req, res, next) {
     try {
-        // serve validazione per Waiter
-        const task = jwt.decode(req.header('auth-token')).task;
-        console.log(task);
-        if (task != 'waiter')
-            return res.status(400).send('Missing permissions');
-        console.log(req.body);
         if (!req.body)
             return res.status(400).send('Request body is missing');
         else if (!req.body.state)
             return res.status(400).send('Missing parameters');
-        else if (req.body.state != "false" && req.body.state != "true")
+        else if (req.body.state != false && req.body.state != true)
             // verifica se così o a stringa
             return res.status(400).send("Parameter isn't correct");
         else {
+            // serve validazione per Waiter
+            const task = jwt.decode(req.header('auth-token')).task;
+            console.log(task);
+            if (task != 'waiter')
+                return res.status(400).send('Missing permissions');
             const isTablePresent = await TablesModel.findOne({ name_table: req.params.name_table });
             if (!isTablePresent) return res.status(400).send("Table name isn't already present");
             isTablePresent.busy = req.body.state;

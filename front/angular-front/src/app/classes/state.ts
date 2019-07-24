@@ -1,3 +1,6 @@
 export class State{
-    state: boolean
+    state: boolean;
+    constructor(state: boolean){
+        this.state = state;
+    }
 }
