@@ -12,6 +12,10 @@ let TablesSchema = new mongoose.Schema({
     busy: {
         type: Boolean,
         default: false
+    },
+    waiter: {
+        type: String,
+        required: false
     }
 });
 

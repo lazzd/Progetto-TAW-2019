@@ -24,6 +24,7 @@ function createJwt(bodyJson) {
     const AccessToken = jwt.sign({
         _id: bodyJson.id,
         // insert the task of the user
+        name: bodyJson.name,
         task: bodyJson.task
     }, process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: AccessExpire });
@@ -43,6 +44,7 @@ function refreshAccessJwt(bodyJson) {
     const AccessToken = jwt.sign({
         _id: bodyJson.id,
         // insert the task of the user
+        name: bodyJson.name,
         task: bodyJson.task
     }, process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: AccessExpire });

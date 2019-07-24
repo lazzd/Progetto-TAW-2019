@@ -10,6 +10,8 @@ export class LogoutService {
   logout(): void{
     localStorage.removeItem('AccessToken');
     localStorage.removeItem('RefreshToken');
+    localStorage.removeItem('UserName');
+    localStorage.removeItem('UserTask');
   }
 
 }

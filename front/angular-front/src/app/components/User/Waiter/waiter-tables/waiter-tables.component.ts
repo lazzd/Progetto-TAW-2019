@@ -4,7 +4,8 @@ import { NgForm, FormGroup, FormControl } from '@angular/forms';
 import { WaiterTablesService } from '../../../../services/User/Waiter/waiter-tables/waiter-tables.service';
 
 // for routing
-import { Router } from "@angular/router"
+import { Router } from "@angular/router";
+
 import { Table } from 'src/app/classes/table';
 import { State } from 'src/app/classes/state';
 
@@ -83,7 +84,7 @@ export class WaiterTablesComponent implements OnInit {
 
   async pairTable(): Promise<void> {
     try {
-      let WaiterTablesServicePromise = await this.waiterTablesService.pairTable(this.selectTable, new State(true));
+      let WaiterTablesServicePromise = await this.waiterTablesService.pairTable(this.selectTable, new State(true, localStorage.getItem('UserName')));
       // ritorna l'observable...
       WaiterTablesServicePromise.subscribe(
         (ResSub => {

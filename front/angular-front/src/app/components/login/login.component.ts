@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 // for routing
 import { Router } from "@angular/router"
 
+import { JwtHelperService } from '@auth0/angular-jwt';
+
 // import Services
 import { LoginService } from '../../services/login/login.service';
 // import Class
@@ -17,7 +19,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private loginService: LoginService,
-    private router: Router) { }
+    private router: Router,
+    private jwt: JwtHelperService) { }
 
   ngOnInit() {
   }
@@ -28,8 +31,12 @@ export class LoginComponent implements OnInit {
       this.loginService.sendLogin({ email, password } as Login)
         .subscribe(
           (res: any) => {
+            const name = this.jwt.decodeToken(res.AccessToken).name;
+            const task = this.jwt.decodeToken(res.AccessToken).task;
             localStorage.setItem('AccessToken', res.AccessToken);
             localStorage.setItem('RefreshToken', res.RefreshToken);
+            localStorage.setItem('UserName', name);
+            localStorage.setItem('UserTask', task);
             console.log('ACCESS: ', res.AccessToken);
             console.log('REFRESH: ', res.RefreshToken);
             this.router.navigate(['/user']);

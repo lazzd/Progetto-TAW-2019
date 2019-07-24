@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 // for routing
 import { Router } from "@angular/router"
 
+import { JwtHelperService } from '@auth0/angular-jwt';
+
 // import Services
 import { RegisterService } from '../../services/register/register.service';
 // import Class
@@ -28,7 +30,8 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private registerService: RegisterService,
-    private router: Router) { }
+    private router: Router,
+    private jwt: JwtHelperService) { }
 
   ngOnInit() {
   }
@@ -38,9 +41,13 @@ export class RegisterComponent implements OnInit {
       this.registerService.sendRegister({ name, email, password, task } as Register)
         .subscribe(
           (res: any) => {
+            const name = this.jwt.decodeToken(res.AccessToken).name;
+            const task = this.jwt.decodeToken(res.AccessToken).task;
             // anche con la registrazione devo mandare il token...
             localStorage.setItem('AccessToken', res.AccessToken);
             localStorage.setItem('RefreshToken', res.RefreshToken);
+            localStorage.setItem('UserName', name);
+            localStorage.setItem('UserTask', task);
             console.log('ACCESS: ', res.AccessToken);
             console.log('REFRESH: ', res.RefreshToken);
             this.router.navigate(['/user']);

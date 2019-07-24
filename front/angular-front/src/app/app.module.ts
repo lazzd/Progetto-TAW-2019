@@ -34,6 +34,7 @@ import { WaiterComponent } from './components/User/Waiter/waiter/waiter.componen
 import { WaiterTablesComponent } from './components/User/Waiter/waiter-tables/waiter-tables.component';
 import { SidenavBarmanComponent } from './components/User/Barman/sidenav-barman/sidenav-barman.component';
 import { BarmanComponent } from './components/User/Barman/barman/barman.component';
+import { WaiterOrdersComponent } from './components/User/Waiter/waiter-orders/waiter-orders.component';
 
 export function tokenGetter() {
   //console.log(localStorage.getItem('AccessToken'))
@@ -55,7 +56,8 @@ export function tokenGetter() {
     WaiterComponent,
     WaiterTablesComponent,
     SidenavBarmanComponent,
-    BarmanComponent
+    BarmanComponent,
+    WaiterOrdersComponent
   ],
   imports: [
     BrowserModule,

@@ -23,6 +23,11 @@ router.get("/", verifyAccessToken, async function (req, res, next) {
                 .then(doc => res.json(doc))
                 .catch(err => res.status(500).json(err));
         }
+        if (req.query.waiter) {
+            await TablesModel.find({ $and: [{ waiter: req.query.waiter }, { busy: true }] })
+                .then(doc => res.json(doc))
+                .catch(err => res.status(500).json(err));
+        }
         else {
             await TablesModel.find({})
                 .then(doc => res.json(doc))
@@ -109,6 +114,10 @@ router.put("/:name_table", verifyAccessToken, async function (req, res, next) {
                 return res.status(400).send('Missing permissions');
             const isTablePresent = await TablesModel.findOne({ name_table: req.params.name_table });
             if (!isTablePresent) return res.status(400).send("Table name isn't already present");
+            if (req.body.state == true)
+                isTablePresent.waiter = req.body.waiter;
+            else
+                isTablePresent.waiter = "";
             isTablePresent.busy = req.body.state;
             await isTablePresent.save()
                 .then(doc => {

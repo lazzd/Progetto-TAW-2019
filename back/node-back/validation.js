@@ -24,6 +24,7 @@ const tableValidation = function (data) {
     const TablesSchema = {
         name_table: Joi.string().min(1).required(),
         seats: Joi.number().min(1).required(),
+        waiter: Joi.string()
     }
     return Joi.validate(data, TablesSchema);
 }
