@@ -1,2 +1,13 @@
 <router-outlet></router-outlet>
-<p>waiter-tables works!</p>
+<div class="box">
+    <div>
+        <form [formGroup]="form_table" (ngSubmit)="onSubmit()" class="form_search_table">
+            <mat-form-field>
+                <mat-label>Cerca Tavolo</mat-label>
+                <input matInput type="number" placeholder="Persone" formControlName="num_seats" min="1">
+            </mat-form-field>
+            <button type="submit" mat-flat-button color="primary">Primary</button>
+        </form>
+    </div>
+
+</div>
