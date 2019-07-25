@@ -28,6 +28,9 @@ export class WaiterOrdersComponent implements OnInit {
   myTables: Table[];
   completeMenu: Menu[];
 
+  // devo avere due oggetti, che li carico... la presenza dell'id_order la ho direttamente in myTables
+  // metodo unico con bottone: invia ordine che discrimina se fare una post (create new order) oppure una put (update), grazie all'id
+
   constructor(
     private waiterOrdersService: WaiterOrdersService,
     private router: Router) { }

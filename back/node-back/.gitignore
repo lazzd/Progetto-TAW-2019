@@ -41,6 +41,10 @@ yarn-error.log
 testem.log
 /typings
 
+# dotenv environment variables file
+.env
+.env.test
+
 # System Files
 .DS_Store
 Thumbs.db
