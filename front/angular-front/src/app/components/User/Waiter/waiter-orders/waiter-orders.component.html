@@ -17,17 +17,21 @@
         <span *ngIf=view_menu>
             <mat-nav-list>
                 <ng-container *ngFor="let category of completeMenu; index as i">
-                    <mat-list-item (click)="showCategory(i+1)">{{category.category}}</mat-list-item>
-                    <mat-nav-list style="margin-left:10%;">
-                        <span *ngIf=view_category[i+1]>
-                            <mat-list-item *ngFor="let element of category.elements_category">
-                                <span class="input-container">
-                                    <p>{{ element.name_element_menu }}</p>
-                                    <input matInput type="number" placeholder="" min="10" class="npc">
-                                </span>
-                            </mat-list-item>
-
-
+                    <mat-list-item (click)="showCategory(i)">{{i + 1}}: {{category.category}}</mat-list-item>
+                    <mat-nav-list style="margin-left:30px;">
+                        <span *ngIf=view_category[i]>
+                            <div *ngFor="let element of category.elements_category; index as u">
+                                <mat-list-item (click)="showForm(i, u)">{{u + 1}}: {{ element.name_element_menu }}
+                                </mat-list-item>
+                                <mat-list-item *ngIf=view_form[i][u]>
+                                    <form>
+                                        <mat-form-field>
+                                            <input type="number" matInput value="Sushi">
+                                        </mat-form-field>
+                                        <button type="submit" mat-flat-button color="primary">ADD</button>
+                                    </form>
+                                </mat-list-item>
+                            </div>
                         </span>
                     </mat-nav-list>
                 </ng-container>
