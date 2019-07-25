@@ -33,6 +33,7 @@ const elementMenuValidation = function (data) {
     const ElementMenuValidation = {
         name_element_menu: Joi.string().required(),
         category: Joi.string().required(),
+        type: Joi.string().required(),
         time: Joi.number().required(),
         price: Joi.number().required()
     }
@@ -47,11 +48,12 @@ const ElementMenuNestedSchema = {
     _id: Joi.string(),
     name_element_menu: Joi.string().required(),
     category: Joi.string().required(),
+    type: Joi.string().required(),
     time: Joi.number().required(),
     price: Joi.number().required()
 };
 
-const orderValidation =  function(data) {
+const orderValidation = function (data) {
     const OrderValidation = {
         drinks_order: Joi.array().items(Joi.object(ElementMenuNestedSchema)),
         foods_order: Joi.array().items(Joi.object(ElementMenuNestedSchema)),

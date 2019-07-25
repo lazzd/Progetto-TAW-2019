@@ -10,6 +10,10 @@ let ElementMenuSchema = new mongoose.Schema({
         type: String,
         require: true,
     },
+    type: {
+        type: String,
+        require: true,
+    },
     time: {
         type: Number,
         reqire: true,

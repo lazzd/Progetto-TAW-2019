@@ -42,6 +42,9 @@ console.log(req.body);
 */
             const { error } = elementMenuValidation(req.body);
             if (error) return res.status(400).send(error.details[0].message);
+            if (req.body.type != "food" && req.body.type != "drink") {
+                return res.status(400).send("Type of elementMenu isn't correct");
+            }
             const elementMenu = new elementMenuModel(req.body);
             const isCategoryPresent = await MenuModel.findOne({ category: req.body.category });
             // la categoria é giá presente, basta pusharci dentro il nuovo Element Menu (req)
