@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatRadioModule } from '@angular/material/radio';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 // httpModule
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -66,6 +67,7 @@ export function tokenGetter() {
     ReactiveFormsModule,
     // Radio Modules
     MatRadioModule,
+    MatExpansionModule,
     HttpClientModule,
     BrowserAnimationsModule,
     MatToolbarModule,

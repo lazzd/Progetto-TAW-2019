@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { Tasks } from 'src/app/components/register/register.component';
 
 import { WaiterOrdersService } from '../../../../services/User/Waiter/waiter-orders/waiter-orders.service';
 
@@ -17,16 +16,18 @@ import { ElementMenu } from 'src/app/classes/element_menu';
 })
 export class WaiterOrdersComponent implements OnInit {
 
+  panelOpenState = false;
+
   view_menu: Boolean;
-  view_category: Boolean[];
 
   // view_form_element_order_element_order
-  view_form_element_order: Boolean[][];
   form_element_order: FormGroup[][];
 
   form_my_tables: FormGroup;
   myTables: Table[];
   completeMenu: Menu[];
+
+  view_recap_order: Boolean;
 
   drinks_order: ElementMenu[];
   foods_order: ElementMenu[];
@@ -45,12 +46,11 @@ export class WaiterOrdersComponent implements OnInit {
     this.myTables = [];
     this.completeMenu = [];
     this.view_menu = false;
-    this.view_category = [];
-    this.view_form_element_order = [];
     this.form_element_order = [];
-    this.drinks_order = [],
-      this.foods_order = [],
-      this.getTablesByWaiter();
+    this.view_recap_order = false;
+    this.drinks_order = [];
+    this.foods_order = [];
+    this.getTablesByWaiter();
   }
 
   async getTablesByWaiter(): Promise<void> {
@@ -108,15 +108,14 @@ export class WaiterOrdersComponent implements OnInit {
             let i = 0;
             ResSub.forEach(element => {
               this.completeMenu.push(new Menu(element));
-              this.view_form_element_order[i] = [];
               this.form_element_order[i] = [];
               let u = 0;
               element.elements_category.forEach(_ => {
                 this.form_element_order[i][u++] = new FormGroup({
                   add_element_order: new FormControl()
                 })
-              })
-              this.view_category[i++] = false;
+              });
+              i++;
             });
             console.log(this.completeMenu);
             this.view_menu = true;
@@ -139,34 +138,6 @@ export class WaiterOrdersComponent implements OnInit {
     }
   }
 
-  showCategory(i) {
-    if (this.view_category[i])
-      this.view_category[i] = false;
-    else {
-      //(this.view_category[i]) ? this.view_category[i] = false : this.view_category[i] = true;
-      //this.view_category.forEach(category => category = false);
-      for (let i = 0; i < this.completeMenu.length; ++i) {
-        this.view_category[i] = false;
-      }
-      this.view_category[i] = true;
-      //console.log(i);
-    }
-  }
-
-  showForm(i, u) {
-    if (this.view_form_element_order[i][u])
-      this.view_form_element_order[i][u] = false;
-    else {
-      //(this.view_form_element_order[i][u]) ? this.view_form_element_order[i][u] = false : this.view_form_element_order[i][u] = true;
-      for (let i = 0; i < this.completeMenu.length; ++i) {
-        for (let u = 0; u < this.completeMenu[i].elements_category.length; ++u)
-          this.view_form_element_order[i][u] = false;
-      }
-      this.view_form_element_order[i][u] = true;
-      //console.log(i, u);
-    }
-  }
-
   addElementOrder(i, u) {
     const num = this.form_element_order[i][u].value.add_element_order;
     if (num) {
@@ -178,6 +149,8 @@ export class WaiterOrdersComponent implements OnInit {
         this.drinks_order.push(cpy_ElementOrder);
       if (cpy_ElementOrder.type == "food")
         this.foods_order.push(cpy_ElementOrder);
+      if(this.drinks_order.length>0 ||this.foods_order.length>0)
+        this.view_recap_order = true;
       console.log("DRINKS", this.drinks_order);
       console.log("FOOD", this.foods_order);
     }

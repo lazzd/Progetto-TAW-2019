@@ -15,28 +15,68 @@
             </form>
         </span>
         <span *ngIf=view_menu>
-            <mat-nav-list>
+            <mat-accordion>
                 <ng-container *ngFor="let category of completeMenu; index as i">
-                    <mat-list-item (click)="showCategory(i)">{{i + 1}}: {{category.category}}</mat-list-item>
-                    <mat-nav-list style="margin-left:30px;">
-                        <span *ngIf=view_category[i]>
-                            <div *ngFor="let element of category.elements_category; index as u">
-                                <mat-list-item (click)="showForm(i, u)">{{i + 1}}.{{u + 1}}:
-                                    {{ element.name_element_menu }}
-                                </mat-list-item>
-                                <mat-list-item *ngIf=view_form_element_order[i][u]>
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                {{i + 1}}: {{category.category}}
+                            </mat-panel-title>
+                            <mat-panel-description>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <ng-container *ngFor="let element of category.elements_category; index as u">
+                            <mat-accordion>
+                                <mat-expansion-panel>
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            {{i + 1}}.{{u + 1}}: {{ element.name_element_menu }}
+                                        </mat-panel-title>
+                                        <mat-panel-description>
+                                        </mat-panel-description>
+                                    </mat-expansion-panel-header>
                                     <form [formGroup]="form_element_order[i][u]" (ngSubmit)="addElementOrder(i, u)">
                                         <mat-form-field>
                                             <input type="number" min=1 matInput formControlName="add_element_order">
                                         </mat-form-field>
                                         <button type="submit" mat-flat-button color="primary">ADD</button>
                                     </form>
-                                </mat-list-item>
-                            </div>
-                        </span>
-                    </mat-nav-list>
+                                </mat-expansion-panel>
+                            </mat-accordion>
+                        </ng-container>
+                    </mat-expansion-panel>
                 </ng-container>
-            </mat-nav-list>
+            </mat-accordion>
+        </span>
+        <span *ngIf=view_recap_order>
+            <mat-accordion>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            FOODS
+                        </mat-panel-title>
+                        <mat-panel-description>
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+
+                    <p *ngFor="let ElementOrder of foods_order">
+                        NAME: {{ElementOrder.name_element_menu}} , NUM: {{ElementOrder.quantity}}
+                    </p>
+                </mat-expansion-panel>
+                <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                DRINKS
+                            </mat-panel-title>
+                            <mat-panel-description>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+    
+                        <p *ngFor="let ElementOrder of drinks_order">
+                            NAME: {{ElementOrder.name_element_menu}} , NUM: {{ElementOrder.quantity}}
+                        </p>
+                    </mat-expansion-panel>
+            </mat-accordion>
         </span>
     </div>
 </div>
