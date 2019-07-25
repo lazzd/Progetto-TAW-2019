@@ -8,6 +8,7 @@ import { WaiterOrdersService } from '../../../../services/User/Waiter/waiter-ord
 import { Router } from "@angular/router";
 import { Table } from 'src/app/classes/table';
 import { Menu } from 'src/app/classes/menu';
+import { ElementMenu } from 'src/app/classes/element_menu';
 
 @Component({
   selector: 'app-waiter-orders',
@@ -17,9 +18,8 @@ import { Menu } from 'src/app/classes/menu';
 export class WaiterOrdersComponent implements OnInit {
 
   view_menu: Boolean;
-  // stesso numero di let
   view_category: Boolean[];
-  
+
   // view_form_element_order_element_order
   view_form_element_order: Boolean[][];
   form_element_order: FormGroup[][];
@@ -27,6 +27,9 @@ export class WaiterOrdersComponent implements OnInit {
   form_my_tables: FormGroup;
   myTables: Table[];
   completeMenu: Menu[];
+
+  drinks_order: ElementMenu[];
+  foods_order: ElementMenu[];
 
   // devo avere due oggetti, che li carico... la presenza dell'id_order la ho direttamente in myTables
   // metodo unico con bottone: invia ordine che discrimina se fare una post (create new order) oppure una put (update), grazie all'id
@@ -45,7 +48,9 @@ export class WaiterOrdersComponent implements OnInit {
     this.view_category = [];
     this.view_form_element_order = [];
     this.form_element_order = [];
-    this.getTablesByWaiter();
+    this.drinks_order = [],
+      this.foods_order = [],
+      this.getTablesByWaiter();
   }
 
   async getTablesByWaiter(): Promise<void> {
@@ -95,6 +100,9 @@ export class WaiterOrdersComponent implements OnInit {
             //this.view_tables = false;
           }
           else {
+            // ri azzero gli array degli ordini
+            this.drinks_order = [];
+            this.foods_order = [];
             this.completeMenu = [];
             console.log(ResSub);
             let i = 0;
@@ -132,20 +140,46 @@ export class WaiterOrdersComponent implements OnInit {
   }
 
   showCategory(i) {
-    (this.view_category[i]) ? this.view_category[i] = false : this.view_category[i] = true;
-    console.log(i);
+    if (this.view_category[i])
+      this.view_category[i] = false;
+    else {
+      //(this.view_category[i]) ? this.view_category[i] = false : this.view_category[i] = true;
+      //this.view_category.forEach(category => category = false);
+      for (let i = 0; i < this.completeMenu.length; ++i) {
+        this.view_category[i] = false;
+      }
+      this.view_category[i] = true;
+      //console.log(i);
+    }
   }
 
-  showForm(i, u){
-    (this.view_form_element_order[i][u]) ? this.view_form_element_order[i][u] = false : this.view_form_element_order[i][u] = true;
-    console.log(i, u);
+  showForm(i, u) {
+    if (this.view_form_element_order[i][u])
+      this.view_form_element_order[i][u] = false;
+    else {
+      //(this.view_form_element_order[i][u]) ? this.view_form_element_order[i][u] = false : this.view_form_element_order[i][u] = true;
+      for (let i = 0; i < this.completeMenu.length; ++i) {
+        for (let u = 0; u < this.completeMenu[i].elements_category.length; ++u)
+          this.view_form_element_order[i][u] = false;
+      }
+      this.view_form_element_order[i][u] = true;
+      //console.log(i, u);
+    }
   }
 
-  addElementOrder(i, u){
+  addElementOrder(i, u) {
     const num = this.form_element_order[i][u].value.add_element_order;
-    if(num){
-      console.log(this.completeMenu[i].elements_category[u]);
-      console.log(num);
+    if (num) {
+      //console.log(this.completeMenu[i].elements_category[u]);
+      //console.log(num);
+      const cpy_ElementOrder = new ElementMenu(this.completeMenu[i].elements_category[u]);
+      cpy_ElementOrder.quantity = num;
+      if (cpy_ElementOrder.type == "drink")
+        this.drinks_order.push(cpy_ElementOrder);
+      if (cpy_ElementOrder.type == "food")
+        this.foods_order.push(cpy_ElementOrder);
+      console.log("DRINKS", this.drinks_order);
+      console.log("FOOD", this.foods_order);
     }
   }
 
