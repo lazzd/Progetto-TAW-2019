@@ -26,7 +26,10 @@ export class WaiterOrdersComponent implements OnInit {
   view_menu: Boolean;
   // stesso numero di let
   view_category: Boolean[];
+  
+  // view_form_element_order
   view_form: Boolean[][];
+  form_element_order: FormGroup[][];
 
   form_my_tables: FormGroup;
   myTables: Table[];
@@ -45,6 +48,7 @@ export class WaiterOrdersComponent implements OnInit {
     this.view_menu = false;
     this.view_category = [];
     this.view_form = [];
+    this.form_element_order = [];
     this.getTablesByWaiter();
   }
 
@@ -101,6 +105,13 @@ export class WaiterOrdersComponent implements OnInit {
             ResSub.forEach(element => {
               this.completeMenu.push(new Menu(element));
               this.view_form[i] = [];
+              this.form_element_order[i] = [];
+              let u = 0;
+              element.elements_category.forEach(_ => {
+                this.form_element_order[i][u++] = new FormGroup({
+                  add_element_order: new FormControl()
+                })
+              })
               this.view_category[i++] = false;
             });
             console.log(this.completeMenu);
@@ -132,6 +143,14 @@ export class WaiterOrdersComponent implements OnInit {
   showForm(i, u){
     (this.view_form[i][u]) ? this.view_form[i][u] = false : this.view_form[i][u] = true;
     console.log(i, u);
+  }
+
+  addElementOrder(i, u){
+    const num = this.form_element_order[i][u].value.add_element_order;
+    if(num){
+      console.log(this.completeMenu[i].elements_category[u]);
+      console.log(num);
+    }
   }
 
 }
