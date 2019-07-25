@@ -7,6 +7,7 @@ import { WaiterOrdersService } from '../../../../services/User/Waiter/waiter-ord
 // for routing
 import { Router } from "@angular/router";
 import { Table } from 'src/app/classes/table';
+import { Menu } from 'src/app/classes/menu';
 
 @Component({
   selector: 'app-waiter-orders',
@@ -22,8 +23,13 @@ export class WaiterOrdersComponent implements OnInit {
     { value: 'cashier', viewValue: 'Cassiere' }
   ];
 
+  view_menu: Boolean;
+  // stesso numero di let
+  view_category: Boolean[];
+
   form_my_tables: FormGroup;
   myTables: Table[];
+  completeMenu: Menu[];
 
   constructor(
     private waiterOrdersService: WaiterOrdersService,
@@ -34,11 +40,10 @@ export class WaiterOrdersComponent implements OnInit {
       my_table: new FormControl()
     });
     this.myTables = [];
+    this.completeMenu = [];
+    this.view_menu = false;
+    this.view_category = [];
     this.getTablesByWaiter();
-  }
-
-  openMenu() {
-    console.log(this.form_my_tables.value);
   }
 
   async getTablesByWaiter(): Promise<void> {
@@ -76,5 +81,49 @@ export class WaiterOrdersComponent implements OnInit {
     }
   }
 
+  async getMenu(): Promise<void> {
+    try {
+      let WaiterOrdersServicePromise = await this.waiterOrdersService.getMenu();
+      // ritorna l'observable...
+      WaiterOrdersServicePromise.subscribe(
+        (ResSub => {
+          //DA VEDERE SE IF null else NON fai nulla
+          // L'AccessToken è valido: o perchè NON era scaduto oppure perchè il refresh è avvenuto in maniara corretta
+          if (ResSub.length == 0) {
+            //this.view_tables = false;
+          }
+          else {
+            this.completeMenu = [];
+            console.log(ResSub);
+            let i = 1;
+            ResSub.forEach(element => {
+              this.completeMenu.push(new Menu(element));
+              this.view_category[i++] = false;
+            });
+            console.log(this.completeMenu);
+            this.view_menu = true;
+            //this.view_tables = true;
+          }
+        }),
+        (ErrSub => {
+          // necessario il catch della promise non gestisce l'errore dell'observable
+          // E' avvenuto un errore con il refresh dell'AccessToken: è necessario un nuovo login
+          this.router.navigate(['/auth/login']);
+          // da andare in pagina di login
+          console.log("SEND ORDER err", ErrSub);
+        })
+      )
+    } catch (errorPromise) {
+      this.router.navigate(['/auth/login']);
+      // da andare in pagina di login, MA: sarebbe poi da fare un back a questa pagina quando si è fatto effettivamente il login
+      console.log("sono qui");
+      console.log("SEND ORDER err", errorPromise);
+    }
+  }
+
+  showCategory(i) {
+    (this.view_category[i]) ? this.view_category[i] = false : this.view_category[i] = true;
+    console.log(i);
+  }
 
 }

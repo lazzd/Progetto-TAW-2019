@@ -2,7 +2,7 @@
 <div class="container">
     <div>
         <span>
-            <form [formGroup]="form_my_tables" (ngSubmit)="openMenu()">
+            <form [formGroup]="form_my_tables" (ngSubmit)="getMenu()">
                 <mat-form-field>
                     <mat-label>Seleziona il Tavolo</mat-label>
                     <mat-select formControlName="my_table">
@@ -13,6 +13,27 @@
                 </mat-form-field>
                 <button type="submit" mat-flat-button color="primary">CERCA</button>
             </form>
+        </span>
+        <span *ngIf=view_menu>
+            <mat-nav-list>
+                <ng-container *ngFor="let category of completeMenu; index as i">
+                    <mat-list-item (click)="showCategory(i+1)">{{category.category}}</mat-list-item>
+                    <mat-nav-list style="margin-left:30px;">
+                        <span *ngIf=view_category[i+1]>
+                            <div *ngFor="let element of category.elements_category">
+                                <mat-list-item>
+                                    <span>{{ element.name_element_menu }}</span>
+                                    <button mat-mini-fab color="primary">-</button>
+                                    <mat-form-field>
+                                        <input matInput type="number" min="0">
+                                    </mat-form-field>
+                                    <button mat-mini-fab color="primary">+</button>
+                                </mat-list-item>
+                            </div>
+                        </span>
+                    </mat-nav-list>
+                </ng-container>
+            </mat-nav-list>
         </span>
     </div>
 </div>
