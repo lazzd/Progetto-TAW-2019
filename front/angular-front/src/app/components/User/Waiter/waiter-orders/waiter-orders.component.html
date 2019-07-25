@@ -18,18 +18,16 @@
             <mat-nav-list>
                 <ng-container *ngFor="let category of completeMenu; index as i">
                     <mat-list-item (click)="showCategory(i+1)">{{category.category}}</mat-list-item>
-                    <mat-nav-list style="margin-left:30px;">
+                    <mat-nav-list style="margin-left:10%;">
                         <span *ngIf=view_category[i+1]>
-                            <div *ngFor="let element of category.elements_category">
-                                <mat-list-item>
-                                    <span>{{ element.name_element_menu }}</span>
-                                    <button mat-mini-fab color="primary">-</button>
-                                    <mat-form-field>
-                                        <input matInput type="number" min="0">
-                                    </mat-form-field>
-                                    <button mat-mini-fab color="primary">+</button>
-                                </mat-list-item>
-                            </div>
+                            <mat-list-item *ngFor="let element of category.elements_category">
+                                <span class="input-container">
+                                    <p>{{ element.name_element_menu }}</p>
+                                    <input matInput type="number" placeholder="" min="10" class="npc">
+                                </span>
+                            </mat-list-item>
+
+
                         </span>
                     </mat-nav-list>
                 </ng-container>
