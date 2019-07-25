@@ -34,7 +34,11 @@ ex.f();
 // import mongoose for connection
 let mongoose = require('mongoose');
 // connessione mongoose in local host
-mongoose.connect('mongodb://localhost:27017/Test', { useNewUrlParser: true });
+mongoose.connect(
+  process.env.DB_CONNECT,
+  { useNewUrlParser: true },
+  () => console.log("connected to DB")
+);
 
 app.use(cors());
 
@@ -58,7 +62,7 @@ app.use('/auth', authRouter);
 app.use('/menu', menuRouter);
 app.use('/dishes', dishesRouter);
 app.use('/orders', ordersRouter),
-app.use('/tables', tablesRouter);
+  app.use('/tables', tablesRouter);
 
 // posts use
 app.use('/posts', postsRouter);
