@@ -16,19 +16,12 @@ import { Menu } from 'src/app/classes/menu';
 })
 export class WaiterOrdersComponent implements OnInit {
 
-  tasks: Tasks[] = [
-    { value: 'waiter', viewValue: 'Cameriere' },
-    { value: 'cook', viewValue: 'Cuoco' },
-    { value: 'barman', viewValue: 'Barista' },
-    { value: 'cashier', viewValue: 'Cassiere' }
-  ];
-
   view_menu: Boolean;
   // stesso numero di let
   view_category: Boolean[];
   
-  // view_form_element_order
-  view_form: Boolean[][];
+  // view_form_element_order_element_order
+  view_form_element_order: Boolean[][];
   form_element_order: FormGroup[][];
 
   form_my_tables: FormGroup;
@@ -47,7 +40,7 @@ export class WaiterOrdersComponent implements OnInit {
     this.completeMenu = [];
     this.view_menu = false;
     this.view_category = [];
-    this.view_form = [];
+    this.view_form_element_order = [];
     this.form_element_order = [];
     this.getTablesByWaiter();
   }
@@ -104,7 +97,7 @@ export class WaiterOrdersComponent implements OnInit {
             let i = 0;
             ResSub.forEach(element => {
               this.completeMenu.push(new Menu(element));
-              this.view_form[i] = [];
+              this.view_form_element_order[i] = [];
               this.form_element_order[i] = [];
               let u = 0;
               element.elements_category.forEach(_ => {
@@ -141,7 +134,7 @@ export class WaiterOrdersComponent implements OnInit {
   }
 
   showForm(i, u){
-    (this.view_form[i][u]) ? this.view_form[i][u] = false : this.view_form[i][u] = true;
+    (this.view_form_element_order[i][u]) ? this.view_form_element_order[i][u] = false : this.view_form_element_order[i][u] = true;
     console.log(i, u);
   }
 

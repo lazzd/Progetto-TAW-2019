@@ -21,9 +21,10 @@
                     <mat-nav-list style="margin-left:30px;">
                         <span *ngIf=view_category[i]>
                             <div *ngFor="let element of category.elements_category; index as u">
-                                <mat-list-item (click)="showForm(i, u)">{{u + 1}}: {{ element.name_element_menu }}
+                                <mat-list-item (click)="showForm(i, u)">{{i + 1}}.{{u + 1}}:
+                                    {{ element.name_element_menu }}
                                 </mat-list-item>
-                                <mat-list-item *ngIf=view_form[i][u]>
+                                <mat-list-item *ngIf=view_form_element_order[i][u]>
                                     <form [formGroup]="form_element_order[i][u]" (ngSubmit)="addElementOrder(i, u)">
                                         <mat-form-field>
                                             <input type="number" min=1 matInput formControlName="add_element_order">

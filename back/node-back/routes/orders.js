@@ -5,6 +5,7 @@ var router = express.Router();
 let ElementOrderModel = require('../models/element_order.model');
 let MenuModel = require('../models/menu.model');
 let OrdersModel = require('../models/orders.model');
+let TablesModel = require('../models/tables.model');
 
 // require jsonwebtoken
 let jwt = require('jsonwebtoken');
@@ -92,6 +93,9 @@ router.get("/:id_order/suborders/:id_suborder", verifyAccessToken, async functio
 
 // only users that are "..." can access in the post method
 router.post("/", verifyAccessToken, async function (req, res, next) {
+  /*
+    ASSOLUTMANETE: alla creazione dell'ordine buttare dentro l'id sul tavolo con find...
+  */
   try {
     if (!req.body)
       return res.status(400).send('Request body is missing');
@@ -151,12 +155,24 @@ router.post("/", verifyAccessToken, async function (req, res, next) {
         model.num_suborders = 1;
         model_element_order.id_suborder = model.num_suborders;
         model.elements_order.push(model_element_order);
+        // ---------------- Aggiunta id a tavolo
+        const isTablePresent = await TablesModel.findOne({ name_table: req.body.table });
+        if (!isTablePresent) return res.status(400).send("Table name isn't present");
+        // ----------------
         await model.save()
-          .then(doc => {
+          .then(async doc => {
             if (!doc || doc.length === 0) {
               return res.status(500).send(doc);
             }
-            res.status(201).type("application/json").send(doc);
+            isTablePresent.id_order = doc.id_order;
+            await isTablePresent.save()
+              .then(tab => {
+                if (!tab || tab.length === 0) {
+                  return res.status(500).send(doc);
+                }
+                res.status(201).type("application/json").send(doc);
+              })
+              .catch(err => res.status(500).json(err));
           })
           .catch(err => res.status(500).json(err));
       }

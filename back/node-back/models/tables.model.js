@@ -16,6 +16,10 @@ let TablesSchema = new mongoose.Schema({
     waiter: {
         type: String,
         required: false
+    },
+    id_order: {
+        type: Number,
+        required: false
     }
 });
 

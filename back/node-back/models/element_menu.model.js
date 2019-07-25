@@ -16,7 +16,7 @@ let ElementMenuSchema = new mongoose.Schema({
     },
     time: {
         type: Number,
-        reqire: true,
+        require: true,
     },
     price: {
         type: Number,

@@ -101,11 +101,13 @@ router.put("/:name_table", verifyAccessToken, async function (req, res, next) {
     try {
         if (!req.body)
             return res.status(400).send('Request body is missing');
-        else if (!req.body.state)
+        else if (!(req.body.hasOwnProperty("state")))
             return res.status(400).send('Missing parameters');
         else if (req.body.state != false && req.body.state != true)
             // verifica se così o a stringa
             return res.status(400).send("Parameter isn't correct");
+        else if (req.body.state == true && !req.body.waiter)
+            return res.status(400).send("Missing Waiter parameter");
         else {
             // serve validazione per Waiter
             const task = jwt.decode(req.header('auth-token')).task;
@@ -116,8 +118,10 @@ router.put("/:name_table", verifyAccessToken, async function (req, res, next) {
             if (!isTablePresent) return res.status(400).send("Table name isn't already present");
             if (req.body.state == true)
                 isTablePresent.waiter = req.body.waiter;
-            else
-                isTablePresent.waiter = "";
+            else {
+                isTablePresent.waiter = undefined;
+                isTablePresent.id_order = undefined;
+            }
             isTablePresent.busy = req.body.state;
             await isTablePresent.save()
                 .then(doc => {
