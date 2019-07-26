@@ -13,7 +13,10 @@ export class ResOrder{
         this.state_order = new StateOrder(order.state_order);
         this.table = order.table;
         this.waiter = order.waiter;
+
+        this.elements_order = [];
         order.elements_order.forEach((elem) => this.elements_order.push(new ElementOrder(elem)));
+        
         this.date = order.date;
         this.num_suborders = order.num_suborders;
         this.id_order = order.id_order;
