@@ -17,7 +17,7 @@
                                 {{elem.quantity}}</mat-list-item>
                         </ng-container>
                     </mat-list>
-                    <button mat-flat-button color="primary" class="btn_submit">ACCOLLATI ORDINE</button>
+                    <button mat-flat-button color="primary" (click)="takeSuborder()" class="btn_submit">ACCOLLATI ORDINE</button>
                 </mat-expansion-panel>
             </mat-accordion>
             <mat-accordion *ngIf="allSuborders.length>0">

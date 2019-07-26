@@ -67,8 +67,41 @@ export class BarmanFreeSubordersComponent implements OnInit {
     }
   }
 
-  async takeSuborder(id_order: number, id_suborder){
-
+  async takeSuborder() {
+    try {
+      let BarmanFreeSubordersServicePromise = await this.barmanFreeSubordersService.takeSuborder(this.firstSuborders.id_order, this.firstSuborders.id_suborder, localStorage.getItem('UserName'));
+      // ritorna l'observable...
+      BarmanFreeSubordersServicePromise.subscribe(
+        (ResSub => {
+          // L'AccessToken è valido: o perchè NON era scaduto oppure perchè il refresh è avvenuto in maniara corretta
+          if (ResSub.length == 0) {
+            //this.view_tables = false;
+          }
+          else {
+            console.log(ResSub);
+            if(this.allSuborders.length>0)
+              this.firstSuborders = this.allSuborders.shift();
+            else{
+              this.view_Suborders = false;
+              this.firstSuborders = null;
+            }
+            //this.view_tables = true;
+          }
+        }),
+        (ErrSub => {
+          // necessario il catch della promise non gestisce l'errore dell'observable
+          // E' avvenuto un errore con il refresh dell'AccessToken: è necessario un nuovo login
+          this.router.navigate(['/auth/login']);
+          // da andare in pagina di login
+          console.log("SEND ORDER err", ErrSub);
+        })
+      )
+    } catch (errorPromise) {
+      this.router.navigate(['/auth/login']);
+      // da andare in pagina di login, MA: sarebbe poi da fare un back a questa pagina quando si è fatto effettivamente il login
+      console.log("sono qui");
+      console.log("SEND ORDER err", errorPromise);
+    }
   }
 
 }
