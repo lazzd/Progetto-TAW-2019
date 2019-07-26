@@ -10,7 +10,8 @@ import { Table } from 'src/app/classes/table';
 import { State } from 'src/app/classes/state';
 import { Menu } from 'src/app/classes/menu';
 import { ElementMenu } from 'src/app/classes/element_menu';
-import { Order } from 'src/app/classes/order';
+import { ReqOrder } from 'src/app/classes/req_order';
+import { ResOrder } from 'src/app/classes/res_order';
 
 const urlTable = "http://localhost:3000/tables";
 const urlMenu = "http://localhost:3000/menu";
@@ -49,23 +50,23 @@ export class WaiterOrdersService {
 
   // DA CREARE LA CLASSE CON IL TIPO GIUSTO PER LA RISPOSTA
 
-  async sendPUTOrder(id_order: number, drinks_order: ElementMenu[], foods_order: ElementMenu[]): Promise<Observable<any>> {
+  async sendPUTOrder(id_order: number, drinks_order: ElementMenu[], foods_order: ElementMenu[]): Promise<Observable<ResOrder>> {
     try {
       let promRefeshToken = await this.refreshToken.refreshToken();
       console.log(promRefeshToken);
       // Ora posso fare la richiesta...
-      return this.http.put<any>(urlOrder + '/' + id_order, new Order(drinks_order, foods_order));
+      return this.http.put<ResOrder>(urlOrder + '/' + id_order, new ReqOrder(drinks_order, foods_order));
     } catch (ErrorRefreshToken) {
       return throwError(ErrorRefreshToken);
     }
   }
 
-  async sendPOSTOrder(drinks_order: ElementMenu[], foods_order: ElementMenu[], table: string, waiter: string): Promise<Observable<any>> {
+  async sendPOSTOrder(drinks_order: ElementMenu[], foods_order: ElementMenu[], table: string, waiter: string): Promise<Observable<ResOrder>> {
     try {
       let promRefeshToken = await this.refreshToken.refreshToken();
       console.log(promRefeshToken);
       // Ora posso fare la richiesta...
-      return this.http.post<any>(urlOrder, new Order(drinks_order, foods_order, table, waiter));
+      return this.http.post<ResOrder>(urlOrder, new ReqOrder(drinks_order, foods_order, table, waiter));
     } catch (ErrorRefreshToken) {
       return throwError(ErrorRefreshToken);
     }

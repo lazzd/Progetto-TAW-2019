@@ -198,6 +198,7 @@ export class WaiterOrdersComponent implements OnInit {
             this.view_recap_order = false;
             this.view_recap_drinks = false;
             this.view_recap_foods = false;
+            this.view_menu = false;
             console.log("PUT ORDINE INVIATA", ResSub);
           }),
           (ErrSub => {
@@ -223,6 +224,7 @@ export class WaiterOrdersComponent implements OnInit {
             this.view_recap_order = false;
             this.view_recap_drinks = false;
             this.view_recap_foods = false;
+            this.view_menu = false;
             console.log("POST ORDINE INVIATA", ResSub);
             this.selectedTable.id_order = ResSub.id_order;
           }),
