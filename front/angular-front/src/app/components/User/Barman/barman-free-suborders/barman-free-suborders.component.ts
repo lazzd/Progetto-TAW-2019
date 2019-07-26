@@ -67,4 +67,8 @@ export class BarmanFreeSubordersComponent implements OnInit {
     }
   }
 
+  async takeSuborder(id_order: number, id_suborder){
+
+  }
+
 }

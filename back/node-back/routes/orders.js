@@ -101,14 +101,54 @@ router.get("/:id_order/suborders/:id_suborder", verifyAccessToken, async functio
             return res.status(400).send("Id_suborder isn't a number");
         await OrdersModel.findOne({ id_order: req.params.id_order })
             .then(order => {
-                if (isNaN(req.params.id_suborder))
-                    return res.status(400).send("Id_suborder isn't a number");
-                if (req.params.id_suborder < 1 || req.params.id_suborder > order.num_suborders)
-                    return res.status(400).send("Id_suborder not present");
                 const suborder = order.elements_order.find(obj => obj.id_suborder == req.params.id_suborder);
+                if (!suborder)
+                    return res.status(400).send("Id_suborder isn't present");
                 return res.json(suborder);
             })
             .catch(err => res.status(500).json(err));
+    } catch (err) {
+        return res.status(400).send(err);
+    }
+});
+
+// OK
+router.put("/:id_order/suborders/:id_suborder", verifyAccessToken, async function (req, res, next) {
+    try {
+        if (isNaN(req.params.id_order))
+            return res.status(400).send("Id_order isn't a number");
+        if (isNaN(req.params.id_suborder))
+            return res.status(400).send("Id_suborder isn't a number");
+        if (!req.body)
+            return res.status(400).send('Request body is missing');
+        else if (!req.body.name)
+            return res.status(400).send('Missing parameters');
+        else {
+            // serve validazione per Cashier
+            const task = jwt.decode(req.header('auth-token')).task;
+            if (task != 'cook' && task != 'barman')
+                return res.status(400).send('Missing permissions');
+            const isOrderPresent = await OrdersModel.findOne({ id_order: req.params.id_order });
+            if (!isOrderPresent) return res.status(400).send("Order isn't present");
+            const suborder = isOrderPresent.elements_order.find(obj => obj.id_suborder == req.params.id_suborder);
+            console.log("qui");
+            console.log(suborder);
+            if (!suborder)
+                return res.status(400).send("Id_suborder isn't present");
+            if (task == 'barman')
+                suborder.employees.drinks_employee = req.body.name;
+            if (task == 'cook')
+                suborder.employees.foods_employee = req.body.name;
+            await isOrderPresent.save()
+                .then(doc => {
+                    if (!doc || doc.length === 0) {
+                        return res.status(500).send(doc);
+                    }
+                    console.log(doc);
+                    res.status(201).type("application/json").send(doc);
+                })
+                .catch(err => res.status(500).json(err));
+        }
     } catch (err) {
         return res.status(400).send(err);
     }
