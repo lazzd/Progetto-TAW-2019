@@ -102,7 +102,7 @@ export class WaiterOrdersComponent implements OnInit {
     try {
       if (this.form_my_tables.value.my_table) {
         console.log("MIEI TAVOLI:", this.myTables);
-        this.selectedTable = this.myTables.find(table => table.name_table = this.form_my_tables.value.my_table);
+        this.selectedTable = this.myTables.find(table => table.name_table == this.form_my_tables.value.my_table);
         console.log("MY TABLES", this.selectedTable);
         let WaiterOrdersServicePromise = await this.waiterOrdersService.getMenu();
         // ritorna l'observable...
