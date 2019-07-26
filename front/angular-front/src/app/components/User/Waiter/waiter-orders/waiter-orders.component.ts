@@ -18,6 +18,7 @@ export class WaiterOrdersComponent implements OnInit {
 
   panelOpenState = false;
 
+  view_btn_menu: Boolean;
   view_menu: Boolean;
 
   // view_form_element_order_element_order
@@ -26,6 +27,8 @@ export class WaiterOrdersComponent implements OnInit {
   form_my_tables: FormGroup;
   myTables: Table[];
   completeMenu: Menu[];
+
+  selectedTable: Table;
 
   view_recap_order: Boolean;
 
@@ -45,6 +48,7 @@ export class WaiterOrdersComponent implements OnInit {
     });
     this.myTables = [];
     this.completeMenu = [];
+    this.view_btn_menu = false;
     this.view_menu = false;
     this.form_element_order = [];
     this.view_recap_order = false;
@@ -90,52 +94,60 @@ export class WaiterOrdersComponent implements OnInit {
 
   async getMenu(): Promise<void> {
     try {
-      let WaiterOrdersServicePromise = await this.waiterOrdersService.getMenu();
-      // ritorna l'observable...
-      WaiterOrdersServicePromise.subscribe(
-        (ResSub => {
-          //DA VEDERE SE IF null else NON fai nulla
-          // L'AccessToken è valido: o perchè NON era scaduto oppure perchè il refresh è avvenuto in maniara corretta
-          if (ResSub.length == 0) {
-            //this.view_tables = false;
-          }
-          else {
-            // ri azzero gli array degli ordini
-            this.drinks_order = [];
-            this.foods_order = [];
-            this.completeMenu = [];
-            console.log(ResSub);
-            let i = 0;
-            ResSub.forEach(element => {
-              this.completeMenu.push(new Menu(element));
-              this.form_element_order[i] = [];
-              let u = 0;
-              element.elements_category.forEach(_ => {
-                this.form_element_order[i][u++] = new FormGroup({
-                  add_element_order: new FormControl()
-                })
+      if (this.form_my_tables.value.my_table) {
+        this.selectedTable = this.myTables.find(table => table.name_table = this.form_my_tables.value.my_table);
+        console.log("MY TABLES", this.selectedTable);
+        let WaiterOrdersServicePromise = await this.waiterOrdersService.getMenu();
+        // ritorna l'observable...
+        WaiterOrdersServicePromise.subscribe(
+          (ResSub => {
+            //DA VEDERE SE IF null else NON fai nulla
+            // L'AccessToken è valido: o perchè NON era scaduto oppure perchè il refresh è avvenuto in maniara corretta
+            if (ResSub.length == 0) {
+              //this.view_tables = false;
+            }
+            else {
+              // ri azzero gli array degli ordini
+              this.drinks_order = [];
+              this.foods_order = [];
+              this.completeMenu = [];
+              console.log(ResSub);
+              let i = 0;
+              ResSub.forEach(element => {
+                this.completeMenu.push(new Menu(element));
+                this.form_element_order[i] = [];
+                let u = 0;
+                element.elements_category.forEach(_ => {
+                  this.form_element_order[i][u++] = new FormGroup({
+                    add_element_order: new FormControl()
+                  })
+                });
+                i++;
               });
-              i++;
-            });
-            console.log(this.completeMenu);
-            this.view_menu = true;
-            //this.view_tables = true;
-          }
-        }),
-        (ErrSub => {
-          // necessario il catch della promise non gestisce l'errore dell'observable
-          // E' avvenuto un errore con il refresh dell'AccessToken: è necessario un nuovo login
-          this.router.navigate(['/auth/login']);
-          // da andare in pagina di login
-          console.log("SEND ORDER err", ErrSub);
-        })
-      )
+              console.log(this.completeMenu);
+              this.view_btn_menu = true;
+              //this.view_tables = true;
+            }
+          }),
+          (ErrSub => {
+            // necessario il catch della promise non gestisce l'errore dell'observable
+            // E' avvenuto un errore con il refresh dell'AccessToken: è necessario un nuovo login
+            this.router.navigate(['/auth/login']);
+            // da andare in pagina di login
+            console.log("SEND ORDER err", ErrSub);
+          })
+        )
+      }
     } catch (errorPromise) {
       this.router.navigate(['/auth/login']);
       // da andare in pagina di login, MA: sarebbe poi da fare un back a questa pagina quando si è fatto effettivamente il login
       console.log("sono qui");
       console.log("SEND ORDER err", errorPromise);
     }
+  }
+
+  showMenu(): void {
+    (this.view_menu) ? this.view_menu = false : this.view_menu = true;
   }
 
   addElementOrder(i, u) {
@@ -149,10 +161,65 @@ export class WaiterOrdersComponent implements OnInit {
         this.drinks_order.push(cpy_ElementOrder);
       if (cpy_ElementOrder.type == "food")
         this.foods_order.push(cpy_ElementOrder);
-      if(this.drinks_order.length>0 ||this.foods_order.length>0)
+      if (this.drinks_order.length > 0 || this.foods_order.length > 0)
         this.view_recap_order = true;
       console.log("DRINKS", this.drinks_order);
       console.log("FOOD", this.foods_order);
+    }
+  }
+
+  async sendOrder(): Promise<void> {
+    try {
+      // già presente l'ordine, devo fare la put
+      const id_order = this.selectedTable.id_order;
+      if (id_order) {
+        let WaiterOrdersServicePromise = await this.waiterOrdersService.sendPUTOrder(id_order, this.drinks_order, this.foods_order);
+        // ritorna l'observable...
+        WaiterOrdersServicePromise.subscribe(
+          (ResSub => {
+            // DA MOSTRARE UN ALERT CON LA CONFERMA DI INVIO
+            // ri azzero gli array degli ordini
+            this.drinks_order = [];
+            this.foods_order = [];
+            console.log("PUT ORDINE INVIATA", ResSub);
+          }),
+          (ErrSub => {
+            // necessario il catch della promise non gestisce l'errore dell'observable
+            // E' avvenuto un errore con il refresh dell'AccessToken: è necessario un nuovo login
+            this.router.navigate(['/auth/login']);
+            // da andare in pagina di login
+            console.log("SEND ORDER err", ErrSub);
+          })
+        )
+      }
+      else {
+        console.log("qui");
+        const waiter = localStorage.getItem('UserName');
+        let WaiterOrdersServicePromise = await this.waiterOrdersService.sendPOSTOrder(this.drinks_order, this.foods_order, this.selectedTable.name_table, waiter);
+        // ritorna l'observable...
+        WaiterOrdersServicePromise.subscribe(
+          (ResSub => {
+            // DA MOSTRARE UN ALERT CON LA CONFERMA DI INVIO
+            // ri azzero gli array degli ordini
+            this.drinks_order = [];
+            this.foods_order = [];
+            console.log("POST ORDINE INVIATA", ResSub);
+            this.selectedTable.id_order = ResSub.id_order;
+          }),
+          (ErrSub => {
+            // necessario il catch della promise non gestisce l'errore dell'observable
+            // E' avvenuto un errore con il refresh dell'AccessToken: è necessario un nuovo login
+            this.router.navigate(['/auth/login']);
+            // da andare in pagina di login
+            console.log("SEND ORDER err", ErrSub);
+          })
+        )
+      }
+    } catch (errorPromise) {
+      this.router.navigate(['/auth/login']);
+      // da andare in pagina di login, MA: sarebbe poi da fare un back a questa pagina quando si è fatto effettivamente il login
+      console.log("sono qui");
+      console.log("SEND ORDER err", errorPromise);
     }
   }
 

@@ -9,8 +9,12 @@ import { RefreshTokenService } from '../../../refresh-token/refresh-token.servic
 import { Table } from 'src/app/classes/table';
 import { State } from 'src/app/classes/state';
 import { Menu } from 'src/app/classes/menu';
+import { ElementMenu } from 'src/app/classes/element_menu';
+import { Order } from 'src/app/classes/order';
 
-const url = "http://localhost:3000";
+const urlTable = "http://localhost:3000/tables";
+const urlMenu = "http://localhost:3000/menu";
+const urlOrder = "http://localhost:3000/orders";
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +30,7 @@ export class WaiterOrdersService {
       let promRefeshToken = await this.refreshToken.refreshToken();
       console.log(promRefeshToken);
       // Ora posso fare la richiesta...
-      return this.http.get<Array<Table>>(url + '/tables?waiter=' + waiter);
+      return this.http.get<Array<Table>>(urlTable + '?waiter=' + waiter);
     } catch (ErrorRefreshToken) {
       return throwError(ErrorRefreshToken);
     }
@@ -37,10 +41,34 @@ export class WaiterOrdersService {
       let promRefeshToken = await this.refreshToken.refreshToken();
       console.log(promRefeshToken);
       // Ora posso fare la richiesta...
-      return this.http.get<Array<Menu>>(url + '/menu');
+      return this.http.get<Array<Menu>>(urlMenu);
     } catch (ErrorRefreshToken) {
       return throwError(ErrorRefreshToken);
     }
   }
-  
+
+  // DA CREARE LA CLASSE CON IL TIPO GIUSTO PER LA RISPOSTA
+
+  async sendPUTOrder(id_order: number, drinks_order: ElementMenu[], foods_order: ElementMenu[]): Promise<Observable<any>> {
+    try {
+      let promRefeshToken = await this.refreshToken.refreshToken();
+      console.log(promRefeshToken);
+      // Ora posso fare la richiesta...
+      return this.http.put<any>(urlOrder + '/' + id_order, new Order(drinks_order, foods_order));
+    } catch (ErrorRefreshToken) {
+      return throwError(ErrorRefreshToken);
+    }
+  }
+
+  async sendPOSTOrder(drinks_order: ElementMenu[], foods_order: ElementMenu[], table: string, waiter: string): Promise<Observable<any>> {
+    try {
+      let promRefeshToken = await this.refreshToken.refreshToken();
+      console.log(promRefeshToken);
+      // Ora posso fare la richiesta...
+      return this.http.post<any>(urlOrder, new Order(drinks_order, foods_order, table, waiter));
+    } catch (ErrorRefreshToken) {
+      return throwError(ErrorRefreshToken);
+    }
+  }
+
 }

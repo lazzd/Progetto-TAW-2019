@@ -36,7 +36,8 @@ const elementMenuValidation = function (data) {
         category: Joi.string().required(),
         type: Joi.string().required(),
         time: Joi.number().required(),
-        price: Joi.number().required()
+        price: Joi.number().required(),
+        quantity: Joi.number()
     }
     return Joi.validate(data, ElementMenuValidation);
 }
@@ -51,7 +52,8 @@ const ElementMenuNestedSchema = {
     category: Joi.string().required(),
     type: Joi.string().required(),
     time: Joi.number().required(),
-    price: Joi.number().required()
+    price: Joi.number().required(),
+    quantity: Joi.number()
 };
 
 const orderValidation = function (data) {
