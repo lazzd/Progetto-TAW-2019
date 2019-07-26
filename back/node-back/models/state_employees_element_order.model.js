@@ -7,7 +7,7 @@ let StateEmployeesElementOrderSchema = new mongoose.Schema({
         default: null
     },
     foods_employee: {
-        type: Boolean,
+        type: String,
         default: null
     }
 });
