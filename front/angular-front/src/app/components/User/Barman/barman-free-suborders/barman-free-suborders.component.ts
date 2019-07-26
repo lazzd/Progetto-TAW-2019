@@ -35,7 +35,7 @@ export class BarmanFreeSubordersComponent implements OnInit {
         (ResSub => {
           // L'AccessToken è valido: o perchè NON era scaduto oppure perchè il refresh è avvenuto in maniara corretta
           if (ResSub.length == 0) {
-            //this.view_tables = false;
+            this.view_Suborders = false;
           }
           else {
             console.log(ResSub);
@@ -44,10 +44,12 @@ export class BarmanFreeSubordersComponent implements OnInit {
                 this.allSuborders.push(new WaitSuborder(Order.table, Order.id_order, Suborder.id_suborder, Order.waiter, Suborder.drinks_order))
               }
             }
-            this.allSuborders.sort((a, b) => a.id_suborder - b.id_suborder);
-            this.firstSuborders = this.allSuborders.shift();
-            this.view_Suborders = true;
-            console.log(this.allSuborders);
+            if (this.allSuborders.length > 0) {
+              this.allSuborders.sort((a, b) => a.id_suborder - b.id_suborder);
+              this.firstSuborders = this.allSuborders.shift();
+              this.view_Suborders = true;
+              console.log(this.allSuborders);
+            }
             //this.view_tables = true;
           }
         }),
@@ -79,9 +81,9 @@ export class BarmanFreeSubordersComponent implements OnInit {
           }
           else {
             console.log(ResSub);
-            if(this.allSuborders.length>0)
+            if (this.allSuborders.length > 0)
               this.firstSuborders = this.allSuborders.shift();
-            else{
+            else {
               this.view_Suborders = false;
               this.firstSuborders = null;
             }
