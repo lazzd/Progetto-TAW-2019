@@ -8,6 +8,8 @@ let ElementMenuModel = require('../models/element_menu.model');
 let ElementMenuSchema = ElementMenuModel.schema;
 let StateElementOrderModel = require('../models/state_element_order.model');
 let StateElementOrderSchema = StateElementOrderModel.schema;
+let StateEmployeesElementOrderModel = require('../models/state_employees_element_order.model');
+let StateEmployeesElementOrderSchema = StateEmployeesElementOrderModel.schema;
 
 //creazione dell'array su angular
 let ElementOrderSchema = new mongoose.Schema ({
@@ -22,6 +24,10 @@ let ElementOrderSchema = new mongoose.Schema ({
     state: {
         type: StateElementOrderSchema,
         default: StateElementOrderSchema
+    },
+    employees: {
+        type: StateEmployeesElementOrderSchema,
+        default: StateEmployeesElementOrderSchema
     }
 });
 
