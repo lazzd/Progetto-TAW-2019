@@ -15,11 +15,11 @@ let TablesSchema = new mongoose.Schema({
     },
     waiter: {
         type: String,
-        required: false
+        default: null
     },
     id_order: {
         type: Number,
-        required: false
+        default: null
     }
 });
 

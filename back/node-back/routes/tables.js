@@ -121,8 +121,8 @@ router.put("/:name_table", verifyAccessToken, async function (req, res, next) {
             if (req.body.state == true)
                 isTablePresent.waiter = req.body.waiter;
             else {
-                isTablePresent.waiter = undefined;
-                isTablePresent.id_order = undefined;
+                isTablePresent.waiter = null;
+                isTablePresent.id_order = null;
             }
             isTablePresent.busy = req.body.state;
             await isTablePresent.save()
