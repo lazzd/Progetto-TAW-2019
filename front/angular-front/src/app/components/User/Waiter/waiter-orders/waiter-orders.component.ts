@@ -31,6 +31,8 @@ export class WaiterOrdersComponent implements OnInit {
   selectedTable: Table;
 
   view_recap_order: Boolean;
+  view_recap_drinks: Boolean;
+  view_recap_foods: Boolean;
 
   drinks_order: ElementMenu[];
   foods_order: ElementMenu[];
@@ -52,6 +54,8 @@ export class WaiterOrdersComponent implements OnInit {
     this.view_menu = false;
     this.form_element_order = [];
     this.view_recap_order = false;
+    this.view_recap_drinks = false;
+    this.view_recap_foods = false;
     this.drinks_order = [];
     this.foods_order = [];
     this.getTablesByWaiter();
@@ -69,6 +73,8 @@ export class WaiterOrdersComponent implements OnInit {
           }
           else {
             console.log(ResSub);
+            //for(let i=0;i<ResSub.length;++i)
+            //this.myTables.push(new Table(ResSub[i]));
             ResSub.forEach(element => {
               this.myTables.push(new Table(element));
             });
@@ -95,6 +101,7 @@ export class WaiterOrdersComponent implements OnInit {
   async getMenu(): Promise<void> {
     try {
       if (this.form_my_tables.value.my_table) {
+        console.log("MIEI TAVOLI:", this.myTables);
         this.selectedTable = this.myTables.find(table => table.name_table = this.form_my_tables.value.my_table);
         console.log("MY TABLES", this.selectedTable);
         let WaiterOrdersServicePromise = await this.waiterOrdersService.getMenu();
@@ -161,8 +168,14 @@ export class WaiterOrdersComponent implements OnInit {
         this.drinks_order.push(cpy_ElementOrder);
       if (cpy_ElementOrder.type == "food")
         this.foods_order.push(cpy_ElementOrder);
-      if (this.drinks_order.length > 0 || this.foods_order.length > 0)
+      if (this.drinks_order.length > 0){
         this.view_recap_order = true;
+        this.view_recap_drinks = true;
+      }
+      if (this.foods_order.length > 0){
+        this.view_recap_order = true;
+        this.view_recap_foods = true;
+      }
       console.log("DRINKS", this.drinks_order);
       console.log("FOOD", this.foods_order);
     }
@@ -170,9 +183,10 @@ export class WaiterOrdersComponent implements OnInit {
 
   async sendOrder(): Promise<void> {
     try {
+      console.log(this.selectedTable);
       // già presente l'ordine, devo fare la put
-      const id_order = this.selectedTable.id_order;
-      if (id_order) {
+      if (this.selectedTable.hasOwnProperty("id_order")) {
+        const id_order = this.selectedTable.id_order;
         let WaiterOrdersServicePromise = await this.waiterOrdersService.sendPUTOrder(id_order, this.drinks_order, this.foods_order);
         // ritorna l'observable...
         WaiterOrdersServicePromise.subscribe(
@@ -181,6 +195,9 @@ export class WaiterOrdersComponent implements OnInit {
             // ri azzero gli array degli ordini
             this.drinks_order = [];
             this.foods_order = [];
+            this.view_recap_order = false;
+            this.view_recap_drinks = false;
+            this.view_recap_foods = false;
             console.log("PUT ORDINE INVIATA", ResSub);
           }),
           (ErrSub => {
@@ -203,6 +220,9 @@ export class WaiterOrdersComponent implements OnInit {
             // ri azzero gli array degli ordini
             this.drinks_order = [];
             this.foods_order = [];
+            this.view_recap_order = false;
+            this.view_recap_drinks = false;
+            this.view_recap_foods = false;
             console.log("POST ORDINE INVIATA", ResSub);
             this.selectedTable.id_order = ResSub.id_order;
           }),

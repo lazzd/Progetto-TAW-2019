@@ -14,9 +14,9 @@
                 <button type="submit" mat-flat-button color="primary">CERCA</button>
             </form>
         </span>
-        <span *ngIf=view_btn_menu>
+        <div *ngIf=view_btn_menu class="btn_search">
             <button mat-flat-button color="primary" (click)="showMenu()">MOSTRA MENU</button>
-        </span>
+        </div>
         <span *ngIf=view_menu>
             <mat-accordion>
                 <ng-container *ngFor="let category of completeMenu; index as i">
@@ -53,34 +53,39 @@
         </span>
         <span *ngIf=view_recap_order>
             <mat-accordion>
-                <mat-expansion-panel>
-                    <mat-expansion-panel-header>
-                        <mat-panel-title>
-                            FOODS
-                        </mat-panel-title>
-                        <mat-panel-description>
-                        </mat-panel-description>
-                    </mat-expansion-panel-header>
+                <span *ngIf="view_recap_foods">
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                FOODS
+                            </mat-panel-title>
+                            <mat-panel-description>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <p *ngFor="let ElementOrder of foods_order">
+                            NAME: {{ElementOrder.name_element_menu}} , NUM: {{ElementOrder.quantity}}
+                        </p>
+                    </mat-expansion-panel>
+                </span>
+                <span *ngIf="view_recap_drinks">
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                DRINKS
+                            </mat-panel-title>
+                            <mat-panel-description>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
 
-                    <p *ngFor="let ElementOrder of foods_order">
-                        NAME: {{ElementOrder.name_element_menu}} , NUM: {{ElementOrder.quantity}}
-                    </p>
-                </mat-expansion-panel>
-                <mat-expansion-panel>
-                    <mat-expansion-panel-header>
-                        <mat-panel-title>
-                            DRINKS
-                        </mat-panel-title>
-                        <mat-panel-description>
-                        </mat-panel-description>
-                    </mat-expansion-panel-header>
-
-                    <p *ngFor="let ElementOrder of drinks_order">
-                        NAME: {{ElementOrder.name_element_menu}} , NUM: {{ElementOrder.quantity}}
-                    </p>
-                </mat-expansion-panel>
+                        <p *ngFor="let ElementOrder of drinks_order">
+                            NAME: {{ElementOrder.name_element_menu}} , NUM: {{ElementOrder.quantity}}
+                        </p>
+                    </mat-expansion-panel>
+                </span>
             </mat-accordion>
-            <button mat-flat-button color="primary" (click)="sendOrder()">INVIA ORDINE</button>
+            <div class="btn_search">
+                <button mat-flat-button color="primary" (click)="sendOrder()">INVIA ORDINE</button>
+            </div>
         </span>
     </div>
 </div>
