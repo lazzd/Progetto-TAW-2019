@@ -1,5 +1,8 @@
 let mongoose =  require('mongoose');
 
+// mongoose-schema for auto-increment
+const AutoIncrement = require('mongoose-sequence')(mongoose);
+
 // necessary for the right type of ElementMenu key
 let ElementMenuModel = require('../models/element_menu.model');
 let ElementMenuSchema = ElementMenuModel.schema;
@@ -19,11 +22,10 @@ let ElementOrderSchema = new mongoose.Schema ({
     state: {
         type: StateElementOrderSchema,
         default: StateElementOrderSchema
-    },
-    id_suborder: {
-        type:  Number,
-        require: true
     }
 });
+
+ElementOrderSchema.plugin(AutoIncrement, { inc_field: 'id_suborder' });
+
 
 module.exports = mongoose.model ("ElementOrder", ElementOrderSchema );

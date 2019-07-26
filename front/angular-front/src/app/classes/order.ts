@@ -1,5 +1,7 @@
 import { ElementMenu } from './element_menu';
 
+// RequestOrder : con ? sia per POST che per PUT
+
 export class Order{
     drinks_order?: ElementMenu[];
     foods_order?: ElementMenu[];

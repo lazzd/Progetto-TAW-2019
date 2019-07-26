@@ -56,6 +56,7 @@ const ElementMenuNestedSchema = {
     quantity: Joi.number()
 };
 
+// POST ORDER
 const orderValidation = function (data) {
     const OrderValidation = {
         drinks_order: Joi.array().items(Joi.object(ElementMenuNestedSchema)),
@@ -67,6 +68,7 @@ const orderValidation = function (data) {
 
 }
 
+// PUT ORDER (/:id_order)
 const elementOrderValidation = function (data) {
     const ElementOrderValidation = {
         drinks_order: Joi.array().items(Joi.object(ElementMenuNestedSchema)),

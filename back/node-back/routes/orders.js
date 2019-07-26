@@ -153,7 +153,7 @@ router.post("/", verifyAccessToken, async function (req, res, next) {
         let model = new OrdersModel(req.body);
         // first order with this id_order
         model.num_suborders = 1;
-        model_element_order.id_suborder = model.num_suborders;
+        //model_element_order.id_suborder = model.num_suborders;
         model.elements_order.push(model_element_order);
         // ---------------- Aggiunta id a tavolo
         const isTablePresent = await TablesModel.findOne({ name_table: req.body.table });
@@ -237,7 +237,7 @@ else
           model_element_order.state.foods_complete = true;
         // update num suborders
         console.log(isOrderPresent.num_suborders);
-        isOrderPresent.num_suborders += 1;
+        //isOrderPresent.num_suborders += 1;
         model_element_order.id_suborder = isOrderPresent.num_suborders;
         isOrderPresent.elements_order.push(model_element_order);
         await isOrderPresent.save()
