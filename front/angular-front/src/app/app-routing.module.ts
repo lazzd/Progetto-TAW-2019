@@ -17,6 +17,8 @@ import { WaiterOrdersComponent } from './components/User/Waiter/waiter-orders/wa
 
 // User Barman
 import { BarmanComponent } from './components/User/Barman/barman/barman.component';
+import { BarmanFreeSubordersComponent} from './components/User/Barman/barman-free-suborders/barman-free-suborders.component';
+import { BarmanMySubordersComponent} from './components/User/Barman/barman-my-suborders/barman-my-suborders.component';
 import { UserBarmanComponent } from './components/user-barman/user-barman.component';
 
 // import AuthGuard Service for Guard Routing
@@ -79,8 +81,12 @@ const routes: Routes = [
     },
     children: [
       {
-        path: 'barman1',
-        component: UserBarmanComponent
+        path: 'free-suborders',
+        component: BarmanFreeSubordersComponent
+      },
+      {
+        path: 'my-suborders',
+        component: BarmanMySubordersComponent
       }
     ]
   }

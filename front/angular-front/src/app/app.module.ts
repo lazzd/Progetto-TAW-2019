@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatRadioModule } from '@angular/material/radio';
-import {MatExpansionModule} from '@angular/material/expansion';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 // httpModule
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -36,6 +36,8 @@ import { WaiterTablesComponent } from './components/User/Waiter/waiter-tables/wa
 import { SidenavBarmanComponent } from './components/User/Barman/sidenav-barman/sidenav-barman.component';
 import { BarmanComponent } from './components/User/Barman/barman/barman.component';
 import { WaiterOrdersComponent } from './components/User/Waiter/waiter-orders/waiter-orders.component';
+import { BarmanFreeSubordersComponent } from './components/User/Barman/barman-free-suborders/barman-free-suborders.component';
+import { BarmanMySubordersComponent } from './components/User/Barman/barman-my-suborders/barman-my-suborders.component';
 
 export function tokenGetter() {
   //console.log(localStorage.getItem('AccessToken'))
@@ -58,7 +60,9 @@ export function tokenGetter() {
     WaiterTablesComponent,
     SidenavBarmanComponent,
     BarmanComponent,
-    WaiterOrdersComponent
+    WaiterOrdersComponent,
+    BarmanFreeSubordersComponent,
+    BarmanMySubordersComponent
   ],
   imports: [
     BrowserModule,

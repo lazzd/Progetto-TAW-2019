@@ -1,5 +1,3 @@
-import { ElementOrder } from './element_order';
-
 export class StateElementOrder{
     drinks_complete: Boolean;
     foods_complete: Boolean;

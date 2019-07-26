@@ -61,8 +61,8 @@ app.use('/auth', authRouter);
 
 app.use('/menu', menuRouter);
 app.use('/dishes', dishesRouter);
-app.use('/orders', ordersRouter),
-  app.use('/tables', tablesRouter);
+app.use('/orders', ordersRouter);
+app.use('/tables', tablesRouter);
 
 // posts use
 app.use('/posts', postsRouter);

@@ -1,0 +1,44 @@
+<router-outlet></router-outlet>
+<div class="container">
+    <div>
+        <span *ngIf=view_Suborders>
+            <mat-accordion>
+                <mat-expansion-panel [disabled]="true" [expanded]="true">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            TABLE: {{firstSuborders.table}}, ID_SUBORDER : {{firstSuborders.id_suborder}}
+                        </mat-panel-title>
+                        <mat-panel-description>
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <mat-list>
+                        <ng-container *ngFor="let elem of firstSuborders.suborder">
+                            <mat-list-item>NAME: {{elem.name_element_menu}}, TIME: {{elem.time}}, QUANTITY:
+                                {{elem.quantity}}</mat-list-item>
+                        </ng-container>
+                    </mat-list>
+                    <button mat-flat-button color="primary" class="btn_submit">ACCOLLATI ORDINE</button>
+                </mat-expansion-panel>
+            </mat-accordion>
+            <mat-accordion *ngIf="allSuborders.length>0">
+                <ng-container *ngFor="let WaitSuborder of allSuborders">
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                TABLE: {{WaitSuborder.table}}, ID_SUBORDER : {{WaitSuborder.id_suborder}}
+                            </mat-panel-title>
+                            <mat-panel-description>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <mat-list>
+                            <ng-container *ngFor="let elem of WaitSuborder.suborder">
+                                <mat-list-item>NAME: {{elem.name_element_menu}}, TIME: {{elem.time}}, QUANTITY:
+                                    {{elem.quantity}}</mat-list-item>
+                            </ng-container>
+                        </mat-list>
+                    </mat-expansion-panel>
+                </ng-container>
+            </mat-accordion>
+        </span>
+    </div>
+</div>
