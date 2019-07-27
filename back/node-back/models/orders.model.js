@@ -1,4 +1,4 @@
-let mongoose =  require('mongoose');
+let mongoose = require('mongoose');
 
 // mongoose-schema for auto-increment
 const AutoIncrement = require('mongoose-sequence')(mongoose);
@@ -11,7 +11,7 @@ let StateOrderModel = require('../models/state_order.model');
 let StateOrderSchema = StateOrderModel.schema;
 
 //creazione dell'array su angular
-let OrdersSchema = new mongoose.Schema ({
+let OrdersSchema = new mongoose.Schema({
     elements_order: {
         type: [ElementOrderSchema],
         require: true
@@ -40,4 +40,4 @@ let OrdersSchema = new mongoose.Schema ({
 
 OrdersSchema.plugin(AutoIncrement, { inc_field: 'id_order' });
 
-module.exports = mongoose.model ("Order", OrdersSchema );
+module.exports = mongoose.model("Order", OrdersSchema);

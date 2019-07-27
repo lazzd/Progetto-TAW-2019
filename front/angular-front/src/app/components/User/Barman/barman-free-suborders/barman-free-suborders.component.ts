@@ -7,6 +7,8 @@ import { WaitSuborder } from 'src/app/classes/wait_suborder';
 import { ElementOrder } from 'src/app/classes/element_order';
 
 import { SocketService } from '../../../../services/socket/socket.service';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { ElementMenu } from 'src/app/classes/element_menu';
 
 @Component({
   selector: 'app-barman-free-suborders',
@@ -45,6 +47,17 @@ export class BarmanFreeSubordersComponent implements OnInit {
           this.firstSuborders = null;
         }
       });
+
+    this.socketService
+      .newSuborder()
+      .subscribe(Order => {
+        console.log("EMIT: ", Order);
+        // il suborder maggiore è sempre pushato nell'array (pop - last position)
+        const ElementOrder: ElementOrder = Order.elements_order.pop();
+        const suborder: ElementMenu[] = ElementOrder.drinks_order;
+        this.allSuborders.push(new WaitSuborder(Order.table, Order.id_order, ElementOrder.id_suborder, Order.waiter, suborder));
+      })
+
   }
 
   async getOrdersByBarman(): Promise<void> {

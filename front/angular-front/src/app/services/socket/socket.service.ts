@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Observer } from 'rxjs';
 
 import * as socketIo from 'socket.io-client';
+import { ResOrder } from 'src/app/classes/res_order';
 
 const SERVER_URL = 'http://localhost:3000/';
 
@@ -22,6 +23,12 @@ export class SocketService {
   takeSuborder(): Observable<any> {
     return new Observable<any>(observer => {
       this.socket.on('take-suborder', (data: any) => observer.next(data));
+    });
+  }
+
+  newSuborder(): Observable<ResOrder> {
+    return new Observable<ResOrder>(observer => {
+      this.socket.on('new-suborder', (data: ResOrder) => observer.next(data));
     });
   }
 
