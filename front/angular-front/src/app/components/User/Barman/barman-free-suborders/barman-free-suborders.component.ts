@@ -6,6 +6,8 @@ import { Router } from "@angular/router";
 import { WaitSuborder } from 'src/app/classes/wait_suborder';
 import { ElementOrder } from 'src/app/classes/element_order';
 
+import { SocketService } from '../../../../services/socket/socket.service';
+
 @Component({
   selector: 'app-barman-free-suborders',
   templateUrl: './barman-free-suborders.component.html',
@@ -19,12 +21,24 @@ export class BarmanFreeSubordersComponent implements OnInit {
 
   constructor(
     private barmanFreeSubordersService: BarmanFreeSubordersService,
-    private router: Router) { }
+    private router: Router,
+    private socketService: SocketService) { }
 
   ngOnInit() {
+    this.initIoConnection();
     this.allSuborders = [];
     this.view_Suborders = false;
     this.getOrdersByBarman();
+  }
+
+  private initIoConnection(): void {
+    this.socketService.initSocket();
+
+    this.socketService
+      .takeSuborder()
+      .subscribe(data => {
+        console.log('Incoming msg', data);
+      });
   }
 
   async getOrdersByBarman(): Promise<void> {

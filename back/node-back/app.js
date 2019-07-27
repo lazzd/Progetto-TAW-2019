@@ -48,6 +48,7 @@ mongoose.connect(
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+app.set('socketio', io);
 
 app.use(cors());
 
@@ -60,13 +61,18 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 io.on('connect', function(socket){
   console.log('a user connected');
-  socket.on('message', function(msg){ // listen
+  /*socket.on('message', function(msg){ // listen
     console.log(msg);
     io.emit('message', msg); // broadcast to all
-  });
+  });*/
   socket.on('disconnect', function(){
     console.log('user disconnected');
   });
+});
+
+app.use(function(req, res, next){
+  res.io = io;
+  next();
 });
 
 app.use('/', indexRouter);
@@ -82,11 +88,6 @@ app.use('/tables', tablesRouter);
 
 // posts use
 app.use('/posts', postsRouter);
-
-app.use(function(req, res, next){
-  res.io = io;
-  next();
-});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

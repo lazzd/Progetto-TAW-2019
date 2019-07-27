@@ -142,8 +142,10 @@ router.put("/:id_order/suborders/:id_suborder", verifyAccessToken, async functio
             await isOrderPresent.save()
                 .then(doc => {
                     if (!doc || doc.length === 0) {
+                        // ACCOLLA
                         return res.status(500).send(doc);
                     }
+                    res.io.emit("take-suborder", "ARA CHE QUALCUNO HA PRESO L'ORDINE!");
                     console.log(doc);
                     res.status(201).type("application/json").send(doc);
                 })
