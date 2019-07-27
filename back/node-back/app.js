@@ -26,6 +26,11 @@ let postsRouter = require('./routes/posts');
 
 var app = express();
 
+// socket.io
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+
+
 // prova
 let ex = require('./prova.js');
 ex.f();
@@ -40,11 +45,11 @@ mongoose.connect(
   () => console.log("connected to DB")
 );
 
-app.use(cors());
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+
+app.use(cors());
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -52,6 +57,17 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+io.on('connect', function(socket){
+  console.log('a user connected');
+  socket.on('message', function(msg){ // listen
+    console.log(msg);
+    io.emit('message', msg); // broadcast to all
+  });
+  socket.on('disconnect', function(){
+    console.log('user disconnected');
+  });
+});
 
 app.use('/', indexRouter);
 //app.use('/users', usersRouter);
@@ -66,6 +82,11 @@ app.use('/tables', tablesRouter);
 
 // posts use
 app.use('/posts', postsRouter);
+
+app.use(function(req, res, next){
+  res.io = io;
+  next();
+});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -83,4 +104,4 @@ app.use(function (err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+module.exports = {app: app, server: server};
