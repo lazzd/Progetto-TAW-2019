@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { BarmanFreeSubordersService } from '../../../../services/User/Barman/barman-free-suborders/barman-free-suborders.service';
+import { CookFreeSubordersService } from '../../../../services/User/Cook/cook-free-suborders/cook-free-suborders.service';
 
 import { Router } from "@angular/router";
 import { WaitSuborder } from 'src/app/classes/wait_suborder';
@@ -10,18 +10,18 @@ import { SocketService } from '../../../../services/socket/socket.service';
 import { ElementMenu } from 'src/app/classes/element_menu';
 
 @Component({
-  selector: 'app-barman-free-suborders',
-  templateUrl: './barman-free-suborders.component.html',
-  styleUrls: ['./barman-free-suborders.component.scss']
+  selector: 'app-cook-free-suborders',
+  templateUrl: './cook-free-suborders.component.html',
+  styleUrls: ['./cook-free-suborders.component.scss']
 })
-export class BarmanFreeSubordersComponent implements OnInit {
+export class CookFreeSubordersComponent implements OnInit {
 
   view_Suborders: Boolean;
   firstSuborders: WaitSuborder;
   allSuborders: WaitSuborder[];
 
   constructor(
-    private barmanFreeSubordersService: BarmanFreeSubordersService,
+    private cookFreeSubordersService: CookFreeSubordersService,
     private router: Router,
     private socketService: SocketService) { }
 
@@ -29,7 +29,7 @@ export class BarmanFreeSubordersComponent implements OnInit {
     this.initIoConnection();
     this.allSuborders = [];
     this.view_Suborders = false;
-    this.getOrdersByBarman();
+    this.getOrdersByCook();
   }
 
   private initIoConnection(): void {
@@ -53,17 +53,17 @@ export class BarmanFreeSubordersComponent implements OnInit {
         console.log("EMIT: ", Order);
         // il suborder maggiore è sempre pushato nell'array (pop - last position)
         const ElementOrder: ElementOrder = Order.elements_order.pop();
-        const suborder: ElementMenu[] = ElementOrder.drinks_order;
+        const suborder: ElementMenu[] = ElementOrder.foods_order;
         this.allSuborders.push(new WaitSuborder(Order.table, Order.id_order, ElementOrder.id_suborder, Order.waiter, suborder));
       })
 
   }
 
-  async getOrdersByBarman(): Promise<void> {
+  async getOrdersByCook(): Promise<void> {
     try {
-      let BarmanFreeSubordersServicePromise = await this.barmanFreeSubordersService.getOrdersByBarman();
+      let CookFreeSubordersServicePromise = await this.cookFreeSubordersService.getOrdersByCook();
       // ritorna l'observable...
-      BarmanFreeSubordersServicePromise.subscribe(
+      CookFreeSubordersServicePromise.subscribe(
         (ResSub => {
           // L'AccessToken è valido: o perchè NON era scaduto oppure perchè il refresh è avvenuto in maniara corretta
           if (ResSub.length == 0) {
@@ -73,7 +73,7 @@ export class BarmanFreeSubordersComponent implements OnInit {
             console.log(ResSub);
             for (let Order of ResSub) {
               for (let Suborder of Order.elements_order) {
-                this.allSuborders.push(new WaitSuborder(Order.table, Order.id_order, Suborder.id_suborder, Order.waiter, Suborder.drinks_order))
+                this.allSuborders.push(new WaitSuborder(Order.table, Order.id_order, Suborder.id_suborder, Order.waiter, Suborder.foods_order))
               }
             }
             if (this.allSuborders.length > 0) {
@@ -103,9 +103,9 @@ export class BarmanFreeSubordersComponent implements OnInit {
 
   async takeSuborder() {
     try {
-      let BarmanFreeSubordersServicePromise = await this.barmanFreeSubordersService.takeSuborder(this.firstSuborders.id_order, this.firstSuborders.id_suborder, localStorage.getItem('UserName'));
+      let CookFreeSubordersServicePromise = await this.cookFreeSubordersService.takeSuborder(this.firstSuborders.id_order, this.firstSuborders.id_suborder, localStorage.getItem('UserName'));
       // ritorna l'observable...
-      BarmanFreeSubordersServicePromise.subscribe(
+      CookFreeSubordersServicePromise.subscribe(
         (ResSub => {
           // L'AccessToken è valido: o perchè NON era scaduto oppure perchè il refresh è avvenuto in maniara corretta
           if (ResSub.length == 0) {

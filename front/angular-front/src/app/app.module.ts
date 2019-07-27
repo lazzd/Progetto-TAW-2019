@@ -38,6 +38,10 @@ import { BarmanComponent } from './components/User/Barman/barman/barman.componen
 import { WaiterOrdersComponent } from './components/User/Waiter/waiter-orders/waiter-orders.component';
 import { BarmanFreeSubordersComponent } from './components/User/Barman/barman-free-suborders/barman-free-suborders.component';
 import { BarmanMySubordersComponent } from './components/User/Barman/barman-my-suborders/barman-my-suborders.component';
+import { CookComponent } from './components/User/Cook/cook/cook.component';
+import { SidenavCookComponent } from './components/User/Cook/sidenav-cook/sidenav-cook.component';
+import { CookFreeSubordersComponent } from './components/User/Cook/cook-free-suborders/cook-free-suborders.component';
+import { CookMySubordersComponent } from './components/User/Cook/cook-my-suborders/cook-my-suborders.component';
 
 export function tokenGetter() {
   //console.log(localStorage.getItem('AccessToken'))
@@ -62,7 +66,11 @@ export function tokenGetter() {
     BarmanComponent,
     WaiterOrdersComponent,
     BarmanFreeSubordersComponent,
-    BarmanMySubordersComponent
+    BarmanMySubordersComponent,
+    CookComponent,
+    SidenavCookComponent,
+    CookFreeSubordersComponent,
+    CookMySubordersComponent
   ],
   imports: [
     BrowserModule,

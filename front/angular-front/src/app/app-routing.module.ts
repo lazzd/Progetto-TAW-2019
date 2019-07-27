@@ -17,9 +17,14 @@ import { WaiterOrdersComponent } from './components/User/Waiter/waiter-orders/wa
 
 // User Barman
 import { BarmanComponent } from './components/User/Barman/barman/barman.component';
-import { BarmanFreeSubordersComponent} from './components/User/Barman/barman-free-suborders/barman-free-suborders.component';
-import { BarmanMySubordersComponent} from './components/User/Barman/barman-my-suborders/barman-my-suborders.component';
+import { BarmanFreeSubordersComponent } from './components/User/Barman/barman-free-suborders/barman-free-suborders.component';
+import { BarmanMySubordersComponent } from './components/User/Barman/barman-my-suborders/barman-my-suborders.component';
 import { UserBarmanComponent } from './components/user-barman/user-barman.component';
+
+// User Cook
+import { CookComponent } from './components/User/Cook/cook/cook.component';
+import { CookFreeSubordersComponent } from './components/User/Cook/cook-free-suborders/cook-free-suborders.component';
+import { CookMySubordersComponent } from './components/User/Cook/cook-my-suborders/cook-my-suborders.component';
 
 // import AuthGuard Service for Guard Routing
 import { AuthGuardService as AuthGuard } from './services/authGuard/auth-guard.service';
@@ -87,6 +92,24 @@ const routes: Routes = [
       {
         path: 'my-suborders',
         component: BarmanMySubordersComponent
+      }
+    ]
+  },
+  {
+    path: 'user/cook',
+    component: CookComponent,
+    canActivate: [RoleGuard],
+    data: {
+      expectedTask: 'cook'
+    },
+    children: [
+      {
+        path: 'free-suborders',
+        component: CookFreeSubordersComponent
+      },
+      {
+        path: 'my-suborders',
+        component: CookMySubordersComponent
       }
     ]
   }
