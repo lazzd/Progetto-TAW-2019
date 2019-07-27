@@ -54,7 +54,8 @@ export class BarmanFreeSubordersComponent implements OnInit {
         // il suborder maggiore è sempre pushato nell'array (pop - last position)
         const ElementOrder: ElementOrder = Order.elements_order.pop();
         const suborder: ElementMenu[] = ElementOrder.drinks_order;
-        this.allSuborders.push(new WaitSuborder(Order.table, Order.id_order, ElementOrder.id_suborder, Order.waiter, suborder));
+        if (suborder.length > 0)
+          this.allSuborders.push(new WaitSuborder(Order.table, Order.id_order, ElementOrder.id_suborder, Order.waiter, suborder));
       })
 
   }
@@ -73,7 +74,8 @@ export class BarmanFreeSubordersComponent implements OnInit {
             console.log(ResSub);
             for (let Order of ResSub) {
               for (let Suborder of Order.elements_order) {
-                this.allSuborders.push(new WaitSuborder(Order.table, Order.id_order, Suborder.id_suborder, Order.waiter, Suborder.drinks_order))
+                if (Suborder.drinks_order.length > 0)
+                  this.allSuborders.push(new WaitSuborder(Order.table, Order.id_order, Suborder.id_suborder, Order.waiter, Suborder.drinks_order))
               }
             }
             if (this.allSuborders.length > 0) {
