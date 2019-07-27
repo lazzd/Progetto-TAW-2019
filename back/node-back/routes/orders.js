@@ -68,6 +68,40 @@ router.get("/", verifyAccessToken, async function (req, res, next) {
     }
 });
 
+
+// VEDERE SE L'ENDPOINT PUO' ANDARE BENE
+router.get("/myOrders", verifyAccessToken, async function (req, res, next) {
+    try {
+        const task = jwt.decode(req.header('auth-token')).task;
+        if (task == 'cook') {
+            const name = jwt.decode(req.header('auth-token')).name;
+            await OrdersModel.find({ 'state_order.all_foods_complete': false })
+                .then(array => {
+                    for (let i = 0; i < array.length; ++i) {
+                        array[i].elements_order = array[i].elements_order.filter(sub_order => sub_order.state.foods_complete == false && sub_order.employees.foods_employee == name);
+                    }
+                    res.json(array)
+                })
+                .catch(err => res.status(500).json(err));
+        }
+        else if (task == 'barman') {
+            await OrdersModel.find({ 'state_order.all_drinks_complete': false })
+                .then(array => {
+                    for (let i = 0; i < array.length; ++i) {
+                        array[i].elements_order = array[i].elements_order.filter(sub_order => sub_order.state.drinks_complete == false && sub_order.employees.drinks_employee == null);
+                    }
+                    res.json(array)
+                })
+                .catch(err => res.status(500).json(err));
+        }
+        else {
+            return res.status(400).send('Missing permissions');
+        }
+    } catch (err) {
+        return res.status(400).send(err);
+    }
+});
+
 router.get("/:id_order", verifyAccessToken, async function (req, res, next) {
     try {
         if (isNaN(req.params.id_order))
