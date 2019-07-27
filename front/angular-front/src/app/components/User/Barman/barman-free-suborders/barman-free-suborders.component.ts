@@ -38,6 +38,12 @@ export class BarmanFreeSubordersComponent implements OnInit {
       .takeSuborder()
       .subscribe(data => {
         console.log('Incoming msg', data);
+        if (this.allSuborders.length > 0)
+          this.firstSuborders = this.allSuborders.shift();
+        else {
+          this.view_Suborders = false;
+          this.firstSuborders = null;
+        }
       });
   }
 
@@ -95,12 +101,13 @@ export class BarmanFreeSubordersComponent implements OnInit {
           }
           else {
             console.log(ResSub);
-            if (this.allSuborders.length > 0)
+            // TOLTO PERCHE' MESSO NESSLA IMPLEMENTAZIONE DEI WEB SOCKET
+            /*if (this.allSuborders.length > 0)
               this.firstSuborders = this.allSuborders.shift();
             else {
               this.view_Suborders = false;
               this.firstSuborders = null;
-            }
+            }*/
             //this.view_tables = true;
           }
         }),
