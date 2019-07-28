@@ -43,6 +43,7 @@ import { CookComponent } from './components/User/Cook/cook/cook.component';
 import { SidenavCookComponent } from './components/User/Cook/sidenav-cook/sidenav-cook.component';
 import { CookFreeSubordersComponent } from './components/User/Cook/cook-free-suborders/cook-free-suborders.component';
 import { CookMySubordersComponent } from './components/User/Cook/cook-my-suborders/cook-my-suborders.component';
+import { WaiterArrivalComponent } from './components/User/Waiter/waiter-arrival/waiter-arrival.component';
 
 export function tokenGetter() {
   //console.log(localStorage.getItem('AccessToken'))
@@ -71,7 +72,8 @@ export function tokenGetter() {
     CookComponent,
     SidenavCookComponent,
     CookFreeSubordersComponent,
-    CookMySubordersComponent
+    CookMySubordersComponent,
+    WaiterArrivalComponent
   ],
   imports: [
     BrowserModule,

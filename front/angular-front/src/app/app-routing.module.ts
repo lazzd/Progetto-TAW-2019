@@ -14,6 +14,7 @@ import { UserMainComponent } from './components/User/user-main/user-main.compone
 import { WaiterComponent } from './components/User/Waiter/waiter/waiter.component';
 import { WaiterTablesComponent } from './components/User/Waiter/waiter-tables/waiter-tables.component';
 import { WaiterOrdersComponent } from './components/User/Waiter/waiter-orders/waiter-orders.component';
+import { WaiterArrivalComponent } from './components/User/Waiter/waiter-arrival/waiter-arrival.component';
 
 // User Barman
 import { BarmanComponent } from './components/User/Barman/barman/barman.component';
@@ -74,6 +75,10 @@ const routes: Routes = [
       {
         path: 'orders',
         component: WaiterOrdersComponent
+      },
+      {
+        path: 'arrival',
+        component: WaiterArrivalComponent
       }
     ]
   },
