@@ -2,7 +2,11 @@ let mongoose = require('mongoose');
 
 //creazione dell'array su angular
 let StateElementOrderSchema = new mongoose.Schema({
-    served:{
+    drinks_served:{
+        type: Boolean,
+        default: false
+    },
+    foods_served:{
         type: Boolean,
         default: false
     },

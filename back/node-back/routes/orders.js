@@ -101,11 +101,11 @@ router.get("/myOrders", verifyAccessToken, async function (req, res, next) {
                 .then(array => {
                     //console.log(array);
                     for (let i = 0; i < array.length; ++i) {
-                        array[i].elements_order = array[i].elements_order.filter(sub_order => sub_order.state.served == false && (sub_order.state.drinks_complete == true || sub_order.state.foods_complete == true));
+                        array[i].elements_order = array[i].elements_order.filter(sub_order => (sub_order.state.drinks_served == false || sub_order.state.foods_served == false) && (sub_order.state.drinks_complete == true || sub_order.state.foods_complete == true));
                         for (let u = 0; u < array[i].elements_order.length; ++u) {
-                            if (!array[i].elements_order[u].state.drinks_complete)
+                            if (array[i].elements_order[u].state.drinks_served || !array[i].elements_order[u].state.drinks_complete)
                                 array[i].elements_order[u].drinks_order = [];
-                            if (!array[i].elements_order[u].state.foods_complete)
+                            if (array[i].elements_order[u].state.foods_served || !array[i].elements_order[u].state.foods_complete)
                                 array[i].elements_order[u].foods_order = [];
                         }
                     }
@@ -463,9 +463,16 @@ router.put("/:id_order/suborders/:id_suborder/complete", verifyAccessToken, asyn
                         isOrderPresent.state_order.all_drinks_complete = true;
             }
             if (task == 'waiter') {
-                suborders.state.served = req.body.state;
+                if (!req.body.type)
+                    return res.status(400).send('Missing parameters');
+                if (req.body.type != "food" && req.body.type != "drink")
+                    return res.status(400).send("Type parameter isn't correct");
+                if (req.body.type == "food")
+                    suborders.state.foods_served = req.body.state;
+                if (req.body.type == "drink")
+                    suborders.state.drinks_served = req.body.state;
                 if (req.body.state)
-                    if (isOrderPresent.elements_order.every((elem) => elem.state.served))
+                    if (isOrderPresent.elements_order.every((elem) => elem.state.foods_served == true && elem.state.drinks_served == true))
                         isOrderPresent.state_order.all_served = true;
             }
             await isOrderPresent.save()
