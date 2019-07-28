@@ -54,8 +54,13 @@ export class CookFreeSubordersComponent implements OnInit {
         // il suborder maggiore è sempre pushato nell'array (pop - last position)
         const ElementOrder: ElementOrder = Order.elements_order.pop();
         const suborder: ElementMenu[] = ElementOrder.foods_order;
-        if (suborder.length > 0)
+        if (suborder.length > 0) {
           this.allSuborders.push(new WaitSuborder(Order.table, Order.id_order, ElementOrder.id_suborder, Order.waiter, suborder));
+          if (!this.firstSuborders) {
+            this.firstSuborders = this.allSuborders.shift();
+            this.view_Suborders = true;
+          }
+        }
       })
 
   }
@@ -74,7 +79,7 @@ export class CookFreeSubordersComponent implements OnInit {
             console.log(ResSub);
             for (let Order of ResSub) {
               for (let Suborder of Order.elements_order) {
-                if (Suborder.foods_order.length>0)
+                if (Suborder.foods_order.length > 0)
                   this.allSuborders.push(new WaitSuborder(Order.table, Order.id_order, Suborder.id_suborder, Order.waiter, Suborder.foods_order))
               }
             }
