@@ -85,10 +85,11 @@ router.get("/myOrders", verifyAccessToken, async function (req, res, next) {
                 .catch(err => res.status(500).json(err));
         }
         else if (task == 'barman') {
+            const name = jwt.decode(req.header('auth-token')).name;
             await OrdersModel.find({ 'state_order.all_drinks_complete': false })
                 .then(array => {
                     for (let i = 0; i < array.length; ++i) {
-                        array[i].elements_order = array[i].elements_order.filter(sub_order => sub_order.state.drinks_complete == false && sub_order.employees.drinks_employee == null);
+                        array[i].elements_order = array[i].elements_order.filter(sub_order => sub_order.state.drinks_complete == false && sub_order.employees.drinks_employee == name);
                     }
                     res.json(array)
                 })
