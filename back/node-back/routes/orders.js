@@ -95,6 +95,24 @@ router.get("/myOrders", verifyAccessToken, async function (req, res, next) {
                 })
                 .catch(err => res.status(500).json(err));
         }
+        else if (task == 'waiter') {
+            const name = jwt.decode(req.header('auth-token')).name;
+            await OrdersModel.find({ waiter: name, 'state_order.complete': false })
+                .then(array => {
+                    //console.log(array);
+                    for (let i = 0; i < array.length; ++i) {
+                        array[i].elements_order = array[i].elements_order.filter(sub_order => sub_order.state.served == false && (sub_order.state.drinks_complete == true || sub_order.state.foods_complete == true));
+                        for (let u = 0; u < array[i].elements_order.length; ++u) {
+                            if (!array[i].elements_order[u].state.drinks_complete)
+                                array[i].elements_order[u].drinks_order = [];
+                            if (!array[i].elements_order[u].state.foods_complete)
+                                array[i].elements_order[u].foods_order = [];
+                        }
+                    }
+                    res.json(array)
+                })
+                .catch(err => res.status(500).json(err));
+        }
         else {
             return res.status(400).send('Missing permissions');
         }
@@ -336,11 +354,15 @@ router.put("/:id_order", verifyAccessToken, async function (req, res, next) {
                     model_element_order.state.drinks_complete = true;
                 if (!req.body.foods_order)
                     model_element_order.state.foods_complete = true;
-                // update num suborders
-                console.log(isOrderPresent.num_suborders);
                 //isOrderPresent.num_suborders += 1;
                 model_element_order.id_suborder = isOrderPresent.num_suborders;
                 isOrderPresent.elements_order.push(model_element_order);
+                if (isOrderPresent.state_order.all_served)
+                    isOrderPresent.state_order.all_served = false;
+                if (isOrderPresent.state_order.all_drinks_complete)
+                    isOrderPresent.state_order.all_drinks_complete = false;
+                if (isOrderPresent.state_order.all_foods_complete)
+                    isOrderPresent.state_order.all_foods_complete = false;
                 await isOrderPresent.save()
                     .then(doc => {
                         if (!doc || doc.length === 0) {
@@ -377,10 +399,14 @@ router.put("/:id_order/complete", verifyAccessToken, async function (req, res, n
                 return res.status(400).send('Missing permissions');
             const isOrderPresent = await OrdersModel.findOne({ id_order: req.params.id_order });
             if (!isOrderPresent) return res.status(400).send("Order isn't present");
-            // CONTROLLO LATO BACK AND AUTO PER SET COMPLETE A TRUE
+            // CONTROLLO LATO BACK AND AUTO PER SET COMPLETE A TRUE, ORA DA FARE CON IL SERVED
             if (req.body.state) {
-                if (!isOrderPresent.elements_order.every((elem) => elem.state.foods_complete) || !isOrderPresent.elements_order.every((elem) => elem.state.drinks_complete))
-                    return res.status(400).send("Foods_complete or Drinks_complete is set to false");
+                //if (!isOrderPresent.elements_order.every((elem) => elem.state.foods_complete) || !isOrderPresent.elements_order.every((elem) => elem.state.drinks_complete))
+                if (!isOrderPresent.state_order.all_served)
+                    return res.status(400).send("Some Suborder isn't serve");
+                isOrderPresent.state_order.complete = req.body.state;
+            }
+            else {
                 isOrderPresent.state_order.complete = req.body.state;
             }
             // DOVREBBE ANDARE TUTTO IN AUTOMATICO, IMPLEMENTA L'EVERY
@@ -418,7 +444,7 @@ router.put("/:id_order/suborders/:id_suborder/complete", verifyAccessToken, asyn
             // serve validazione per Cashier
             const task = jwt.decode(req.header('auth-token')).task;
             console.log(task);
-            if (task != 'cook' && task != 'barman')
+            if (task != 'cook' && task != 'barman' && task != 'waiter')
                 return res.status(400).send('Missing permissions');
             const isOrderPresent = await OrdersModel.findOne({ id_order: req.params.id_order });
             if (!isOrderPresent) return res.status(400).send("Order isn't present");
@@ -435,6 +461,12 @@ router.put("/:id_order/suborders/:id_suborder/complete", verifyAccessToken, asyn
                 if (req.body.state)
                     if (isOrderPresent.elements_order.every((elem) => elem.state.drinks_complete))
                         isOrderPresent.state_order.all_drinks_complete = true;
+            }
+            if (task == 'waiter') {
+                suborders.state.served = req.body.state;
+                if (req.body.state)
+                    if (isOrderPresent.elements_order.every((elem) => elem.state.served))
+                        isOrderPresent.state_order.all_served = true;
             }
             await isOrderPresent.save()
                 .then(doc => {

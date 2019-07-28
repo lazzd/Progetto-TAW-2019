@@ -6,6 +6,10 @@ let StateOrderSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    all_served: {
+        type: Boolean,
+        default: false
+    },
     all_drinks_complete: {
         type: Boolean,
         default: false
