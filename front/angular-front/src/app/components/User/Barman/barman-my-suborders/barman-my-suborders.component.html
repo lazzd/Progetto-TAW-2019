@@ -1,2 +1,48 @@
 <router-outlet></router-outlet>
-<p>barman-my-suborders works!</p>
+<div class="container">
+    <div>
+        <span *ngIf=view_my_Suborders>
+            <mat-accordion>
+                <mat-expansion-panel [disabled]="true" [expanded]="true">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            TABLE: {{firstMySuborders.table}}, ID_SUBORDER : {{firstMySuborders.id_suborder}}
+                        </mat-panel-title>
+                        <mat-panel-description>
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <mat-list>
+                        <ng-container *ngFor="let elem of firstMySuborders.suborder; index as i">
+                            <mat-list-item>NAME: {{elem.name_element_menu}}, TIME: {{elem.time}}, QUANTITY:
+                                {{elem.quantity}}
+                                <button mat-flat-button color="primary" *ngIf="i==0"
+                                    (click)="completeElementMySuborder()" class="btn_submit">COMPLETE</button>
+                            </mat-list-item>
+                        </ng-container>
+                    </mat-list>
+                    <button mat-flat-button color="primary" *ngIf="firstMySuborders.suborder.length==0"
+                        (click)="completeMySuborder()" class="btn_submit">TERMINA SUBORDER</button>
+                </mat-expansion-panel>
+            </mat-accordion>
+            <mat-accordion *ngIf="allMySuborders.length>0">
+                <ng-container *ngFor="let WaitSuborder of allMySuborders">
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                TABLE: {{WaitSuborder.table}}, ID_SUBORDER : {{WaitSuborder.id_suborder}}
+                            </mat-panel-title>
+                            <mat-panel-description>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <mat-list>
+                            <ng-container *ngFor="let elem of WaitSuborder.suborder">
+                                <mat-list-item>NAME: {{elem.name_element_menu}}, TIME: {{elem.time}}, QUANTITY:
+                                    {{elem.quantity}}</mat-list-item>
+                            </ng-container>
+                        </mat-list>
+                    </mat-expansion-panel>
+                </ng-container>
+            </mat-accordion>
+        </span>
+    </div>
+</div>

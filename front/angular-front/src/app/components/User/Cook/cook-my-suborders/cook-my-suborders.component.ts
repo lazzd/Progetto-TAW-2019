@@ -5,8 +5,6 @@ import { CookMySubordersService } from '../../../../services/User/Cook/cook-my-s
 import { Router } from "@angular/router";
 import { WaitSuborder } from 'src/app/classes/wait_suborder';
 
-import { SocketService } from '../../../../services/socket/socket.service';
-
 @Component({
   selector: 'app-cook-my-suborders',
   templateUrl: './cook-my-suborders.component.html',
@@ -20,11 +18,9 @@ export class CookMySubordersComponent implements OnInit {
 
   constructor(
     private cookMySubordersService: CookMySubordersService,
-    private router: Router,
-    private socketService: SocketService) { }
+    private router: Router) { }
 
   ngOnInit() {
-    //this.initIoConnection();
     this.allMySuborders = [];
     this.view_my_Suborders = false;
     this.getMyOrdersByCook();
