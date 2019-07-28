@@ -41,7 +41,7 @@ export class CookMySubordersComponent implements OnInit {
             for (let Order of ResSub) {
               for (let Suborder of Order.elements_order) {
                 if (Suborder.foods_order.length > 0)
-                  this.allMySuborders.push(new WaitSuborder(Order.table, Order.id_order, Suborder.id_suborder, Order.waiter, Suborder.foods_order))
+                  this.allMySuborders.push(new WaitSuborder(Order.table, Order.id_order, Suborder.id_suborder, Order.waiter, Suborder.state, Suborder.foods_order))
               }
             }
             if (this.allMySuborders.length > 0) {
@@ -72,7 +72,7 @@ export class CookMySubordersComponent implements OnInit {
     }
   }
 
-  completeElementMySuborder(){
+  completeElementMySuborder() {
     this.firstMySuborders.suborder.shift();
   }
 

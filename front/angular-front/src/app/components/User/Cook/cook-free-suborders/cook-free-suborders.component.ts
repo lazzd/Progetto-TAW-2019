@@ -55,7 +55,7 @@ export class CookFreeSubordersComponent implements OnInit {
         const ElementOrder: ElementOrder = Order.elements_order.pop();
         const suborder: ElementMenu[] = ElementOrder.foods_order;
         if (suborder.length > 0) {
-          this.allSuborders.push(new WaitSuborder(Order.table, Order.id_order, ElementOrder.id_suborder, Order.waiter, suborder));
+          this.allSuborders.push(new WaitSuborder(Order.table, Order.id_order, ElementOrder.id_suborder, Order.waiter, ElementOrder.state, suborder));
           if (!this.firstSuborders) {
             this.firstSuborders = this.allSuborders.shift();
             this.view_Suborders = true;
@@ -80,7 +80,7 @@ export class CookFreeSubordersComponent implements OnInit {
             for (let Order of ResSub) {
               for (let Suborder of Order.elements_order) {
                 if (Suborder.foods_order.length > 0)
-                  this.allSuborders.push(new WaitSuborder(Order.table, Order.id_order, Suborder.id_suborder, Order.waiter, Suborder.foods_order))
+                  this.allSuborders.push(new WaitSuborder(Order.table, Order.id_order, Suborder.id_suborder, Order.waiter, Suborder.state, Suborder.foods_order))
               }
             }
             if (this.allSuborders.length > 0) {

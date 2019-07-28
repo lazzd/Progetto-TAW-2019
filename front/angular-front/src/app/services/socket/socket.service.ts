@@ -32,4 +32,10 @@ export class SocketService {
     });
   }
 
+  arrivalSuborder(): Observable<ResOrder> {
+    return new Observable<ResOrder>(observer => {
+      this.socket.on('arrival-suborder', (data: ResOrder) => observer.next(data));
+    });
+  }
+
 }

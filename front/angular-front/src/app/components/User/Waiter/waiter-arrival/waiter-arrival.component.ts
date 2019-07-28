@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { WaiterArrivalService } from '../../../../services/User/Waiter/waiter-arrival/waiter-arrival.service';
+import { SocketService } from '../../../../services/socket/socket.service';
 
 import { Router } from "@angular/router";
 import { WaitSuborder } from 'src/app/classes/wait_suborder';
@@ -17,12 +18,35 @@ export class WaiterArrivalComponent implements OnInit {
 
   constructor(
     private waiterArrivalService: WaiterArrivalService,
-    private router: Router) { }
+    private router: Router,
+    private socketService: SocketService) { }
 
   ngOnInit() {
+    //this.initIoConnection();
     this.view_arrival_Suborders = false;
     this.allArrivalSuborders = [];
     this.getMyArrivalOrders();
+  }
+
+  private initIoConnection(): void {
+    this.socketService.initSocket();
+
+    this.socketService
+      .arrivalSuborder()
+      .subscribe(Order => {
+        console.log("EMIT: ", Order);
+        // il suborder maggiore è sempre pushato nell'array (pop - last position)
+        /*const ElementOrder: ElementOrder = Order.elements_order.pop();
+        const suborder: ElementMenu[] = ElementOrder.foods_order;
+        if (suborder.length > 0) {
+          this.allSuborders.push(new WaitSuborder(Order.table, Order.id_order, ElementOrder.id_suborder, Order.waiter, suborder));
+          if (!this.firstSuborders) {
+            this.firstSuborders = this.allSuborders.shift();
+            this.view_Suborders = true;
+          }
+        }*/
+      })
+
   }
 
   async getMyArrivalOrders(): Promise<void> {
@@ -40,12 +64,13 @@ export class WaiterArrivalComponent implements OnInit {
             // Suddivisione per FOODS e DRINKS
             for (let Order of ResSub) {
               for (let Suborder of Order.elements_order) {
-                const newWaitSuborder = new WaitSuborder(Order.table, Order.id_order, Suborder.id_suborder, Order.waiter);
+                const newWaitSuborder = new WaitSuborder(Order.table, Order.id_order, Suborder.id_suborder, Order.waiter, Suborder.state);
                 if (Suborder.drinks_order.length > 0)
                   newWaitSuborder.setDrinksOrder(Suborder.drinks_order);
                 if (Suborder.foods_order.length > 0)
                   newWaitSuborder.setFoodsOrder(Suborder.foods_order);
-                this.allArrivalSuborders.push(newWaitSuborder);
+                if (newWaitSuborder.drinks_order || newWaitSuborder.foods_order)
+                  this.allArrivalSuborders.push(newWaitSuborder);
               }
             }
             if (this.allArrivalSuborders.length > 0) {

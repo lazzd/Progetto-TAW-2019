@@ -97,7 +97,7 @@ router.get("/myOrders", verifyAccessToken, async function (req, res, next) {
         }
         else if (task == 'waiter') {
             const name = jwt.decode(req.header('auth-token')).name;
-            await OrdersModel.find({ waiter: name, 'state_order.complete': false })
+            await OrdersModel.find({ waiter: name, 'state_order.all_served': false })
                 .then(array => {
                     //console.log(array);
                     for (let i = 0; i < array.length; ++i) {

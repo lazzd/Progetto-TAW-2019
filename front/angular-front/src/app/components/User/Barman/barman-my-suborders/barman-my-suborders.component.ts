@@ -41,7 +41,7 @@ export class BarmanMySubordersComponent implements OnInit {
             for (let Order of ResSub) {
               for (let Suborder of Order.elements_order) {
                 if (Suborder.drinks_order.length > 0)
-                  this.allMySuborders.push(new WaitSuborder(Order.table, Order.id_order, Suborder.id_suborder, Order.waiter, Suborder.drinks_order))
+                  this.allMySuborders.push(new WaitSuborder(Order.table, Order.id_order, Suborder.id_suborder, Order.waiter, Suborder.state, Suborder.drinks_order))
               }
             }
             if (this.allMySuborders.length > 0) {
