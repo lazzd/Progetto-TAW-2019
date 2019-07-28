@@ -1,1 +1,57 @@
-<p>waiter-arrival works!</p>
+<div class="container">
+    <div>
+        <span *ngIf=view_arrival_Suborders>
+            <mat-accordion>
+                <ng-container *ngFor="let arrivalSuborder of allArrivalSuborders">
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                TABLE: {{arrivalSuborder.table}}, ID_SUBORDER : {{arrivalSuborder.id_suborder}}
+                            </mat-panel-title>
+                            <mat-panel-description>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <mat-accordion *ngIf="arrivalSuborder.foods_order">
+                            <mat-expansion-panel>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        FOODS
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+                                <mat-list>
+                                    <ng-container *ngFor="let elem of arrivalSuborder.foods_order">
+                                        <mat-list-item>NAME: {{elem.name_element_menu}}, TIME: {{elem.time}}, QUANTITY:
+                                            {{elem.quantity}}
+                                        </mat-list-item>
+                                    </ng-container>
+                                </mat-list>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+                        <mat-accordion *ngIf="arrivalSuborder.drinks_order">
+                            <mat-expansion-panel>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        DRINKS
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+                                <mat-list>
+                                    <ng-container *ngFor="let elem of arrivalSuborder.drinks_order">
+                                        <mat-list-item>NAME: {{elem.name_element_menu}}, TIME: {{elem.time}}, QUANTITY:
+                                            {{elem.quantity}}
+                                        </mat-list-item>
+                                    </ng-container>
+                                </mat-list>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+                        <button mat-flat-button color="primary" (click)="completeArrivalSuborder()"
+                            class="btn_submit">SUBORDER CONSEGNATO</button>
+                    </mat-expansion-panel>
+                </ng-container>
+            </mat-accordion>
+        </span>
+    </div>
+</div>
