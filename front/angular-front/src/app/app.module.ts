@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 // httpModule
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -80,6 +81,7 @@ export function tokenGetter() {
     // Radio Modules
     MatRadioModule,
     MatExpansionModule,
+    MatCheckboxModule,
     HttpClientModule,
     BrowserAnimationsModule,
     MatToolbarModule,

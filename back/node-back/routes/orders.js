@@ -366,22 +366,27 @@ router.put("/:id_order/complete", verifyAccessToken, async function (req, res, n
             return res.status(400).send('Request body is missing');
         else if (!req.body.state)
             return res.status(400).send('Missing parameters');
-        else if (req.body.state != "false" && req.body.state != "true")
+        else if (req.body.state != false && req.body.state != true)
             // verifica se così o a stringa
             return res.status(400).send("Parameter isn't correct");
         else {
             // serve validazione per Cashier
             const task = jwt.decode(req.header('auth-token')).task;
-            if (task != 'cashier' && task != 'cook' && task != 'barman')
+            if (task != 'cashier')
                 return res.status(400).send('Missing permissions');
             const isOrderPresent = await OrdersModel.findOne({ id_order: req.params.id_order });
             if (!isOrderPresent) return res.status(400).send("Order isn't present");
-            if (task == 'cashier')
+            // CONTROLLO LATO BACK AND AUTO PER SET COMPLETE A TRUE
+            if (req.body.state) {
+                if (!isOrderPresent.elements_order.every((elem) => elem.state.foods_complete) || !isOrderPresent.elements_order.every((elem) => elem.state.drinks_complete))
+                    return res.status(400).send("Foods_complete or Drinks_complete is set to false");
                 isOrderPresent.state_order.complete = req.body.state;
-            if (task == 'barman')
+            }
+            // DOVREBBE ANDARE TUTTO IN AUTOMATICO, IMPLEMENTA L'EVERY
+            /*if (task == 'barman')
                 isOrderPresent.state_order.all_drinks_complete = req.body.state;
             if (task == 'cook')
-                isOrderPresent.state_order.all_foods_complete = req.body.state;
+                isOrderPresent.state_order.all_foods_complete = req.body.state;*/
             await isOrderPresent.save()
                 .then(doc => {
                     if (!doc || doc.length === 0) {
@@ -405,7 +410,7 @@ router.put("/:id_order/suborders/:id_suborder/complete", verifyAccessToken, asyn
             return res.status(400).send('Request body is missing');
         else if (!req.body.state)
             return res.status(400).send('Missing parameters');
-        else if (req.body.state != "false" && req.body.state != "true")
+        else if (req.body.state != false && req.body.state != true)
             // verifica se così o a stringa
             return res.status(400).send("Parameter isn't correct");
         else {
@@ -416,19 +421,27 @@ router.put("/:id_order/suborders/:id_suborder/complete", verifyAccessToken, asyn
                 return res.status(400).send('Missing permissions');
             const isOrderPresent = await OrdersModel.findOne({ id_order: req.params.id_order });
             if (!isOrderPresent) return res.status(400).send("Order isn't present");
-            if (req.params.id_suborder < 1 || req.params.id_suborder > isOrderPresent.num_suborders)
-                return res.status(400).send("Id_suborder not present")
             const suborders = isOrderPresent.elements_order.find(obj => obj.id_suborder == req.params.id_suborder);
-            if (task == 'cook')
-                suborders.state.foods_complete = req.body.state
-            if (task == 'barman')
+            // verifica lato back end, auto
+            if (task == 'cook') {
+                suborders.state.foods_complete = req.body.state;
+                if (req.body.state)
+                    if (isOrderPresent.elements_order.every((elem) => elem.state.foods_complete))
+                        isOrderPresent.state_order.all_foods_complete = true;
+            }
+            if (task == 'barman') {
                 suborders.state.drinks_complete = req.body.state;
+                if (req.body.state)
+                    if (isOrderPresent.elements_order.every((elem) => elem.state.drinks_complete))
+                        isOrderPresent.state_order.all_drinks_complete = true;
+            }
             await isOrderPresent.save()
                 .then(doc => {
                     if (!doc || doc.length === 0) {
                         return res.status(500).send(doc);
                     }
                     console.log(doc);
+                    res.io.emit("arrival-suborder", doc);
                     res.status(201).type("application/json").send(doc);
                 })
                 .catch(err => res.status(500).json(err));
