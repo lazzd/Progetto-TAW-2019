@@ -71,13 +71,11 @@ router.post("/", verifyAccessToken, async function (req, res, next) {
             return res.status(400).send('Missing parameters');*/
         else {
             // serve validazione per Cashier
-            /*
             const task = jwt.decode(req.header('auth-token')).task;
             console.log(task);
             if (task != 'cashier')
                 return res.status(400).send('Missing permissions');
             console.log(req.body);
-            */
             const { error } = tableValidation(req.body);
             if (error) return res.status(400).send(error.details[0].message);
             const isTablePresent = await TablesModel.findOne({ name_table: req.body.name_table });

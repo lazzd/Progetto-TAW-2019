@@ -17,8 +17,12 @@ export class CashierTablesComponent implements OnInit {
   view_tables: Boolean;
   allTables: Table[];
   selectedTable: Table;
+
   view_info_table: Boolean;
   form_my_tables: FormGroup;
+
+  add_table: Boolean;
+  form_add_table: FormGroup;
 
   constructor(
     private cashierTablesService: CashierTablesService,
@@ -29,11 +33,16 @@ export class CashierTablesComponent implements OnInit {
     this.form_my_tables = new FormGroup({
       my_table: new FormControl()
     });
+    this.form_add_table = new FormGroup({
+      input_name_table: new FormControl(),
+      input_seats: new FormControl()
+    })
     this.initIoConnection();
     this.allTables = [];
     this.view_tables = false;
     this.selectedTable = null;
     this.view_info_table = false;
+    this.add_table = false;
     this.getAllTables();
   }
 
@@ -102,8 +111,43 @@ export class CashierTablesComponent implements OnInit {
   getInfoTable() {
     if (this.allTables.length > 0) {
       this.selectedTable = this.allTables.find(elem => elem.name_table == this.form_my_tables.value.my_table);
-    } 
+    }
     console.log(this.selectedTable);
+  }
+
+  addTable() {
+    (this.add_table) ? (this.add_table = false) : (this.add_table = true);
+  }
+
+  async postNewTable() {
+    try {
+      const newNameTable: string = this.form_add_table.value.input_name_table;
+      const newSeats: number = this.form_add_table.value.input_seats;
+      if (newNameTable && newSeats) {
+        let CashierTablesServicePromise = await this.cashierTablesService.postNewTable(newNameTable, newSeats);
+        // ritorna l'observable...
+        CashierTablesServicePromise.subscribe(
+          (ResSub => {
+            // L'AccessToken è valido: o perchè NON era scaduto oppure perchè il refresh è avvenuto in maniara corretta
+            this.allTables.push(new Table(ResSub));
+          }),
+          (ErrSub => {
+            if(ErrSub.error = "Table name is already present")
+              console.log("Tavolo già esistente");
+            // necessario il catch della promise non gestisce l'errore dell'observable
+            // E' avvenuto un errore con il refresh dell'AccessToken: è necessario un nuovo login
+            this.router.navigate(['/auth/login']);
+            // da andare in pagina di login
+            console.log("SEND ORDER err", ErrSub);
+          })
+        )
+      }
+    } catch (errorPromise) {
+      this.router.navigate(['/auth/login']);
+      // da andare in pagina di login, MA: sarebbe poi da fare un back a questa pagina quando si è fatto effettivamente il login
+      console.log("sono qui");
+      console.log("SEND ORDER err", errorPromise);
+    }
   }
 
 }

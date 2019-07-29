@@ -57,6 +57,18 @@
                     <mat-list-item *ngIf="selectedTable.id_order"> ID_ORDER: {{selectedTable.id_order}} </mat-list-item>
                 </mat-list>
             </span>
+            <button mat-flat-button color="primary" (click)="addTable()">ADD TABLE</button>
+            <span *ngIf=add_table>
+                <form [formGroup]="form_add_table" (ngSubmit)="postNewTable()">
+                    <mat-form-field>
+                        <input matInput placeholder="Name Table" formControlName="input_name_table">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input type="number" matInput placeholder="Seats" formControlName="input_seats">
+                    </mat-form-field>
+                    <button type="submit" mat-flat-button color="primary">AGGIUNGI TAVOLO</button>
+                </form>
+            </span>
         </span>
     </div>
 </div>
