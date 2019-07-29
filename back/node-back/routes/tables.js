@@ -137,6 +137,7 @@ router.put("/:name_table", verifyAccessToken, async function (req, res, next) {
                         return res.status(500).send(doc);
                     }
                     console.log(doc);
+                    res.io.emit("state-tables", doc);
                     res.status(201).type("application/json").send(doc);
                 })
                 .catch(err => res.status(500).json(err));

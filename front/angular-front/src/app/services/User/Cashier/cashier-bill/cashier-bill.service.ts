@@ -33,6 +33,8 @@ export class CashierBillService {
     }
   }
 
+  // cambia nomi
+
   async table(id_order: number, name_table: string): Promise<Observable<Array<ResOrder>>> {
     try {
       let promRefeshToken = await this.refreshToken.refreshToken();

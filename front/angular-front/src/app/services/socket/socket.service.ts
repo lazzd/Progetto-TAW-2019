@@ -4,6 +4,7 @@ import { Observable, Observer } from 'rxjs';
 
 import * as socketIo from 'socket.io-client';
 import { ResOrder } from 'src/app/classes/res_order';
+import { Table } from 'src/app/classes/table';
 
 const SERVER_URL = 'http://localhost:3000/';
 
@@ -35,6 +36,12 @@ export class SocketService {
   arrivalSuborder(): Observable<ResOrder> {
     return new Observable<ResOrder>(observer => {
       this.socket.on('arrival-suborder', (data: ResOrder) => observer.next(data));
+    });
+  }
+
+  stateTables(): Observable<Table> {
+    return new Observable<Table>(observer => {
+      this.socket.on('state-tables', (data: Table) => observer.next(data));
     });
   }
 

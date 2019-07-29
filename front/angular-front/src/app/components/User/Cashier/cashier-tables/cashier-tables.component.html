@@ -1,0 +1,62 @@
+<router-outlet></router-outlet>
+<div class="container">
+    <div>
+        <span *ngIf=view_tables>
+            <mat-accordion>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            FREE TABLES
+                        </mat-panel-title>
+                        <mat-panel-description>
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <mat-list>
+                        <ng-container *ngFor="let table of allTables">
+                            <mat-list-item *ngIf="!table.busy">
+                                NAME TABLE: {{table.name_table}}, SEATS: {{table.seats}}
+                            </mat-list-item>
+                        </ng-container>
+                    </mat-list>
+                </mat-expansion-panel>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            BUSY TABLES
+                        </mat-panel-title>
+                        <mat-panel-description>
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <mat-list>
+                        <ng-container *ngFor="let table of allTables">
+                            <mat-list-item *ngIf="table.busy">
+                                NAME TABLE: {{table.name_table}}, SEATS: {{table.seats}}, WAITER: {{table.waiter}}
+                            </mat-list-item>
+                        </ng-container>
+                    </mat-list>
+                </mat-expansion-panel>
+            </mat-accordion>
+            <button mat-flat-button color="primary" (click)="viewInfoTable()">INFO TAVOLO</button>
+            <span *ngIf=view_info_table>
+                <form [formGroup]="form_my_tables" (ngSubmit)="getInfoTable()">
+                    <mat-form-field>
+                        <mat-label>Seleziona il Tavolo</mat-label>
+                        <mat-select formControlName="my_table">
+                            <mat-option *ngFor="let table of allTables" [value]="table.name_table">
+                                {{table.name_table}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <button type="submit" mat-flat-button color="primary">CERCA</button>
+                </form>
+                <mat-list *ngIf="selectedTable">
+                    <mat-list-item> NAME TABLE: {{selectedTable.name_table}} </mat-list-item>
+                    <mat-list-item> SEATS: {{selectedTable.seats}} </mat-list-item>
+                    <mat-list-item> BUSY: {{selectedTable.busy}} </mat-list-item>
+                    <mat-list-item *ngIf="selectedTable.waiter"> WAITER: {{selectedTable.waiter}} </mat-list-item>
+                    <mat-list-item *ngIf="selectedTable.id_order"> ID_ORDER: {{selectedTable.id_order}} </mat-list-item>
+                </mat-list>
+            </span>
+        </span>
+    </div>
+</div>
