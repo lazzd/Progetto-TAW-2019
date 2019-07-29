@@ -5,6 +5,7 @@ import { CashierTablesService } from '../../../../services/User/Cashier/cashier-
 import { SocketService } from '../../../../services/socket/socket.service';
 
 import { Router } from "@angular/router";
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-cashier-tables',
@@ -15,6 +16,9 @@ export class CashierTablesComponent implements OnInit {
 
   view_tables: Boolean;
   allTables: Table[];
+  selectedTable: Table;
+  view_info_table: Boolean;
+  form_my_tables: FormGroup;
 
   constructor(
     private cashierTablesService: CashierTablesService,
@@ -22,9 +26,14 @@ export class CashierTablesComponent implements OnInit {
     private socketService: SocketService) { }
 
   ngOnInit() {
+    this.form_my_tables = new FormGroup({
+      my_table: new FormControl()
+    });
     this.initIoConnection();
     this.allTables = [];
     this.view_tables = false;
+    this.selectedTable = null;
+    this.view_info_table = false;
     this.getAllTables();
   }
 
@@ -46,7 +55,7 @@ export class CashierTablesComponent implements OnInit {
           //this.view_tables = true;
         }
       });
-    }
+  }
 
   async getAllTables(): Promise<void> {
     try {
@@ -84,6 +93,17 @@ export class CashierTablesComponent implements OnInit {
       console.log("sono qui");
       console.log("SEND ORDER err", errorPromise);
     }
+  }
+
+  viewInfoTable() {
+    (this.view_info_table) ? (this.view_info_table = false) : (this.view_info_table = true);
+  }
+
+  getInfoTable() {
+    if (this.allTables.length > 0) {
+      this.selectedTable = this.allTables.find(elem => elem.name_table == this.form_my_tables.value.my_table);
+    } 
+    console.log(this.selectedTable);
   }
 
 }
