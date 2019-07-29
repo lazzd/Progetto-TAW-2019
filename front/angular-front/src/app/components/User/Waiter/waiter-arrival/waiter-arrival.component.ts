@@ -6,6 +6,7 @@ import { SocketService } from '../../../../services/socket/socket.service';
 import { Router } from "@angular/router";
 import { WaitSuborder } from 'src/app/classes/wait_suborder';
 import { OrderComponent } from 'src/app/components/order/order.component';
+import { ResOrder } from 'src/app/classes/res_order';
 
 @Component({
   selector: 'app-waiter-arrival',
@@ -42,13 +43,24 @@ export class WaiterArrivalComponent implements OnInit {
           // trova l'indice associato se presente
           const isPresent = this.allArrivalSuborders.find((elem) => elem.id_suborder == Order.elements_order[i].id_suborder);
           if (isPresent) {
+            isPresent.state =  Order.elements_order[i].state;
             console.log("QUI 1");
-            if (!isPresent.state.drinks_served && Order.elements_order[i].state.drinks_complete) {
+            if(isPresent.state.drinks_served){
+              isPresent.drinks_order = null;
+            }
+            else if (!isPresent.state.drinks_served && Order.elements_order[i].state.drinks_complete) {
               isPresent.setDrinksOrder(Order.elements_order[i].drinks_order);
               //flag = true;
             }
-            if (!isPresent.state.foods_served && Order.elements_order[i].state.foods_complete)
+            if(isPresent.state.foods_served){
+              isPresent.foods_order = null;
+            }
+            else if (!isPresent.state.foods_served && Order.elements_order[i].state.foods_complete)
               isPresent.setFoodsOrder(Order.elements_order[i].foods_order);
+            if(!isPresent.drinks_order && !isPresent.foods_order){
+              const index = this.allArrivalSuborders.findIndex(elem => elem.id_suborder == Order.elements_order[i].id_suborder)
+              this.allArrivalSuborders.splice(index, 1);
+            }
             //flag = true;
           }
           // element not present in array WaitOrders
@@ -132,21 +144,26 @@ export class WaiterArrivalComponent implements OnInit {
       WaiterArrivalServicePromise.subscribe(
         (ResSub => {
           // L'AccessToken è valido: o perchè NON era scaduto oppure perchè il refresh è avvenuto in maniara corretta
-          if (ResSub.length == 0) {
+          if (false) {
             //this.view_tables = false;
           }
           else {
-            console.log(ResSub);
-            const indexSuborder = this.allArrivalSuborders.findIndex((elem) => elem.id_order == id_order && elem.id_suborder == id_suborder);
+            console.log("IIIII", ResSub);
+            /*const ResMySuborder = ResSub.elements_order.find(elem => elem.id_suborder == id_suborder);
+            const indexSuborder: number = this.allArrivalSuborders.findIndex((elem) => elem.id_order == id_order && elem.id_suborder == id_suborder);
+            this.allArrivalSuborders[indexSuborder].state = ResMySuborder.state;
+            console.log("LOG", ResMySuborder.state);
             if (type == 'food')
               this.allArrivalSuborders[indexSuborder].foods_order = null;
             if (type == 'drink')
               this.allArrivalSuborders[indexSuborder].drinks_order = null;
-            if (!this.allArrivalSuborders[indexSuborder].drinks_order && !this.allArrivalSuborders[indexSuborder].foods_order)
+            if (!this.allArrivalSuborders[indexSuborder].drinks_order && !this.allArrivalSuborders[indexSuborder].foods_order) {
+              console.log("qui");
               this.allArrivalSuborders.slice(indexSuborder);
+            }
             if (!this.allArrivalSuborders.length)
               this.view_arrival_Suborders = false;
-            //this.view_tables = true;
+            //this.view_tables = true;*/
           }
         }),
         (ErrSub => {

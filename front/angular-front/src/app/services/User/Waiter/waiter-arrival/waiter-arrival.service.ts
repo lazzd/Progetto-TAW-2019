@@ -32,14 +32,14 @@ export class WaiterArrivalService {
     }
   }
 
-  async completeArrivalSuborder(id_order: number, id_suborder: number, type: string): Promise<Observable<Array<ResOrder>>> {
+  async completeArrivalSuborder(id_order: number, id_suborder: number, type: string): Promise<Observable<ResOrder>> {
     try {
       let promRefeshToken = await this.refreshToken.refreshToken();
       console.log(promRefeshToken);
       const state = new State(true);
       state.setType(type);
       // Ora posso fare la richiesta...
-      return this.http.put<Array<ResOrder>>(urlOrder + '/' + id_order + '/suborders/' + id_suborder + '/complete', state);
+      return this.http.put<ResOrder>(urlOrder + '/' + id_order + '/suborders/' + id_suborder + '/complete', state);
     } catch (ErrorRefreshToken) {
       return throwError(ErrorRefreshToken);
     }

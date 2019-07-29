@@ -82,6 +82,7 @@ export class BarmanMySubordersComponent implements OnInit {
       // ritorna l'observable...
       BarmanMySubordersServicePromise.subscribe(
         (ResSub => {
+          // ResSub dovrebbe essere un Order normale non array
           // L'AccessToken è valido: o perchè NON era scaduto oppure perchè il refresh è avvenuto in maniara corretta
           if (ResSub.length == 0) {
             //this.view_tables = false;
