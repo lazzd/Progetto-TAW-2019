@@ -33,12 +33,21 @@ export class CashierBillService {
     }
   }
 
+  async table(id_order: number, name_table: string): Promise<Observable<Array<ResOrder>>> {
+    try {
+      let promRefeshToken = await this.refreshToken.refreshToken();
+      console.log(promRefeshToken);
+      return this.http.put<Array<ResOrder>>(urlOrder + '/' + id_order + '/complete', new State(true));
+    } catch (ErrorRefreshToken) {
+      return throwError(ErrorRefreshToken);
+    }
+  }
+
   async completeOrder(id_order: number, name_table: string): Promise<Observable<Array<Table>>> {
     try {
       let promRefeshToken = await this.refreshToken.refreshToken();
       console.log(promRefeshToken);
       // Ora posso fare la richiesta...
-      await this.http.put<Array<ResOrder>>(urlOrder + '/' + id_order + '/complete', new State(true));
       return this.http.put<Array<Table>>(urlTable + '/' + name_table, new State(false));
     } catch (ErrorRefreshToken) {
       return throwError(ErrorRefreshToken);
