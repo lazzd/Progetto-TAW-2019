@@ -100,7 +100,7 @@ router.get("/myOrders", verifyAccessToken, async function (req, res, next) {
             await OrdersModel.find({ waiter: name, 'state_order.all_served': false })
                 .then(array => {
                     //console.log(array);
-                    for (let i = 0; i < array.length; ++i) {
+                    /*for (let i = 0; i < array.length; ++i) {
                         array[i].elements_order = array[i].elements_order.filter(sub_order => (sub_order.state.drinks_served == false || sub_order.state.foods_served == false) && (sub_order.state.drinks_complete == true || sub_order.state.foods_complete == true));
                         for (let u = 0; u < array[i].elements_order.length; ++u) {
                             if (array[i].elements_order[u].state.drinks_served || !array[i].elements_order[u].state.drinks_complete)
@@ -108,7 +108,7 @@ router.get("/myOrders", verifyAccessToken, async function (req, res, next) {
                             if (array[i].elements_order[u].state.foods_served || !array[i].elements_order[u].state.foods_complete)
                                 array[i].elements_order[u].foods_order = [];
                         }
-                    }
+                    }*/
                     res.json(array)
                 })
                 .catch(err => res.status(500).json(err));
@@ -262,15 +262,21 @@ router.post("/", verifyAccessToken, async function (req, res, next) {
                             return res.status(400).send("Not all foods are present in DB");
                     }
                 }
-                // vedere se ti butta giá dentro il table ed il waiter presenti nel body;
-                let model_element_order = new ElementOrderModel(req.body);
-                if (!req.body.drinks_order)
-                    model_element_order.state.drinks_complete = true;
-                if (!req.body.foods_order)
-                    model_element_order.state.foods_complete = true;
                 let model = new OrdersModel(req.body);
                 // first order with this id_order
                 model.num_suborders = 1;
+                // vedere se ti butta giá dentro il table ed il waiter presenti nel body;
+                let model_element_order = new ElementOrderModel(req.body);
+                if (!req.body.drinks_order){
+                    model_element_order.state.drinks_complete = true;
+                    model_element_order.state.drinks_served = true;
+                    model.state_order.all_drinks_complete = true;
+                }
+                if (!req.body.foods_order){
+                    model_element_order.state.foods_complete = true;
+                    model_element_order.state.foods_served = true;
+                    model.state_order.all_foods_complete = true;
+                }
                 //model_element_order.id_suborder = model.num_suborders;
                 model.elements_order.push(model_element_order);
                 // ---------------- Aggiunta id a tavolo
@@ -350,18 +356,22 @@ router.put("/:id_order", verifyAccessToken, async function (req, res, next) {
                     }
                 }
                 let model_element_order = new ElementOrderModel(req.body);
-                if (!req.body.drinks_order)
+                if (!req.body.drinks_order){
                     model_element_order.state.drinks_complete = true;
-                if (!req.body.foods_order)
+                    model_element_order.state.drinks_served = true;
+                }
+                if (!req.body.foods_order){
                     model_element_order.state.foods_complete = true;
+                    model_element_order.state.foods_served = true;
+                }
                 //isOrderPresent.num_suborders += 1;
                 model_element_order.id_suborder = isOrderPresent.num_suborders;
                 isOrderPresent.elements_order.push(model_element_order);
                 if (isOrderPresent.state_order.all_served)
                     isOrderPresent.state_order.all_served = false;
-                if (isOrderPresent.state_order.all_drinks_complete)
+                if (req.body.drinks_order && isOrderPresent.state_order.all_drinks_complete)
                     isOrderPresent.state_order.all_drinks_complete = false;
-                if (isOrderPresent.state_order.all_foods_complete)
+                if (req.body.foods_order && isOrderPresent.state_order.all_foods_complete)
                     isOrderPresent.state_order.all_foods_complete = false;
                 await isOrderPresent.save()
                     .then(doc => {
