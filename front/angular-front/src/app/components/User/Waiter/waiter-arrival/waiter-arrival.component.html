@@ -28,8 +28,9 @@
                                         </mat-list-item>
                                     </ng-container>
                                 </mat-list>
-                                <button mat-flat-button color="primary" (click)="completeArrivalSuborder()"
-                                    class="btn_submit">SUBORDER CONSEGNATO</button>
+                                <button mat-flat-button color="primary" class="btn_submit"
+                                    (click)="completeArrivalSuborder(arrivalSuborder.id_order, arrivalSuborder.id_suborder, 'food')">SUBORDER
+                                    CONSEGNATO</button>
                             </mat-expansion-panel>
                         </mat-accordion>
                         <mat-accordion *ngIf="arrivalSuborder.drinks_order">
@@ -48,8 +49,9 @@
                                         </mat-list-item>
                                     </ng-container>
                                 </mat-list>
-                                <button mat-flat-button color="primary" (click)="completeArrivalSuborder()"
-                                    class="btn_submit">SUBORDER CONSEGNATO</button>
+                                <button mat-flat-button color="primary" class="btn_submit"
+                                    (click)="completeArrivalSuborder(arrivalSuborder.id_order, arrivalSuborder.id_suborder, 'drink')">SUBORDER
+                                    CONSEGNATO</button>
                             </mat-expansion-panel>
                         </mat-accordion>
                     </mat-expansion-panel>

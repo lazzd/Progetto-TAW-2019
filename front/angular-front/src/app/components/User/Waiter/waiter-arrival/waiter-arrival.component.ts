@@ -54,19 +54,12 @@ export class WaiterArrivalComponent implements OnInit {
           // element not present in array WaitOrders
           else {
             console.log("QUI 2");
-            /*const newWaitSuborder = new WaitSuborder(Order.table, Order.id_order, Order.elements_order[i].id_suborder, Order.waiter, Order.elements_order[i].state);
-            if (Order.elements_order[i].state.drinks_complete && Order.elements_order[i].drinks_order.length > 0)
-              newWaitSuborder.setDrinksOrder(Order.elements_order[i].drinks_order);
-            if (Order.elements_order[i].state.foods_complete && Order.elements_order[i].foods_order.length > 0)
-              newWaitSuborder.setFoodsOrder(Order.elements_order[i].foods_order);
-            if (newWaitSuborder.drinks_order || newWaitSuborder.foods_order)
-              this.allArrivalSuborders.push(newWaitSuborder);*/
             //CHIAMARE UN COSTRUTTORE COSTA
             if ((!Order.elements_order[i].state.drinks_served && Order.elements_order[i].state.drinks_complete) || (!Order.elements_order[i].state.foods_served && Order.elements_order[i].state.foods_complete)) {
               const newWaitSuborder = new WaitSuborder(Order.table, Order.id_order, Order.elements_order[i].id_suborder, Order.waiter, Order.elements_order[i].state);
               if (!Order.elements_order[i].state.drinks_served && Order.elements_order[i].state.drinks_complete)
                 newWaitSuborder.setDrinksOrder(Order.elements_order[i].drinks_order);
-              if (!Order.elements_order[i].state.foods_served && Order.elements_order[i].foods_order)
+              if (!Order.elements_order[i].state.foods_served && Order.elements_order[i].state.foods_complete)
                 newWaitSuborder.setFoodsOrder(Order.elements_order[i].foods_order);
               //if (newWaitSuborder.drinks_order || newWaitSuborder.foods_order)
               this.allArrivalSuborders.push(newWaitSuborder);
@@ -84,9 +77,9 @@ export class WaiterArrivalComponent implements OnInit {
 
   async getMyArrivalOrders(): Promise<void> {
     try {
-      let WaiterArrivalServicPromise = await this.waiterArrivalService.getMyArrivalOrders();
+      let WaiterArrivalServicePromise = await this.waiterArrivalService.getMyArrivalOrders();
       // ritorna l'observable...
-      WaiterArrivalServicPromise.subscribe(
+      WaiterArrivalServicePromise.subscribe(
         (ResSub => {
           // L'AccessToken è valido: o perchè NON era scaduto oppure perchè il refresh è avvenuto in maniara corretta
           if (ResSub.length == 0) {
@@ -101,7 +94,7 @@ export class WaiterArrivalComponent implements OnInit {
                   const newWaitSuborder = new WaitSuborder(Order.table, Order.id_order, Suborder.id_suborder, Order.waiter, Suborder.state);
                   if (!Suborder.state.drinks_served && Suborder.state.drinks_complete)
                     newWaitSuborder.setDrinksOrder(Suborder.drinks_order);
-                  if (!Suborder.state.foods_served && Suborder.foods_order)
+                  if (!Suborder.state.foods_served && Suborder.state.foods_complete)
                     newWaitSuborder.setFoodsOrder(Suborder.foods_order);
                   //if (newWaitSuborder.drinks_order || newWaitSuborder.foods_order)
                   this.allArrivalSuborders.push(newWaitSuborder);
@@ -132,6 +125,44 @@ export class WaiterArrivalComponent implements OnInit {
     }
   }
 
-  completeArrivalSuborder() { }
+  async completeArrivalSuborder(id_order: number, id_suborder: number, type: string) {
+    try {
+      let WaiterArrivalServicePromise = await this.waiterArrivalService.completeArrivalSuborder(id_order, id_suborder, type);
+      // ritorna l'observable...
+      WaiterArrivalServicePromise.subscribe(
+        (ResSub => {
+          // L'AccessToken è valido: o perchè NON era scaduto oppure perchè il refresh è avvenuto in maniara corretta
+          if (ResSub.length == 0) {
+            //this.view_tables = false;
+          }
+          else {
+            console.log(ResSub);
+            const indexSuborder = this.allArrivalSuborders.findIndex((elem) => elem.id_order == id_order && elem.id_suborder == id_suborder);
+            if (type == 'food')
+              this.allArrivalSuborders[indexSuborder].foods_order = null;
+            if (type == 'drink')
+              this.allArrivalSuborders[indexSuborder].drinks_order = null;
+            if (!this.allArrivalSuborders[indexSuborder].drinks_order && !this.allArrivalSuborders[indexSuborder].foods_order)
+              this.allArrivalSuborders.slice(indexSuborder);
+            if (!this.allArrivalSuborders.length)
+              this.view_arrival_Suborders = false;
+            //this.view_tables = true;
+          }
+        }),
+        (ErrSub => {
+          // necessario il catch della promise non gestisce l'errore dell'observable
+          // E' avvenuto un errore con il refresh dell'AccessToken: è necessario un nuovo login
+          this.router.navigate(['/auth/login']);
+          // da andare in pagina di login
+          console.log("SEND ORDER err", ErrSub);
+        })
+      )
+    } catch (errorPromise) {
+      this.router.navigate(['/auth/login']);
+      // da andare in pagina di login, MA: sarebbe poi da fare un back a questa pagina quando si è fatto effettivamente il login
+      console.log("sono qui");
+      console.log("SEND ORDER err", errorPromise);
+    }
+  }
 
 }
