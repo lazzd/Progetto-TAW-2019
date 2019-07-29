@@ -54,7 +54,7 @@
                                 </mat-list>
                             </mat-expansion-panel>
                         </mat-accordion>
-                        <button *ngIf="Order.state_order.all_served" mat-flat-button color="primary">COMPLETA ORDINE</button>
+                        <button *ngIf="Order.state_order.all_served" mat-flat-button color="primary" (click)="completeOrder(Order.id_order, Order.table)">COMPLETA ORDINE</button>
                     </mat-expansion-panel>
                 </ng-container>
             </mat-accordion>

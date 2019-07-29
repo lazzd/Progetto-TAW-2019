@@ -108,18 +108,24 @@ router.put("/:name_table", verifyAccessToken, async function (req, res, next) {
         else if (req.body.state != false && req.body.state != true)
             // verifica se così o a stringa
             return res.status(400).send("Parameter isn't correct");
-        else if (req.body.state == true && !req.body.waiter)
-            return res.status(400).send("Missing Waiter parameter");
         else {
             // serve validazione per Waiter
             const task = jwt.decode(req.header('auth-token')).task;
             console.log(task);
-            if (task != 'waiter')
+            if (task != 'waiter' && task != 'cashier')
                 return res.status(400).send('Missing permissions');
             const isTablePresent = await TablesModel.findOne({ name_table: req.params.name_table });
             if (!isTablePresent) return res.status(400).send("Table name isn't already present");
-            if (req.body.state == true)
-                isTablePresent.waiter = req.body.waiter;
+            if (req.body.state == true) {
+                if (task == 'waiter') {
+                    if (!req.body.waiter)
+                        return res.status(400).send("Missing Waiter parameter")
+                    else
+                        isTablePresent.waiter = req.body.waiter;
+                }
+                if (task == 'cashier')
+                    return res.status(400).send("Error Caschier BUSY TRUE STATE");
+            }
             else {
                 isTablePresent.waiter = null;
                 isTablePresent.id_order = null;

@@ -103,4 +103,40 @@ export class CashierBillComponent implements OnInit {
     }
   }
 
+  async completeOrder(id_order: number, name_table: string) {
+    try {
+      let CashierBillServicePromise = await this.cashierBillService.completeOrder(id_order, name_table);
+      // ritorna l'observable...
+      CashierBillServicePromise.subscribe(
+        (ResSub => {
+          // ResSub dovrebbe essere un Order normale non array
+          // L'AccessToken è valido: o perchè NON era scaduto oppure perchè il refresh è avvenuto in maniara corretta
+          if (ResSub.length == 0) {
+            //this.view_tables = false;
+          }
+          else {
+            console.log(ResSub);
+            const index = this.allNotCompleteOrder.findIndex(elem => elem.id_order == id_order)
+            this.allNotCompleteOrder.splice(index, 1);
+            if (!this.allNotCompleteOrder.length)
+              this.view_bills = false;
+            //this.view_tables = true;
+          }
+        }),
+        (ErrSub => {
+          // necessario il catch della promise non gestisce l'errore dell'observable
+          // E' avvenuto un errore con il refresh dell'AccessToken: è necessario un nuovo login
+          this.router.navigate(['/auth/login']);
+          // da andare in pagina di login
+          console.log("SEND ORDER err", ErrSub);
+        })
+      )
+    } catch (errorPromise) {
+      this.router.navigate(['/auth/login']);
+      // da andare in pagina di login, MA: sarebbe poi da fare un back a questa pagina quando si è fatto effettivamente il login
+      console.log("sono qui");
+      console.log("SEND ORDER err", errorPromise);
+    }
+  }
+
 }
