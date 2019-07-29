@@ -1,19 +1,78 @@
+
+*{
+    margin:0px;
+    padding:0px;
+    box-sizing: inherit;
+}
+
 .flex{
-    display: flex;
-    justify-content: center;
+    //display: flex;
+    //justify-content: center;
+    //align-items: center;
+    //flex-direction: column;
+    //height: 100%;
+    //font-family: 'Poppins', sans-serif;
+}
+
+.corpo{
+    position: relative;
+    top: 8em;
+    width: 900px;
+    margin: auto;
     align-items: center;
-    flex-direction: column;
-    height: 100%;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+}
+
+.intro-text{
+    flex:1;
+    text-align: center;
+}
+
+.intro-text h1{
+    font-size: 60px;
+    font-weight: 500;
+    background: linear-gradient(to right, #494964, #6f6f89);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.intro-text p{
+    margin-top: 5px;
+    font-size:30px;
+    color:#585772;
+}
+
+.bottoni{
+    padding: 80px 0px 0px 0px;
+    flex:1;
+}
+
+.logo {
+    display: flex;
+    height: 300px;
+    width: 900px;
+    padding: 10px;
+    margin: 0 auto;
+    background:url('./logo.jpg') no-repeat center center;
+}
+
+header{
+    width: 90%;
+    margin: auto;
 }
 
 button{
+    align-content: center;
     width: 250px;
+    height: 50px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
 }
 
-.btn_register{
-    height: 50px;
+.btn_register,.btn_login{
+    margin: 60px 60px 0px 60px;
 }
 
 .btn_login{
-    height: 150px;
 }
