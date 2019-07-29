@@ -31,6 +31,7 @@ import { CookMySubordersComponent } from './components/User/Cook/cook-my-suborde
 import { CashierComponent } from './components/User/Cashier/cashier/cashier.component';
 import { CashierBillComponent } from './components/User/Cashier/cashier-bill/cashier-bill.component';
 import { CashierTablesComponent } from './components/User/Cashier/cashier-tables/cashier-tables.component';
+import { CashierOrdersComponent } from './components/User/Cashier/cashier-orders/cashier-orders.component';
 
 // import AuthGuard Service for Guard Routing
 import { AuthGuardService as AuthGuard } from './services/authGuard/auth-guard.service';
@@ -138,6 +139,10 @@ const routes: Routes = [
       {
         path: 'tables',
         component: CashierTablesComponent
+      },
+      {
+        path: 'orders',
+        component: CashierOrdersComponent
       }
     ]
   }
