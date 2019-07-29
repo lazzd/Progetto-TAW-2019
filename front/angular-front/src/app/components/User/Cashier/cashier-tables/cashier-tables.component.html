@@ -1,0 +1,41 @@
+<router-outlet></router-outlet>
+<div class="container">
+    <div>
+        <span *ngIf=view_tables>
+            <mat-accordion>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            FREE TABLES
+                        </mat-panel-title>
+                        <mat-panel-description>
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <mat-list>
+                        <ng-container *ngFor="let table of allTables">
+                            <mat-list-item *ngIf="!table.busy">
+                                NAME TABLE: {{table.name_table}}, SEATS: {{table.seats}}
+                            </mat-list-item>
+                        </ng-container>
+                    </mat-list>
+                </mat-expansion-panel>
+                <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                BUSY TABLES
+                            </mat-panel-title>
+                            <mat-panel-description>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <mat-list>
+                            <ng-container *ngFor="let table of allTables">
+                                <mat-list-item *ngIf="table.busy">
+                                    NAME TABLE: {{table.name_table}}, SEATS: {{table.seats}}, WAITER: {{table.waiter}}
+                                </mat-list-item>
+                            </ng-container>
+                        </mat-list>
+                    </mat-expansion-panel>
+            </mat-accordion>
+        </span>
+    </div>
+</div>

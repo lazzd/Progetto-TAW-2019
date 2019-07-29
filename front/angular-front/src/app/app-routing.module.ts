@@ -30,6 +30,7 @@ import { CookMySubordersComponent } from './components/User/Cook/cook-my-suborde
 // User Cashier
 import { CashierComponent } from './components/User/Cashier/cashier/cashier.component';
 import { CashierBillComponent } from './components/User/Cashier/cashier-bill/cashier-bill.component';
+import { CashierTablesComponent } from './components/User/Cashier/cashier-tables/cashier-tables.component';
 
 // import AuthGuard Service for Guard Routing
 import { AuthGuardService as AuthGuard } from './services/authGuard/auth-guard.service';
@@ -133,6 +134,10 @@ const routes: Routes = [
       {
         path: 'bills',
         component: CashierBillComponent
+      },
+      {
+        path: 'tables',
+        component: CashierTablesComponent
       }
     ]
   }
