@@ -5,6 +5,7 @@ import { WaiterOrdersService } from '../../../../services/User/Waiter/waiter-ord
 
 // for routing
 import { Router } from "@angular/router";
+
 import { Table } from 'src/app/classes/table';
 import { Menu } from 'src/app/classes/menu';
 import { ElementMenu } from 'src/app/classes/element_menu';

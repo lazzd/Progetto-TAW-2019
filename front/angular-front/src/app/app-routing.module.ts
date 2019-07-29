@@ -27,6 +27,10 @@ import { CookComponent } from './components/User/Cook/cook/cook.component';
 import { CookFreeSubordersComponent } from './components/User/Cook/cook-free-suborders/cook-free-suborders.component';
 import { CookMySubordersComponent } from './components/User/Cook/cook-my-suborders/cook-my-suborders.component';
 
+// User Cashier
+import { CashierComponent } from './components/User/Cashier/cashier/cashier.component';
+import { CashierBillComponent } from './components/User/Cashier/cashier-bill/cashier-bill.component';
+
 // import AuthGuard Service for Guard Routing
 import { AuthGuardService as AuthGuard } from './services/authGuard/auth-guard.service';
 import { RoleGuardService as RoleGuard } from './services/roleGuard/role-guard.service';
@@ -115,6 +119,20 @@ const routes: Routes = [
       {
         path: 'my-suborders',
         component: CookMySubordersComponent
+      }
+    ]
+  },
+  {
+    path: 'user/cashier',
+    component: CashierComponent,
+    canActivate: [RoleGuard],
+    data: {
+      expectedTask: 'cashier'
+    },
+    children: [
+      {
+        path: 'bills',
+        component: CashierBillComponent
       }
     ]
   }

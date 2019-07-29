@@ -44,6 +44,9 @@ import { SidenavCookComponent } from './components/User/Cook/sidenav-cook/sidena
 import { CookFreeSubordersComponent } from './components/User/Cook/cook-free-suborders/cook-free-suborders.component';
 import { CookMySubordersComponent } from './components/User/Cook/cook-my-suborders/cook-my-suborders.component';
 import { WaiterArrivalComponent } from './components/User/Waiter/waiter-arrival/waiter-arrival.component';
+import { CashierComponent } from './components/User/Cashier/cashier/cashier.component';
+import { SidenavCashierComponent } from './components/User/Cashier/sidenav-cashier/sidenav-cashier.component';
+import { CashierBillComponent } from './components/User/Cashier/cashier-bill/cashier-bill.component';
 
 export function tokenGetter() {
   //console.log(localStorage.getItem('AccessToken'))
@@ -73,7 +76,10 @@ export function tokenGetter() {
     SidenavCookComponent,
     CookFreeSubordersComponent,
     CookMySubordersComponent,
-    WaiterArrivalComponent
+    WaiterArrivalComponent,
+    CashierComponent,
+    SidenavCashierComponent,
+    CashierBillComponent
   ],
   imports: [
     BrowserModule,

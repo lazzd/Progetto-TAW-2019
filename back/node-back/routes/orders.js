@@ -58,6 +58,11 @@ router.get("/", verifyAccessToken, async function (req, res, next) {
                 })
                 .catch(err => res.status(500).json(err));
         }
+        else if (task == 'cashier') {
+            await OrdersModel.find({ 'state_order.complete': false })
+                .then(doc => res.json(doc))
+                .catch(err => res.status(500).json(err));
+        }
         else {
             await OrdersModel.find({})
                 .then(doc => res.json(doc))
@@ -267,12 +272,12 @@ router.post("/", verifyAccessToken, async function (req, res, next) {
                 model.num_suborders = 1;
                 // vedere se ti butta giá dentro il table ed il waiter presenti nel body;
                 let model_element_order = new ElementOrderModel(req.body);
-                if (!req.body.drinks_order){
+                if (!req.body.drinks_order) {
                     model_element_order.state.drinks_complete = true;
                     model_element_order.state.drinks_served = true;
                     model.state_order.all_drinks_complete = true;
                 }
-                if (!req.body.foods_order){
+                if (!req.body.foods_order) {
                     model_element_order.state.foods_complete = true;
                     model_element_order.state.foods_served = true;
                     model.state_order.all_foods_complete = true;
@@ -356,11 +361,11 @@ router.put("/:id_order", verifyAccessToken, async function (req, res, next) {
                     }
                 }
                 let model_element_order = new ElementOrderModel(req.body);
-                if (!req.body.drinks_order){
+                if (!req.body.drinks_order) {
                     model_element_order.state.drinks_complete = true;
                     model_element_order.state.drinks_served = true;
                 }
-                if (!req.body.foods_order){
+                if (!req.body.foods_order) {
                     model_element_order.state.foods_complete = true;
                     model_element_order.state.foods_served = true;
                 }

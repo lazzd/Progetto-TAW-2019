@@ -1,0 +1,63 @@
+<router-outlet></router-outlet>
+<div class="container">
+    <div>
+        <span *ngIf=view_bills>
+            <mat-accordion>
+                <ng-container *ngFor="let Order of allNotCompleteOrder">
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                TABLE: {{Order.table}}, ID_ORDER : {{Order.id_order}}, ALL SERVED:
+                                {{Order.state_order.all_served}}
+                            </mat-panel-title>
+                            <mat-panel-description>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <mat-accordion>
+                            <mat-expansion-panel>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        FOODS, ALL FOODS COMPLETE: {{Order.state_order.all_foods_complete}}
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+                                <mat-list>
+                                    <ng-container *ngFor="let elemSuborder of Order.elements_order">
+                                        <ng-container *ngFor="let food_elem of elemSuborder.foods_order">
+                                            <mat-list-item>NAME: {{food_elem.name_element_menu}}, QUANTITY:
+                                                {{food_elem.quantity}}, COMPLETE: {{elemSuborder.state.foods_complete}},
+                                                SERVED {{elemSuborder.state.foods_served}}
+                                            </mat-list-item>
+                                        </ng-container>
+                                    </ng-container>
+                                </mat-list>
+                            </mat-expansion-panel>
+                            <mat-expansion-panel>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        DRINKS, ALL DRINKS COMPLETE: {{Order.state_order.all_drinks_complete}}
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+                                <mat-list>
+                                    <ng-container *ngFor="let elemSuborder of Order.elements_order">
+                                        <ng-container *ngFor="let drink_elem of elemSuborder.drinks_order">
+                                            <mat-list-item>NAME: {{drink_elem.name_element_menu}}, QUANTITY:
+                                                {{drink_elem.quantity}}, COMPLETE:
+                                                {{elemSuborder.state.drinks_complete}}, SERVED
+                                                {{elemSuborder.state.drinks_served}}
+                                            </mat-list-item>
+                                        </ng-container>
+                                    </ng-container>
+                                </mat-list>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+                        <button *ngIf="Order.state_order.all_served" mat-flat-button color="primary">COMPLETA ORDINE</button>
+                    </mat-expansion-panel>
+                </ng-container>
+            </mat-accordion>
+        </span>
+    </div>
+</div>

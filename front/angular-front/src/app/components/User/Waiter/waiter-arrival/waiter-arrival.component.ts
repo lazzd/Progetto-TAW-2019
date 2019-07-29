@@ -43,21 +43,21 @@ export class WaiterArrivalComponent implements OnInit {
           // trova l'indice associato se presente
           const isPresent = this.allArrivalSuborders.find((elem) => elem.id_suborder == Order.elements_order[i].id_suborder);
           if (isPresent) {
-            isPresent.state =  Order.elements_order[i].state;
+            isPresent.state = Order.elements_order[i].state;
             console.log("QUI 1");
-            if(isPresent.state.drinks_served){
+            if (isPresent.state.drinks_served) {
               isPresent.drinks_order = null;
             }
             else if (!isPresent.state.drinks_served && Order.elements_order[i].state.drinks_complete) {
               isPresent.setDrinksOrder(Order.elements_order[i].drinks_order);
               //flag = true;
             }
-            if(isPresent.state.foods_served){
+            if (isPresent.state.foods_served) {
               isPresent.foods_order = null;
             }
             else if (!isPresent.state.foods_served && Order.elements_order[i].state.foods_complete)
               isPresent.setFoodsOrder(Order.elements_order[i].foods_order);
-            if(!isPresent.drinks_order && !isPresent.foods_order){
+            if (!isPresent.drinks_order && !isPresent.foods_order) {
               const index = this.allArrivalSuborders.findIndex(elem => elem.id_suborder == Order.elements_order[i].id_suborder)
               this.allArrivalSuborders.splice(index, 1);
             }
