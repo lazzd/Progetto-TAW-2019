@@ -49,6 +49,7 @@ import { SidenavCashierComponent } from './components/User/Cashier/sidenav-cashi
 import { CashierBillComponent } from './components/User/Cashier/cashier-bill/cashier-bill.component';
 import { CashierTablesComponent } from './components/User/Cashier/cashier-tables/cashier-tables.component';
 import { CashierOrdersComponent } from './components/User/Cashier/cashier-orders/cashier-orders.component';
+import { CashierStatisticsComponent } from './components/User/Cashier/cashier-statistics/cashier-statistics.component';
 
 export function tokenGetter() {
   //console.log(localStorage.getItem('AccessToken'))
@@ -83,7 +84,8 @@ export function tokenGetter() {
     SidenavCashierComponent,
     CashierBillComponent,
     CashierTablesComponent,
-    CashierOrdersComponent
+    CashierOrdersComponent,
+    CashierStatisticsComponent
   ],
   imports: [
     BrowserModule,

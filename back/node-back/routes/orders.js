@@ -4,6 +4,7 @@ var router = express.Router();
 //import dishesModel
 let ElementOrderModel = require('../models/element_order.model');
 let MenuModel = require('../models/menu.model');
+let UsersModel = require('../models/users.model');
 let OrdersModel = require('../models/orders.model');
 let TablesModel = require('../models/tables.model');
 
@@ -429,15 +430,30 @@ router.put("/:id_order/complete", verifyAccessToken, async function (req, res, n
                 isOrderPresent.state_order.all_drinks_complete = req.body.state;
             if (task == 'cook')
                 isOrderPresent.state_order.all_foods_complete = req.body.state;*/
-            await isOrderPresent.save()
-                .then(doc => {
+            const name = jwt.decode(req.header('auth-token')).name;
+            const isUserPresent = await UsersModel.findOne({ name: name });
+            if (!isUserPresent) return res.status(400).send("User isn't present");
+            isUserPresent.actions += 1;
+            await isUserPresent.save()
+                .then(async doc => {
                     if (!doc || doc.length === 0) {
                         return res.status(500).send(doc);
                     }
                     console.log(doc);
                     // Da implementare per più cashier
-                    res.io.emit("new-complete-order", doc);
-                    res.status(201).type("application/json").send(doc);
+                    res.io.emit("new-user-action", doc);
+                    console.log("IS ORDER PRESENT", isUserPresent);
+                    await isOrderPresent.save()
+                        .then(doc => {
+                            if (!doc || doc.length === 0) {
+                                return res.status(500).send(doc);
+                            }
+                            console.log(doc);
+                            // Da implementare per più cashier
+                            res.io.emit("new-complete-order", doc);
+                            res.status(201).type("application/json").send(doc);
+                        })
+                        .catch(err => res.status(500).json(err));
                 })
                 .catch(err => res.status(500).json(err));
         }
@@ -492,18 +508,35 @@ router.put("/:id_order/suborders/:id_suborder/complete", verifyAccessToken, asyn
                     if (isOrderPresent.elements_order.every((elem) => elem.state.foods_served == true && elem.state.drinks_served == true))
                         isOrderPresent.state_order.all_served = true;
             }
-            await isOrderPresent.save()
-                .then(doc => {
+            const name = jwt.decode(req.header('auth-token')).name;
+            console.log(name);
+            const isUserPresent = await UsersModel.findOne({ 'name': name });
+            console.log(isUserPresent);
+            if (!isUserPresent) return res.status(400).send("User isn't present");
+            isUserPresent.actions += 1;
+            await isUserPresent.save()
+                .then(async doc => {
+                    console.log("qui");
                     if (!doc || doc.length === 0) {
                         return res.status(500).send(doc);
                     }
                     console.log(doc);
-                    res.io.emit("arrival-suborder", doc);
-                    res.status(201).type("application/json").send(doc);
+                    res.io.emit("new-user-action", doc);
+                    await isOrderPresent.save()
+                        .then(doc => {
+                            if (!doc || doc.length === 0) {
+                                return res.status(500).send(doc);
+                            }
+                            console.log(doc);
+                            res.io.emit("arrival-suborder", doc);
+                            res.status(201).type("application/json").send(doc);
+                        })
+                        .catch(err => res.status(500).json(err));
                 })
                 .catch(err => res.status(500).json(err));
         }
     } catch (err) {
+        console.log("qui");
         return res.status(400).send(err);
     }
 });

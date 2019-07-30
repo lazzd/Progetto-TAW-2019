@@ -17,6 +17,10 @@ let UsersSchema = new mongoose.Schema({
         min: 6,
         max: 1024 // for hashing password
     },
+    actions: {
+        type: Number,
+        default: 0
+    },
     date: {
         type: Date,
         default: Date.now
