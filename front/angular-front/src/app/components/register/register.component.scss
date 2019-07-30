@@ -3,7 +3,17 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    height: 100%;
+    height: 80%;
+    width: 100%;
+    box-sizing: inherit;
+}
+
+.logo{
+  height: 30vh;
+  width: 90vh;
+  padding: 10px;
+  margin: 0 auto;
+  background: url("../../images/logo.jpg") no-repeat center center;
 }
 
 .register-form {
@@ -12,6 +22,24 @@
   width: 80%;
 }
 
+button,mat-form-field,mat-option,mat-select{
+  font-size: 16px;
+  font-family: "Poppins", sans-serif;
+}
+
 .field-register {
   width: 100%;
+}
+
+@media screen and (max-width: 650px) {
+  .logo {
+    background: url("../../images/logomin.jpg") no-repeat center center;
+    width: 50vh;
+  }
+}
+@media screen and (max-height: 700px) {
+  .logo {
+    background: url("../../images/logomin.jpg") no-repeat center center;
+    width: 50vh;
+  }
 }

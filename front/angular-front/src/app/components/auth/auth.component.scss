@@ -25,12 +25,12 @@ header {
   width: 100%;
   padding: 10px;
   margin: 0 auto;
-  background: url("./logo.jpg") no-repeat center center;
+  background: url("../../images/logo.jpg") no-repeat center center;
 }
 
 .corpo {
   position: relative;
-  top: 2vh;
+  top: 5vh;
   width: 90%;
   margin: auto;
   align-items: center;
@@ -59,7 +59,7 @@ header {
 }
 
 .bottoni {
-  padding: 80px 0px 0px 0px;
+  padding: 60px 0px 0px 0px;
   flex: 1;
 }
 
@@ -90,7 +90,7 @@ button {
     padding: 0px 0px 0px 0px;
   }
   .logo {
-    background: url("./logomin.jpg") no-repeat center center;
+    background: url("../../images/logomin.jpg") no-repeat center center;
   }
   button {
     margin: 30px 20px 0px 0px;

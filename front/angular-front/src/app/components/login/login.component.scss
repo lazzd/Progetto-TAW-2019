@@ -1,9 +1,19 @@
-.flex{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    height: 100%;
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 65%;
+  width: 100%;
+  box-sizing: inherit;
+}
+
+.logo {
+  height: 30vh;
+  width: 90vh;
+  padding: 10px;
+  margin: 0 auto;
+  background: url("../../images/logo.jpg") no-repeat center center;
 }
 
 .login-form {
@@ -14,4 +24,27 @@
 
 .field-login {
   width: 100%;
+}
+
+mat-form-field {
+  font-family: "Poppins", sans-serif;
+  font-size: 18px;
+}
+
+button{
+  font-family: "Poppins", sans-serif;
+  font-size: 15px;
+}
+
+@media screen and (max-width: 650px) {
+  .logo {
+    background: url("../../images/logomin.jpg") no-repeat center center;
+    width: 50vh;
+  }
+}
+@media screen and (max-height: 700px) {
+  .logo {
+    background: url("../../images/logomin.jpg") no-repeat center center;
+    width: 50vh;
+  }
 }
