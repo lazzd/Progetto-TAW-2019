@@ -16,6 +16,7 @@ var indexRouter = require('./routes/index');
 
 let authRouter = require('./routes/auth');
 
+let usersRouter = require('./routes/users');
 let menuRouter = require('./routes/menu');
 let dishesRouter = require('./routes/dishes');
 let ordersRouter = require('./routes/orders');
@@ -81,6 +82,7 @@ app.use('/', indexRouter);
 
 app.use('/auth', authRouter);
 
+app.use('/users', usersRouter);
 app.use('/menu', menuRouter);
 app.use('/dishes', dishesRouter);
 app.use('/orders', ordersRouter);

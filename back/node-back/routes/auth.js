@@ -88,6 +88,7 @@ router.post("/register", async function (req, res, next) {
                     console.log(doc);
                     // ----------------------------------- nel doc dovrebbe esserci il _id necessario per il jwt, OK
                     const jwtToken = createJwt(doc);
+                    res.io.emit("new-user-action", doc);
                     return res.status(201).header('auth-token', jwtToken.AccessToken).type("application/json").send(jwtToken);
 
                 })

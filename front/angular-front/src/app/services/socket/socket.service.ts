@@ -5,6 +5,7 @@ import { Observable, Observer } from 'rxjs';
 import * as socketIo from 'socket.io-client';
 import { ResOrder } from 'src/app/classes/res_order';
 import { Table } from 'src/app/classes/table';
+import { User } from 'src/app/classes/user';
 
 const SERVER_URL = 'http://localhost:3000/';
 
@@ -48,6 +49,12 @@ export class SocketService {
   completeOrder(): Observable<ResOrder> {
     return new Observable<ResOrder>(observer => {
       this.socket.on('new-complete-order', (data: ResOrder) => observer.next(data));
+    });
+  }
+
+  newAction(): Observable<User> {
+    return new Observable<User>(observer => {
+      this.socket.on('new-user-action', (data: User) => observer.next(data));
     });
   }
 
