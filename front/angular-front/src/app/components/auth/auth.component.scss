@@ -1,78 +1,99 @@
-
-*{
-    margin:0px;
-    padding:0px;
-    box-sizing: inherit;
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: inherit;
 }
 
-.flex{
-    //display: flex;
-    //justify-content: center;
-    //align-items: center;
-    //flex-direction: column;
-    //height: 100%;
-    //font-family: 'Poppins', sans-serif;
+.flex {
+  //display: flex;
+  //justify-content: center;
+  //align-items: center;
+  //flex-direction: column;
+  height: 100%;
+  width: 100%;
+  //font-family: 'Poppins', sans-serif;
 }
 
-.corpo{
-    position: relative;
-    top: 5em;
-    width: 900px;
-    margin: auto;
-    align-items: center;
-    text-align: center;
-    font-family: 'Poppins', sans-serif;
-}
-
-.intro-text{
-    flex:1;
-    text-align: center;
-}
-
-.intro-text h1{
-    font-size: 60px;
-    font-weight: 500;
-    background: linear-gradient(to right, #494964, #6f6f89);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.intro-text p{
-    margin-top: 5px;
-    font-size:30px;
-    color:#585772;
-}
-
-.bottoni{
-    padding: 80px 0px 0px 0px;
-    flex:1;
+header {
+  width: 90%;
+  margin: auto;
 }
 
 .logo {
-    display: flex;
-    height: 250px;
-    width: 900px;
-    padding: 10px;
-    margin: 0 auto;
-    background:url('./logo.jpg') no-repeat center center;
+  display: flex;
+  height: 25vh;
+  width: 100%;
+  padding: 10px;
+  margin: 0 auto;
+  background: url("./logo.jpg") no-repeat center center;
 }
 
-header{
-    width: 90%;
-    margin: auto;
+.corpo {
+  position: relative;
+  top: 2vh;
+  width: 90%;
+  margin: auto;
+  align-items: center;
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  min-height: 80vh;
 }
 
-button{
-    align-content: center;
-    width: 250px;
-    height: 50px;
-    font-family: 'Poppins', sans-serif;
-    font-size: 18px;
+.intro-text {
+  flex: 1;
+  text-align: center;
 }
 
-.btn_register,.btn_login{
-    margin: 60px 60px 0px 60px;
+.intro-text h1 {
+  font-size: 60px;
+  font-weight: 500;
+  background: linear-gradient(to right, #494964, #6f6f89);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.btn_login{
+.intro-text p {
+  margin-top: 5px;
+  font-size: 30px;
+  color: #585772;
+}
+
+.bottoni {
+  padding: 80px 0px 0px 0px;
+  flex: 1;
+}
+
+button {
+  align-content: center;
+  width: 250px;
+  height: 50px;
+  font-family: "Poppins", sans-serif;
+  font-size: 18px;
+  margin: 60px 60px 0px 60px;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 1023px) {
+  .flex {
+    flex-direction: column;
+  }
+  .corpo {
+    top: 0vh;
+  }
+  .intro-text h1 {
+    font-size: 40px;
+  }
+  .intro-text p {
+    font-size: 25px;
+  }
+  .bottoni {
+    padding: 0px 0px 0px 0px;
+  }
+  .logo {
+    background: url("./logomin.jpg") no-repeat center center;
+  }
+  button {
+    margin: 30px 20px 0px 0px;
+    width: 140px;
+  }
 }
