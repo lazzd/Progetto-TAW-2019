@@ -435,6 +435,8 @@ router.put("/:id_order/complete", verifyAccessToken, async function (req, res, n
                         return res.status(500).send(doc);
                     }
                     console.log(doc);
+                    // Da implementare per più cashier
+                    res.io.emit("new-complete-order", doc);
                     res.status(201).type("application/json").send(doc);
                 })
                 .catch(err => res.status(500).json(err));

@@ -62,6 +62,15 @@ export class CashierOrdersComponent implements OnInit {
             this.view_orders = true;
           //this.view_tables = true;
         }
+      });
+
+    this.socketService
+      .completeOrder()
+      .subscribe(Order => {
+        console.log("DELETE", Order);
+        const indexPresent = this.allNotCompleteOrder.findIndex(elem => elem.id_order == Order.id_order);
+        if (indexPresent != -1)
+          this.allNotCompleteOrder.splice(indexPresent, 1);
       })
 
   }

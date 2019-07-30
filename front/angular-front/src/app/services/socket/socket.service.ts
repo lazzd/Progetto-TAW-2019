@@ -45,4 +45,10 @@ export class SocketService {
     });
   }
 
+  completeOrder(): Observable<ResOrder> {
+    return new Observable<ResOrder>(observer => {
+      this.socket.on('new-complete-order', (data: ResOrder) => observer.next(data));
+    });
+  }
+
 }

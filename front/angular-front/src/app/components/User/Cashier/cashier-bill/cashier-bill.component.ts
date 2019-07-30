@@ -61,6 +61,17 @@ export class CashierBillComponent implements OnInit {
             this.view_bills = true;
           //this.view_tables = true;
         }
+      });
+
+    this.socketService
+      .completeOrder()
+      .subscribe(Order => {
+        console.log("DELETE", Order);
+        const indexPresent = this.allNotCompleteOrder.findIndex(elem => elem.id_order == Order.id_order);
+        if (indexPresent != -1)
+          this.allNotCompleteOrder.splice(indexPresent, 1);
+        if (!this.allNotCompleteOrder.length)
+          this.view_bills = false;
       })
 
   }
@@ -117,12 +128,12 @@ export class CashierBillComponent implements OnInit {
               //this.view_tables = false;
             }
             else {
-              console.log(ResSub);
+              /*console.log(ResSub);
               const index = this.allNotCompleteOrder.findIndex(elem => elem.id_order == id_order)
               this.allNotCompleteOrder.splice(index, 1);
               if (!this.allNotCompleteOrder.length)
                 this.view_bills = false;
-              //this.view_tables = true;
+              //this.view_tables = true;*/
             }
           }),
           (ErrSub => {
