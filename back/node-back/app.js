@@ -40,11 +40,14 @@ ex.f();
 // import mongoose for connection
 let mongoose = require('mongoose');
 // connessione mongoose in local host
-mongoose.connect(
-  process.env.DB_CONNECT,
-  { useNewUrlParser: true },
-  () => console.log("connected to DB")
-);
+console.log("DB URL:", process.env.DB_CONNECT);
+mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true }, err => {
+  if (err) {
+    console.error("error connecting to DB:", err);
+  } else {
+    console.log("connected to DB");
+  }
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
