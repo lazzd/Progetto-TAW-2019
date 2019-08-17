@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ɵɵresolveBody } from '@angular/core';
 import { NgForm, FormGroup, FormControl } from '@angular/forms';
 
 import { WaiterTablesService } from '../../../../services/User/Waiter/waiter-tables/waiter-tables.service';
@@ -22,6 +22,8 @@ export class WaiterTablesComponent implements OnInit {
 
   selectTable: string;
 
+  lastSubmit: number;
+
   getTables: Table[];
 
   constructor(
@@ -33,6 +35,7 @@ export class WaiterTablesComponent implements OnInit {
       num_seats: new FormControl()
     })
     this.view_tables = false;
+    this.lastSubmit = 0;
     this.getTables = [];
   }
 
@@ -46,6 +49,7 @@ export class WaiterTablesComponent implements OnInit {
           (ResSub => {
             // L'AccessToken è valido: o perchè NON era scaduto oppure perchè il refresh è avvenuto in maniara corretta
             this.selectTable = "";
+            this.confirmedTable = "";
             this.getTables = [];
             if (ResSub.length == 0) {
               this.view_tables = false;
@@ -56,6 +60,13 @@ export class WaiterTablesComponent implements OnInit {
                 this.getTables.push(new Table(element));
               });
               console.log(this.getTables);
+
+              //sorto i tavoli, così se ne ho tanti avrò sempre prima quelli più vicini al numero richiesto, per evitare di cercare la soluzione migliore tra centinaia di tavoli
+
+              this.getTables.sort(function (a, b) {
+                return a.seats - b.seats;
+              });
+
               this.view_tables = true;
             }
           }),
@@ -91,6 +102,10 @@ export class WaiterTablesComponent implements OnInit {
           // L'AccessToken è valido: o perchè NON era scaduto oppure perchè il refresh è avvenuto in maniara corretta
           // metti messaggio di buona riuscita
           console.log("SEND STATE RES", ResSub);
+          this.selectTable = "";
+          this.view_tables = false;
+          console.log(this.confirmedTable);
+
         }),
         (ErrSub => {
           // necessario il catch della promise non gestisce l'errore dell'observable
@@ -106,6 +121,11 @@ export class WaiterTablesComponent implements OnInit {
       console.log("sono qui");
       console.log("SEND ORDER err", errorPromise);
     }
+  }
+
+  async final(): Promise<void> {
+    await this.pairTable();
+    await this.getTablesBySeats();
   }
 
 }

@@ -63,18 +63,18 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-io.on('connect', function(socket){
+io.on('connect', function (socket) {
   console.log('a user connected');
   /*socket.on('message', function(msg){ // listen
     console.log(msg);
     io.emit('message', msg); // broadcast to all
   });*/
-  socket.on('disconnect', function(){
+  socket.on('disconnect', function () {
     console.log('user disconnected');
   });
 });
 
-app.use(function(req, res, next){
+app.use(function (req, res, next) {
   res.io = io;
   next();
 });
@@ -110,4 +110,4 @@ app.use(function (err, req, res, next) {
   res.render('error');
 });
 
-module.exports = {app: app, server: server};
+module.exports = { app: app, server: server };
