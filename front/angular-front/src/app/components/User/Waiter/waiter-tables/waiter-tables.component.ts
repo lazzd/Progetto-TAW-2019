@@ -22,8 +22,6 @@ export class WaiterTablesComponent implements OnInit {
 
   selectTable: string;
 
-  lastSubmit: number;
-
   getTables: Table[];
 
   constructor(
@@ -35,7 +33,7 @@ export class WaiterTablesComponent implements OnInit {
       num_seats: new FormControl()
     })
     this.view_tables = false;
-    this.lastSubmit = 0;
+    
     this.getTables = [];
   }
 
@@ -49,7 +47,6 @@ export class WaiterTablesComponent implements OnInit {
           (ResSub => {
             // L'AccessToken è valido: o perchè NON era scaduto oppure perchè il refresh è avvenuto in maniara corretta
             this.selectTable = "";
-            this.confirmedTable = "";
             this.getTables = [];
             if (ResSub.length == 0) {
               this.view_tables = false;
@@ -104,7 +101,6 @@ export class WaiterTablesComponent implements OnInit {
           console.log("SEND STATE RES", ResSub);
           this.selectTable = "";
           this.view_tables = false;
-          console.log(this.confirmedTable);
 
         }),
         (ErrSub => {
