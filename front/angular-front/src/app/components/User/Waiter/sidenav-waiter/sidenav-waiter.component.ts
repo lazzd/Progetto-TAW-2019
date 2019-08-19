@@ -16,7 +16,13 @@ export class SidenavWaiterComponent implements OnDestroy {
 
   mobileQuery: MediaQueryList;
 
+  set: boolean;
+
   private _mobileQueryListener: () => void;
+
+  ngOnInit() {
+    this.set = false; 
+  }
 
   constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
     private logoutService: LogoutService,
@@ -30,9 +36,14 @@ export class SidenavWaiterComponent implements OnDestroy {
     this.mobileQuery.removeListener(this._mobileQueryListener);
   }
 
-  logout(){
+  logout() {
     this.logoutService.logout();
     this.router.navigate(['/auth']);
+  }
+
+  setOff(): void {
+    this.set = true;
+    console.log(this.set);
   }
 
 }

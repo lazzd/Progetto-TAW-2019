@@ -15,6 +15,12 @@
 
 .send_table {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   margin: 15px 0;
+}
+
+.mat-raised-button{
+  width:140px;
+  
 }

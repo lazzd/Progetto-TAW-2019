@@ -6,15 +6,15 @@
         <h1 class="sidenav-app-name">Logical Dishes</h1>
     </mat-toolbar>
 
-    <mat-sidenav-container class="sidenav-sidenav-container" [style.paddingTop.%]="mobileQuery.matches ? 5 : 2" >
+    <mat-sidenav-container class="sidenav-sidenav-container" [style.paddingTop.%]="mobileQuery.matches ? 5 : 2">
         <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches"
             fixedTopGap="5%">
             <mat-nav-list>
                 <!--Funzione che ti setta i link correttamente-->
                 <!--Perfetto, cosí con i link funziona-->
-                <a mat-list-item routerLink="./tables/">TAVOLI LIBERI</a>
-                <a mat-list-item routerLink="./orders/">ORDINI</a>
-                <a mat-list-item routerLink="./arrival/">ARRIVI</a>
+                <a mat-list-item class="vertical" routerLink="./tables/" (click)=setOff()>TAVOLI LIBERI</a>
+                <a mat-list-item class="vertical" routerLink="./orders/" (click)=setOff()>ORDINI</a>
+                <a mat-list-item class="vertical" routerLink="./arrival/" (click)=setOff()>DA SERVIRE</a>
                 <a mat-list-item class="logout-item" (click)=logout()>Logout</a>
             </mat-nav-list>
         </mat-sidenav>
@@ -22,6 +22,15 @@
         <mat-sidenav-content>
             <!--Da capire come implementare per le varie funzioni da vedere a seconda di cosa premi sulla sidenav-->
             <!--Carica solamente il router outer-->
+            <div *ngIf="router.url === '/user/waiter'" class="content">
+                <p class="description"> Hai fatto il login come cameriere, hai accesso a queste funzioni:
+                </p>
+                <ul class="list">
+                    <li>per occupare e diventare responsabile di un tavolo usare la funzione 'Tavoli'.</li>
+                    <li>per inoltrare un ordine alla cucina e al bar usare la funzione 'Ordini'.</li>
+                    <li>per venir notificati sugli ordini pronti al servizio usare la funzione 'Da Servire'.</li>
+                </ul>
+            </div>
             <router-outlet></router-outlet>
         </mat-sidenav-content>
     </mat-sidenav-container>

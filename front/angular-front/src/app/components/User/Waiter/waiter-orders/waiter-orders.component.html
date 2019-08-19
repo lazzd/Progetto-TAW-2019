@@ -2,6 +2,7 @@
 <div class="container">
     <div>
         <span>
+
             <form [formGroup]="form_my_tables" (ngSubmit)="getMenu()">
                 <mat-form-field>
                     <mat-label>Seleziona il Tavolo</mat-label>
@@ -13,6 +14,25 @@
                 </mat-form-field>
                 <button type="submit" mat-flat-button color="primary">CERCA</button>
             </form>
+
+
+            <!--
+            <form [formGroup]="form_my_tables" (ngSubmit)="getMenu()">
+
+                <label>Seleziona il Tavolo:</label>
+
+                <mat-grid-list [cols]="breakpoint" rowHeight="1:1" (window:resize)="onResize($event)" ng-click="getMenu()">
+                    <mat-grid-tile *ngFor="let table of myTables">
+                        {{table.name_table}} </mat-grid-tile>
+                </mat-grid-list>
+
+
+            </form>
+            -->
+
+
+
+
         </span>
         <div *ngIf=view_btn_menu class="btn_search">
             <button mat-flat-button color="primary" (click)="showMenu()">MOSTRA MENU</button>
@@ -20,6 +40,7 @@
         <span *ngIf=view_menu>
             <mat-accordion>
                 <ng-container *ngFor="let category of completeMenu; index as i">
+
                     <mat-expansion-panel>
                         <mat-expansion-panel-header>
                             <mat-panel-title>
@@ -28,9 +49,12 @@
                             <mat-panel-description>
                             </mat-panel-description>
                         </mat-expansion-panel-header>
-                        <ng-container *ngFor="let element of category.elements_category; index as u">
-                            <mat-accordion>
-                                <mat-expansion-panel>
+
+                        <mat-accordion>
+                            <ng-container *ngFor="let element of category.elements_category; index as u">
+
+
+                                <mat-expansion-panel [@.disabled]="true">
                                     <mat-expansion-panel-header>
                                         <mat-panel-title>
                                             {{i + 1}}.{{u + 1}}: {{ element.name_element_menu }}
@@ -45,25 +69,31 @@
                                         <button type="submit" mat-flat-button color="primary">ADD</button>
                                     </form>
                                 </mat-expansion-panel>
-                            </mat-accordion>
-                        </ng-container>
+
+
+                            </ng-container>
+                        </mat-accordion>
+
                     </mat-expansion-panel>
+
                 </ng-container>
             </mat-accordion>
         </span>
-        <span *ngIf=view_recap_order>
+
+        <span *ngIf=view_recap_order class="expansion">
             <mat-accordion>
+                <label class="ordineA">Ordine Attuale:</label>
                 <span *ngIf="view_recap_foods">
                     <mat-expansion-panel>
                         <mat-expansion-panel-header>
                             <mat-panel-title>
-                                FOODS
+                                CIBI
                             </mat-panel-title>
                             <mat-panel-description>
                             </mat-panel-description>
                         </mat-expansion-panel-header>
                         <p *ngFor="let ElementOrder of foods_order">
-                            NAME: {{ElementOrder.name_element_menu}} , NUM: {{ElementOrder.quantity}}
+                            {{ElementOrder.quantity}}x {{ElementOrder.name_element_menu}}
                         </p>
                     </mat-expansion-panel>
                 </span>
@@ -71,14 +101,14 @@
                     <mat-expansion-panel>
                         <mat-expansion-panel-header>
                             <mat-panel-title>
-                                DRINKS
+                                BEVANDE
                             </mat-panel-title>
                             <mat-panel-description>
                             </mat-panel-description>
                         </mat-expansion-panel-header>
 
                         <p *ngFor="let ElementOrder of drinks_order">
-                            NAME: {{ElementOrder.name_element_menu}} , NUM: {{ElementOrder.quantity}}
+                            {{ElementOrder.quantity}}x {{ElementOrder.name_element_menu}}
                         </p>
                     </mat-expansion-panel>
                 </span>

@@ -10,11 +10,13 @@ import { Table } from 'src/app/classes/table';
 import { Menu } from 'src/app/classes/menu';
 import { ElementMenu } from 'src/app/classes/element_menu';
 
+
 @Component({
   selector: 'app-waiter-orders',
   templateUrl: './waiter-orders.component.html',
   styleUrls: ['./waiter-orders.component.scss']
 })
+
 export class WaiterOrdersComponent implements OnInit {
 
   panelOpenState = false;
@@ -24,7 +26,7 @@ export class WaiterOrdersComponent implements OnInit {
 
   // view_form_element_order_element_order
   form_element_order: FormGroup[][];
-
+  //breakpoint: number;
   form_my_tables: FormGroup;
   myTables: Table[];
   completeMenu: Menu[];
@@ -49,6 +51,7 @@ export class WaiterOrdersComponent implements OnInit {
     this.form_my_tables = new FormGroup({
       my_table: new FormControl()
     });
+    //this.breakpoint = (window.innerWidth <= 400) ? 1 : 6;
     this.myTables = [];
     this.completeMenu = [];
     this.view_btn_menu = false;
@@ -61,6 +64,12 @@ export class WaiterOrdersComponent implements OnInit {
     this.foods_order = [];
     this.getTablesByWaiter();
   }
+
+  /*
+  onResize(event) {
+    this.breakpoint = (event.target.innerWidth <= 400) ? 1 : 6;
+  }
+  */
 
   async getTablesByWaiter(): Promise<void> {
     try {
@@ -78,6 +87,9 @@ export class WaiterOrdersComponent implements OnInit {
             //this.myTables.push(new Table(ResSub[i]));
             ResSub.forEach(element => {
               this.myTables.push(new Table(element));
+            });
+            this.myTables.sort(function (a, b) {
+              return parseInt(a.name_table) - parseInt(b.name_table);
             });
             console.log(this.myTables);
             //this.view_tables = true;

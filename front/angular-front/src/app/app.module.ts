@@ -11,6 +11,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
+import {MatGridListModule} from '@angular/material/grid-list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
@@ -114,7 +115,8 @@ export function tokenGetter() {
         authScheme: ""
       }
     }),
-    AppRoutingModule
+    AppRoutingModule,
+    MatGridListModule
   ],
   providers: [],
   bootstrap: [AppComponent]
