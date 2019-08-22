@@ -86,6 +86,10 @@ export class BarmanFreeSubordersComponent implements OnInit {
             if (this.allSuborders.length > 0) {
               this.allSuborders.sort((a, b) => a.id_suborder - b.id_suborder);
               this.firstSuborders = this.allSuborders.shift();
+              this.firstSuborders.suborder.sort((a, b) => - a.time + b.time);
+              for (let singleSuborder of this.allSuborders) {
+                singleSuborder.suborder.sort((a, b) => - a.time + b.time);
+              }
               this.view_Suborders = true;
               console.log(this.allSuborders);
             }

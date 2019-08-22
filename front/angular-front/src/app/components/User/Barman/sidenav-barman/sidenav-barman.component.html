@@ -12,15 +12,24 @@
             <mat-nav-list>
                 <!--Funzione che ti setta i link correttamente-->
                 <!--Perfetto, cosí con i link funziona-->
-                <a mat-list-item routerLink="./free-suborders/">BARMAN: FREE SUBORDERS</a>
-                <a mat-list-item routerLink="./my-suborders/">BARMAN: MY SUBORDERS</a>
-                <a mat-list-item class="logout-item" (click)=logout()>Logout</a>
+                <a mat-list-item class="vertical" routerLink="./free-suborders/">ORDINI LIBERI</a>
+                <a mat-list-item class="vertical" routerLink="./my-suborders/">ORDINI DA PREPARARE</a>
+                <a mat-list-item class="vertical" class="logout-item" (click)=logout()>Logout</a>
             </mat-nav-list>
         </mat-sidenav>
 
         <mat-sidenav-content>
             <!--Da capire come implementare per le varie funzioni da vedere a seconda di cosa premi sulla sidenav-->
             <!--Carica solamente il router outer-->
+            <div *ngIf="router.url === '/user/barman'" class="content">
+                <p class="description"> Hai fatto il login come barman, hai accesso a queste funzioni:
+                </p>
+                <ul class="list">
+                    <li>per prendersi responsabilità di un ordine usare la funzione 'Ordini Liberi'.</li>
+                    <li>per vedere gli ordini di cui sei responsabile usare la funzione 'Ordini da Preparare</li>
+
+                </ul>
+            </div>
             <router-outlet></router-outlet>
         </mat-sidenav-content>
     </mat-sidenav-container>
