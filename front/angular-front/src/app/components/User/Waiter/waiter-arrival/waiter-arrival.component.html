@@ -1,18 +1,19 @@
 <router-outlet></router-outlet>
 <div class="container">
-    <div class="containercontainer">
-        <span *ngIf=view_arrival_Suborders>
-            <mat-accordion>
-                <ng-container *ngFor="let arrivalSuborder of allArrivalSuborders" class="ext">
-                    <mat-expansion-panel class="exp">
-                        <mat-expansion-panel-header>
-                            <mat-panel-title>
-                                <div class="titolo">TAVOLO: {{arrivalSuborder.table}}</div>
-                            </mat-panel-title>
-                            <mat-panel-description>
-                            </mat-panel-description>
-                        </mat-expansion-panel-header>
-                        <!--
+    <div>
+        <div class="containercontainer">
+            <span *ngIf=view_arrival_Suborders>
+                <mat-accordion>
+                    <ng-container *ngFor="let arrivalSuborder of allArrivalSuborders" class="ext">
+                        <mat-expansion-panel class="exp">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <div class="titolo">TAVOLO {{arrivalSuborder.table}}</div>
+                                </mat-panel-title>
+                                <mat-panel-description>
+                                </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <!--
                         <mat-accordion *ngIf="arrivalSuborder.foods_order">
                             <mat-expansion-panel>
                                 <mat-expansion-panel-header>
@@ -35,23 +36,23 @@
                             </mat-expansion-panel>
                         </mat-accordion>
 -->
-                        <div class="hax">
-                            <mat-accordion *ngIf="arrivalSuborder.foods_order">
-                                <div class="ext">
-                                    <div class="cibi">PIATTI:</div>
-                                    <mat-list>
-                                        <ng-container *ngFor="let elem of arrivalSuborder.foods_order" class="mod">
-                                            <mat-list-item>{{elem.quantity}}x {{elem.name_element_menu}}
+                            <div class="hax">
+                                <mat-accordion *ngIf="arrivalSuborder.foods_order">
+                                    <div class="ext">
+                                        <div class="cibi">PIATTI:</div>
+                                        <mat-list>
+                                            <ng-container *ngFor="let elem of arrivalSuborder.foods_order" class="mod">
+                                                <mat-list-item>{{elem.quantity}}x {{elem.name_element_menu}}
 
-                                            </mat-list-item>
-                                        </ng-container>
-                                    </mat-list>
-                                    <button mat-flat-button color="primary" class="btn_submit"
-                                        (click)="completeArrivalSuborder(arrivalSuborder.id_order, arrivalSuborder.id_suborder, 'food')">SERVITO</button>
-                                </div>
-                            </mat-accordion>
+                                                </mat-list-item>
+                                            </ng-container>
+                                        </mat-list>
+                                        <button mat-flat-button color="primary" class="btn_submit"
+                                            (click)="completeArrivalSuborder(arrivalSuborder.id_order, arrivalSuborder.id_suborder, 'food')">SERVITO</button>
+                                    </div>
+                                </mat-accordion>
 
-                            <!--
+                                <!--
                         <mat-accordion *ngIf="arrivalSuborder.drinks_order">
                             <mat-expansion-panel>
                                 <mat-expansion-panel-header>
@@ -75,27 +76,28 @@
                         </mat-accordion>
 -->
 
-                            <mat-accordion *ngIf="arrivalSuborder.drinks_order">
-                                <div class="ext">
-                                    <div class="cibi">BEVANDE:</div>
-                                    <mat-list>
-                                        <ng-container *ngFor="let elem of arrivalSuborder.drinks_order">
-                                            <mat-list-item>{{elem.quantity}}x {{elem.name_element_menu}}
+                                <mat-accordion *ngIf="arrivalSuborder.drinks_order">
+                                    <div class="ext">
+                                        <div class="cibi">BEVANDE:</div>
+                                        <mat-list>
+                                            <ng-container *ngFor="let elem of arrivalSuborder.drinks_order">
+                                                <mat-list-item>{{elem.quantity}}x {{elem.name_element_menu}}
 
-                                            </mat-list-item>
-                                        </ng-container>
-                                    </mat-list>
-                                    <button mat-flat-button color="primary" class="btn_submit"
-                                        (click)="completeArrivalSuborder(arrivalSuborder.id_order, arrivalSuborder.id_suborder, 'drink')">
-                                        SERVITO</button>
-                                </div>
-                            </mat-accordion>
-                        </div>
+                                                </mat-list-item>
+                                            </ng-container>
+                                        </mat-list>
+                                        <button mat-flat-button color="primary" class="btn_submit"
+                                            (click)="completeArrivalSuborder(arrivalSuborder.id_order, arrivalSuborder.id_suborder, 'drink')">
+                                            SERVITO</button>
+                                    </div>
+                                </mat-accordion>
+                            </div>
 
-                    </mat-expansion-panel>
-                </ng-container>
-            </mat-accordion>
-        </span>
+                        </mat-expansion-panel>
+                    </ng-container>
+                </mat-accordion>
+            </span>
+        </div>
     </div>
     <div *ngIf=!view_arrival_Suborders class="vuoto">Nessun ordine da consegnare!</div>
 </div>

@@ -6,13 +6,60 @@
 .btn_submit {
   display: flex;
   justify-content: center;
-  margin: 15px 0;
+  margin: 15px 0px 0px 0px;
 }
 
-.vuoto{
+.vuoto {
   font-size: 24px;
 }
 
-.mat-list-base{
-  margin: 0px 0px 0px 0px; 
+.modify {
+  height: 30px;
+}
+
+.wrapper {
+  padding: 0 0px 10px;
+}
+
+.wrappu {
+  padding: 0 24px 30px;
+}
+
+.mat-expansion-panel-header {
+  height: 30px;
+}
+
+mat-panel-title{
+  font-size:24px;
+}
+
+mat-expansion-panel{
+  width:800px;
+}
+
+@media screen and (max-width: 900px) {
+  mat-expansion-panel{
+    width:420px;
+  }
+}
+
+@media screen and (max-width: 435px) {
+  mat-list-item {
+    margin: 15px 0px 40px 0px;
+  }
+  mat-list {
+    padding: 0px 0px 0px 0px;
+  }
+  mat-expansion-panel {
+    width: 335px;
+  }
+}
+
+@media screen and (max-width: 335px) {
+  mat-list-item {
+    margin: 25px 0px 50px 0px;
+  }
+  mat-expansion-panel {
+    width: 280px;
+  }
 }

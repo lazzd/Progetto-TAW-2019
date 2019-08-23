@@ -7,8 +7,7 @@
     </mat-toolbar>
 
     <mat-sidenav-container class="sidenav-sidenav-container" [style.paddingTop.%]="mobileQuery.matches ? 5 : 2">
-        <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches"
-            fixedTopGap="5%">
+        <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" fixedTopGap="5%">
             <mat-nav-list>
                 <!--Funzione che ti setta i link correttamente-->
                 <!--Perfetto, cosí con i link funziona-->

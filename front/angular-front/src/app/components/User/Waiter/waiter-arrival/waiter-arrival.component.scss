@@ -1,9 +1,20 @@
 .ext {
   position: relative;
   left: 40px;
-
   margin: 15px 0px 0px 0px;
 }
+
+.container {
+  display: flex;
+  justify-content: center;
+  margin:auto;
+}
+
+
+mat-expansion-panel{
+  width:800px;
+}
+
 
 .cibi {
   font-size: 20px;
@@ -11,26 +22,40 @@
 .titolo {
   font-size: 24px;
 }
-.mat-list-item{
+.mat-list-item {
   height: 24px;
 }
 
-.btn_submit{
-    margin: 15px 0px 20px 0px; 
+.btn_submit {
+  margin: 15px 0px 20px 0px;
 }
 
-.mat-expansion-panel-body{
-    background-color: lightblue;
+.container {
+  text-align: center;
+}
+.containercontainer {
+  text-align: left;
 }
 
-.container{
-    text-align: center;
-}
-.containercontainer{
-    text-align: left;
+.vuoto {
+  font-size: 24px;
 }
 
-.vuoto{
-    font-size: 24px;
-    
+
+@media screen and (max-width: 1060px) {
+  mat-expansion-panel{
+    width:420px;
+  }
+}
+
+@media screen and (max-width: 435px) {
+  mat-expansion-panel {
+    width: 335px;
+  }
+}
+
+@media screen and (max-width: 335px) {
+  mat-expansion-panel {
+    width: 280px;
+  }
 }
