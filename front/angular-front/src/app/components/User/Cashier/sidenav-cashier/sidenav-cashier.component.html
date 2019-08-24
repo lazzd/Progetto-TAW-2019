@@ -7,15 +7,14 @@
     </mat-toolbar>
 
     <mat-sidenav-container class="sidenav-sidenav-container" [style.paddingTop.%]="mobileQuery.matches ? 5 : 2">
-        <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches"
-            fixedTopGap="5%">
+        <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" fixedTopGap="5%">
             <mat-nav-list>
                 <!--Funzione che ti setta i link correttamente-->
                 <!--Perfetto, cosí con i link funziona-->
-                <a mat-list-item routerLink="./bills/">CASHIER: BILLS</a>
-                <a mat-list-item routerLink="./tables/">CASHIER: TABLES</a>
-                <a mat-list-item routerLink="./orders/">CASHIER: ORDERS</a>
-                <a mat-list-item routerLink="./statistics/">CASHIER: STATISTICS</a>
+                <a mat-list-item routerLink="./bills/">FATTURAZIONE</a>
+                <a mat-list-item routerLink="./tables/">TAVOLI</a>
+                <a mat-list-item routerLink="./orders/">ORDINI</a>
+                <a mat-list-item routerLink="./statistics/">STATISTICHE</a>
                 <a mat-list-item class="logout-item" (click)=logout()>Logout</a>
             </mat-nav-list>
         </mat-sidenav>
@@ -23,6 +22,16 @@
         <mat-sidenav-content>
             <!--Da capire come implementare per le varie funzioni da vedere a seconda di cosa premi sulla sidenav-->
             <!--Carica solamente il router outer-->
+            <div *ngIf="router.url === '/user/cashier'" class="content">
+                <p class="description"> Hai fatto il login come cassiere, hai accesso a queste funzioni:
+                </p>
+                <ul class="list">
+                    <li>per liberare un tavolo e procedere a fare uno scontrino usare la funzione 'Fatturazione'</li>
+                    <li>per consultare le informazioni sui tavoli ,o aggiungere quest'ultimi, usare la funzione 'Tavoli'</li>
+                    <li>per consultare le informazione sugli ordini usare la funzione 'Ordini</li>
+                    <li>per consultare le statistiche sui camerieri usare la funzione 'Statistiche</li>
+                </ul>
+            </div>
             <router-outlet></router-outlet>
         </mat-sidenav-content>
     </mat-sidenav-container>
