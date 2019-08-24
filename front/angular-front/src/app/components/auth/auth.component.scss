@@ -31,7 +31,7 @@ header {
 .corpo {
   position: relative;
   top: 5vh;
-  width: 90%;
+  width: 80%;
   margin: auto;
   align-items: center;
   text-align: center;
@@ -46,19 +46,21 @@ header {
 .intro-text h1 {
   font-size: 60px;
   font-weight: 500;
+  padding: 20px 0px 0px 0px;
   background: linear-gradient(to right, #494964, #6f6f89);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .intro-text p {
+  padding: 20px 0px 0px 0px;
   margin-top: 5px;
   font-size: 30px;
   color: #585772;
 }
 
 .bottoni {
-  padding: 60px 0px 0px 0px;
+  padding: 100px 0px 0px 0px;
   flex: 1;
 }
 
