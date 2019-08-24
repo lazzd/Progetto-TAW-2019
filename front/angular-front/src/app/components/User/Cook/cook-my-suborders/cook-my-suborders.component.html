@@ -1,4 +1,5 @@
 <router-outlet></router-outlet>
+<!--
 <div class="container">
     <div>
         <span *ngIf=view_my_Suborders>
@@ -45,4 +46,66 @@
             </mat-accordion>
         </span>
     </div>
+</div>
+-->
+<div class="container">
+    <div>
+        <span *ngIf=view_my_Suborders>
+            <mat-accordion>
+                <div class="wrapper">
+                    <mat-expansion-panel [disabled]="true" [expanded]="true">
+                        <div class="tav">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    TAVOLO {{firstMySuborders.table}}
+                                </mat-panel-title>
+                                <mat-panel-description>
+                                </mat-panel-description>
+                            </mat-expansion-panel-header>
+                        </div>
+                        <mat-list>
+                            <div class="wrappu">
+                                <ng-container *ngFor="let elem of firstMySuborders.suborder; index as i">
+                                    <div class="modify">
+                                        <mat-list-item>{{elem.quantity}}x {{elem.name_element_menu}} | {{elem.time}} min
+                                            
+                                        </mat-list-item>
+                                        <button mat-flat-button color="primary" *ngIf="i==0"
+                                                (click)="completeElementMySuborder()"
+                                                class="btn_submit">COMPLETA</button>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </mat-list>
+                        <button mat-flat-button color="primary" *ngIf="firstMySuborders.suborder.length==0"
+                            (click)="completeMySuborder()" class="btn_term">TERMINA ORDINE</button>
+                    </mat-expansion-panel>
+                </div>
+            </mat-accordion>
+            <mat-accordion *ngIf="allMySuborders.length>0">
+                <ng-container *ngFor="let WaitSuborder of allMySuborders">
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                TAVOLO {{WaitSuborder.table}} </mat-panel-title>
+                            <mat-panel-description>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <mat-list>
+                            <div class="wrappu">
+                                <ng-container *ngFor="let elem of WaitSuborder.suborder">
+                                    <div class="modify">
+                                        <mat-list-item>{{elem.quantity}}x {{elem.name_element_menu}} | {{elem.time}} min
+                                        </mat-list-item>
+                                    </div>
+                                </ng-container>
+
+                            </div>
+                        </mat-list>
+                    </mat-expansion-panel>
+                </ng-container>
+            </mat-accordion>
+        </span>
+    </div>
+    <div *ngIf=!view_my_Suborders class="vuoto">Nessun ordine da preparare!</div>
 </div>
