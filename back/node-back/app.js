@@ -32,10 +32,6 @@ const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
 
-// prova
-let ex = require('./prova.js');
-ex.f();
-
 // FOR CONNECTION SEE VIDEO .env
 // import mongoose for connection
 let mongoose = require('mongoose');
