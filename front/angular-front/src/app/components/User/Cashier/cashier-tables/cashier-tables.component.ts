@@ -17,7 +17,7 @@ export class CashierTablesComponent implements OnInit {
   view_tables: Boolean;
   allTables: Table[];
   selectedTable: Table;
-
+  breakpoint:number;
   view_info_table: Boolean;
   form_my_tables: FormGroup;
 
@@ -44,6 +44,11 @@ export class CashierTablesComponent implements OnInit {
     this.view_info_table = false;
     this.add_table = false;
     this.getAllTables();
+    this.breakpoint = (window.innerWidth <= 600) ? 1 : 6;
+  }
+
+  onResize(event) {
+    this.breakpoint = (event.target.innerWidth <= 600) ? 1 : 6;
   }
 
   private initIoConnection(): void {
@@ -83,6 +88,7 @@ export class CashierTablesComponent implements OnInit {
             ResSub.forEach(element => {
               this.allTables.push(new Table(element));
             });
+            this.allTables.sort((a, b) => parseInt(a.name_table) - parseInt(b.name_table));
             if (this.allTables.length > 0)
               this.view_tables = true;
             //this.view_tables = true;
@@ -132,7 +138,7 @@ export class CashierTablesComponent implements OnInit {
             this.allTables.push(new Table(ResSub));
           }),
           (ErrSub => {
-            if(ErrSub.error = "Table name is already present")
+            if (ErrSub.error = "Table name is already present")
               console.log("Tavolo già esistente");
             // necessario il catch della promise non gestisce l'errore dell'observable
             // E' avvenuto un errore con il refresh dell'AccessToken: è necessario un nuovo login

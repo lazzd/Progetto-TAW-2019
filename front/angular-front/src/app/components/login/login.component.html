@@ -1,23 +1,23 @@
 <div class=flex>
 
-  
-
-    <div class="logo"></div>
 
 
-    <form class="login-form">
-      <mat-form-field class="field-login">
-        <input type="email" matInput placeholder="Mail" #emailLogin>
-      </mat-form-field>
+  <div class="logo"></div>
 
-      <mat-form-field class="field-login">
-        <input type="password" matInput placeholder="Password" #passwordLogin>
-      </mat-form-field>
-    </form>
-    <button class="btn_login" mat-raised-button color="primary"
-      (click)="sendLogin(emailLogin.value, passwordLogin.value)">
-      LOGIN
-    </button>
-  
+
+  <form class="login-form">
+    <mat-form-field class="field-login">
+      <input type="email" matInput placeholder="Mail" #emailLogin>
+    </mat-form-field>
+
+    <mat-form-field class="field-login">
+      <input type="password" matInput placeholder="Password" #passwordLogin>
+    </mat-form-field>
+  </form>
+  <button class="btn_login" mat-raised-button color="primary"
+    (click)="sendLogin(emailLogin.value, passwordLogin.value)">
+    LOGIN
+  </button>
+
 
 </div>

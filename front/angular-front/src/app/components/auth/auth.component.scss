@@ -41,19 +41,19 @@ header {
 .intro-text {
   flex: 1;
   text-align: center;
+  padding: 20px 0px 0px 0px;
 }
 
 .intro-text h1 {
   font-size: 60px;
   font-weight: 500;
-  padding: 20px 0px 0px 0px;
+  
   background: linear-gradient(to right, #494964, #6f6f89);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .intro-text p {
-  padding: 20px 0px 0px 0px;
   margin-top: 5px;
   font-size: 30px;
   color: #585772;
