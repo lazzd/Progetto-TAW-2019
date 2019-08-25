@@ -1,4 +1,4 @@
-<div class=flex>
+<div class="container">
 
     <header>
 
@@ -6,7 +6,7 @@
 
     </header>
 
-    <form class="register-form">
+    <form>
         <mat-form-field class="field-register">
             <input type="text" matInput placeholder="Nome e Cognome" #nameRegister>
         </mat-form-field>
@@ -17,19 +17,24 @@
         <mat-form-field class="field-register">
             <input type="password" matInput placeholder="Password" #passwordRegister>
         </mat-form-field>
-    </form>
-    <mat-form-field>
-        <mat-label>Ruolo</mat-label>
-        <mat-select #taskRegister>
-            <mat-option *ngFor="let task of tasks" [value]="task.value">
-                {{task.viewValue}}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
 
-    <button class="btn_register" mat-raised-button color="primary"
-        (click)="sendRegister(nameRegister.value, emailRegister.value, passwordRegister.value, taskRegister.value)">
-        REGISTRATI
-    </button>
+        <div class="center">
+            <mat-form-field>
+                <mat-label>Ruolo</mat-label>
+                <mat-select #taskRegister>
+                    <mat-option *ngFor="let task of tasks" [value]="task.value">
+                        {{task.viewValue}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        
+        <div class="center">
+            <button class="btn_register" mat-raised-button color="primary"
+            (click)="sendRegister(nameRegister.value, emailRegister.value, passwordRegister.value, taskRegister.value)">
+                REGISTRATI
+            </button>
+        </div>
+    </form>
 
 </div>

@@ -1,25 +1,22 @@
-.flex{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    height: 100%;
-    width: 100%;
-    box-sizing: inherit;
+.container {
+  max-width: 500px;
+  width: 80%;
+  margin: auto;
 }
 
-.logo{
-  height: 30vh;
-  width: 90vh;
+.logo {
+  height: 190px;
+  width: 100%;
   padding: 10px;
   margin: 0 auto;
+  margin-top: 32px;
+  margin-bottom: 32px;
   background: url("../../images/logo.jpg") no-repeat center center;
 }
 
-.register-form {
-  min-width: 150px;
-  max-width: 500px;
-  width: 80%;
+form {
+  max-width: 400px;
+  margin: auto;
 }
 
 button,mat-form-field,mat-option,mat-select{
@@ -31,15 +28,14 @@ button,mat-form-field,mat-option,mat-select{
   width: 100%;
 }
 
+.center {
+  display: flex;
+  flex-shrink: 0;
+  justify-content: center;
+}
+
 @media screen and (max-width: 650px) {
   .logo {
     background: url("../../images/logomin.jpg") no-repeat center center;
-    width: 50vh;
-  }
-}
-@media screen and (max-height: 700px) {
-  .logo {
-    background: url("../../images/logomin.jpg") no-repeat center center;
-    width: 50vh;
   }
 }
