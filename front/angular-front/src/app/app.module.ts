@@ -4,6 +4,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import {MatTabsModule} from '@angular/material/tabs';
+
 
 // httpModule
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -106,6 +108,7 @@ export function tokenGetter() {
     MatButtonModule,
     MatInputModule,
     MatSelectModule,
+    MatTabsModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,

@@ -76,45 +76,41 @@
 -->
 <div class="container">
     <div>
+        <button mat-flat-button color="primary" (click)="addTable()">NUOVO TAVOLO</button>
+        <span *ngIf=add_table>
+            <form [formGroup]="form_add_table" (ngSubmit)="postNewTable()">
+                <mat-form-field>
+                    <input matInput placeholder="Numero" formControlName="input_name_table">
+                </mat-form-field>
+                <mat-form-field>
+                    <input type="number" matInput placeholder="Posti" formControlName="input_seats">
+                </mat-form-field>
+                <button type="submit" mat-flat-button color="warn">AGGIUNGI TAVOLO</button>
+            </form>
+        </span>
         <span *ngIf=view_tables>
             <div class="grid">
                 <mat-grid-list [cols]="breakpoint" gutterSize="6px" rowHeight="60px" (window:resize)="onResize($event)">
-                    <mat-grid-tile *ngFor="let table of allTables">{{table.name_table}}</mat-grid-tile>
+                    <mat-grid-tile *ngFor="let table of allTables" (click)="getInfoTable(table.name_table)"
+                        [ngClass]="table.busy ? 'bus' : 'notbus'">{{table.name_table}}</mat-grid-tile>
                 </mat-grid-list>
             </div>
-            <button mat-flat-button color="primary" (click)="viewInfoTable()">INFO TAVOLO</button>
-            <span *ngIf=view_info_table>
-                <form [formGroup]="form_my_tables" (ngSubmit)="getInfoTable()">
-                    <mat-form-field>
-                        <mat-label>Seleziona il Tavolo</mat-label>
-                        <mat-select formControlName="my_table">
-                            <mat-option *ngFor="let table of allTables" [value]="table.name_table">
-                                {{table.name_table}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                    <button type="submit" mat-flat-button color="primary">CERCA</button>
-                </form>
+
+            <div class="selTable">
                 <mat-list *ngIf="selectedTable">
-                    <mat-list-item> NAME TABLE: {{selectedTable.name_table}} </mat-list-item>
-                    <mat-list-item> SEATS: {{selectedTable.seats}} </mat-list-item>
-                    <mat-list-item> BUSY: {{selectedTable.busy}} </mat-list-item>
-                    <mat-list-item *ngIf="selectedTable.waiter"> WAITER: {{selectedTable.waiter}} </mat-list-item>
-                    <mat-list-item *ngIf="selectedTable.id_order"> ID_ORDER: {{selectedTable.id_order}} </mat-list-item>
+                    <mat-list-item>
+                        <div class="table"> Tavolo {{selectedTable.name_table}} </div>
+                    </mat-list-item>
+                    <mat-list-item> Posti: {{selectedTable.seats}} </mat-list-item>
+                    <mat-list-item *ngIf=selectedTable.busy> Stato: Occupato </mat-list-item>
+                    <mat-list-item *ngIf=!selectedTable.busy> Stato: Non Occupato </mat-list-item>
+                    <mat-list-item *ngIf="selectedTable.waiter"> Cameriere Responsabile: {{selectedTable.waiter}}
+                    </mat-list-item>
+                    <mat-list-item *ngIf="selectedTable.id_order"> ID Ordine: {{selectedTable.id_order}}
+                    </mat-list-item>
                 </mat-list>
-            </span>
-            <button mat-flat-button color="primary" (click)="addTable()">ADD TABLE</button>
-            <span *ngIf=add_table>
-                <form [formGroup]="form_add_table" (ngSubmit)="postNewTable()">
-                    <mat-form-field>
-                        <input matInput placeholder="Name Table" formControlName="input_name_table">
-                    </mat-form-field>
-                    <mat-form-field>
-                        <input type="number" matInput placeholder="Seats" formControlName="input_seats">
-                    </mat-form-field>
-                    <button type="submit" mat-flat-button color="primary">AGGIUNGI TAVOLO</button>
-                </form>
-            </span>
+            </div>
+
         </span>
     </div>
 </div>
