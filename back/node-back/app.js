@@ -1,44 +1,39 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const cors = require('cors');
 
 // require and config dotenv
-let dotenv = require('dotenv');
-
-let cors = require('cors');
-
+const dotenv = require('dotenv');
 dotenv.config();
 
-var indexRouter = require('./routes/index');
+
+const indexRouter = require('./routes/index');
 // myRoutes
 
-let authRouter = require('./routes/auth');
+const authRouter = require('./routes/auth');
 
-let usersRouter = require('./routes/users');
-let menuRouter = require('./routes/menu');
-let dishesRouter = require('./routes/dishes');
-let ordersRouter = require('./routes/orders');
-let tablesRouter = require('./routes/tables');
+const usersRouter = require('./routes/users');
+const menuRouter = require('./routes/menu');
+const dishesRouter = require('./routes/dishes');
+const ordersRouter = require('./routes/orders');
+const tablesRouter = require('./routes/tables');
 
 // prova post auth
-let postsRouter = require('./routes/posts');
+const postsRouter = require('./routes/posts');
 
-var app = express();
+const app = express();
 
 // socket.io
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
 
-// prova
-let ex = require('./prova.js');
-ex.f();
-
 // FOR CONNECTION SEE VIDEO .env
 // import mongoose for connection
-let mongoose = require('mongoose');
+const mongoose = require('mongoose');
 // connessione mongoose in local host
 console.log("DB URL:", process.env.DB_CONNECT);
 mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true }, err => {
@@ -49,9 +44,6 @@ mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true }, err => {
   }
 });
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
 app.set('socketio', io);
 
 app.use(cors());
