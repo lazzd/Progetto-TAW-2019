@@ -1,4 +1,5 @@
 <router-outlet></router-outlet>
+<!--
 <div class="container">
     <span *ngIf=view_users>
         <mat-accordion>
@@ -73,5 +74,50 @@
                 </mat-list>
             </mat-expansion-panel>
         </mat-accordion>
+    </span>
+</div>
+-->
+<div class="container">
+    <span *ngIf=view_users>
+        <mat-tab-group animationDuration="0ms" mat-align-tabs="center">
+            <mat-tab label="CAMERIERI">
+                <mat-list>
+                    <ng-container *ngFor="let user of allUsers">
+                        <mat-list-item *ngIf="user.task=='waiter'">
+                            {{user.name}} | ORDINI SERVITI: {{user.actions}}
+                        </mat-list-item>
+                    </ng-container>
+                </mat-list>
+            </mat-tab>
+            <mat-tab label="BARISTI">
+                <mat-list>
+                    <ng-container *ngFor="let user of allUsers">
+                        <mat-list-item *ngIf="user.task=='barman'">
+                            {{user.name}} | ORDINI PREPARATI: {{user.actions}}
+                        </mat-list-item>
+                    </ng-container>
+                </mat-list>
+            </mat-tab>
+            <mat-tab label="CUOCHI">
+                <mat-list>
+                    <ng-container *ngFor="let user of allUsers">
+                        <mat-list-item *ngIf="user.task=='cook'">
+                            {{user.name}} | ORDINI PREPARATI: {{user.actions}}
+                        </mat-list-item>
+                    </ng-container>
+                </mat-list>
+            </mat-tab>
+            <mat-tab label="CASSIERI">
+                <mat-list>
+                    <ng-container *ngFor="let user of allUsers">
+                        <mat-list-item *ngIf="user.task=='cashier'">
+                            {{user.name}} | SCONTRINI BATTUTI: {{user.actions}}
+                        </mat-list-item>
+                    </ng-container>
+                </mat-list>
+            </mat-tab>
+
+
+        </mat-tab-group>
     </span>
 </div>

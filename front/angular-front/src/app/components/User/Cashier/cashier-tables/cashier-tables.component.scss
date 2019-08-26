@@ -1,9 +1,52 @@
-mat-grid-tile {
-    background-color: lightblue;
-    
-  }
+.bus {
+  background-color: lightblue;
+}
 
-.grid{
-    width: 800px;
-    padding: 30px 30px 30px 30px;
+.notbus {
+  //background-color: #3f51b5
+  background-color: lightgray;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.selTable {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.table {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.grid {
+  width: 800px;
+  padding: 30px 30px 30px 30px;
+}
+
+.selTable {
+  padding: 0px 0px 20px 0px;
+}
+
+@media screen and (max-width: 870px) {
+  .grid {
+    width: 400px;
+  }
+}
+@media screen and (max-width: 600px) {
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .grid {
+    width: 200px;
+  }
 }

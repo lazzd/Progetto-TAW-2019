@@ -17,7 +17,7 @@ export class CashierTablesComponent implements OnInit {
   view_tables: Boolean;
   allTables: Table[];
   selectedTable: Table;
-  breakpoint:number;
+  breakpoint: number;
   view_info_table: Boolean;
   form_my_tables: FormGroup;
 
@@ -44,11 +44,27 @@ export class CashierTablesComponent implements OnInit {
     this.view_info_table = false;
     this.add_table = false;
     this.getAllTables();
-    this.breakpoint = (window.innerWidth <= 600) ? 1 : 6;
+    if ((window.innerWidth <= 870)) {
+      if (window.innerWidth <= 480) {
+        this.breakpoint = 2;
+      } else {
+        this.breakpoint = 4;
+      }
+    } else {
+      this.breakpoint = 8;
+    }
   }
 
   onResize(event) {
-    this.breakpoint = (event.target.innerWidth <= 600) ? 1 : 6;
+    if ((window.innerWidth <= 870)) {
+      if (window.innerWidth <= 480) {
+        this.breakpoint = 2;
+      } else {
+        this.breakpoint = 4;
+      }
+    } else {
+      this.breakpoint = 8;
+    }
   }
 
   private initIoConnection(): void {
@@ -114,9 +130,10 @@ export class CashierTablesComponent implements OnInit {
     (this.view_info_table) ? (this.view_info_table = false) : (this.view_info_table = true);
   }
 
-  getInfoTable() {
+  getInfoTable(num) {
     if (this.allTables.length > 0) {
-      this.selectedTable = this.allTables.find(elem => elem.name_table == this.form_my_tables.value.my_table);
+      //this.selectedTable = this.allTables.find(elem => elem.name_table == this.form_my_tables.value.my_table);
+      this.selectedTable = this.allTables.find(elem => elem.name_table === num);
     }
     console.log(this.selectedTable);
   }
