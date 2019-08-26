@@ -92,10 +92,10 @@
                             <mat-panel-description>
                             </mat-panel-description>
                         </mat-expansion-panel-header>
-                        <div *ngFor="let ElementOrder of foods_order">
+                        <div *ngFor="let ElementOrder of foods_order; index as i">
                             <div class="ordAtt">
                                 {{ElementOrder.quantity}}x {{ElementOrder.name_element_menu}}
-                                <button mat-icon-button class="rip" color="warn" (click)="removeProd()"
+                                <button mat-icon-button class="rip" color="warn" (click)="removelementOrder('food', i)"
                                     aria-label="Example icon-button with a heart icon">
                                     <mat-icon>cancel</mat-icon>
                                 </button>
@@ -117,10 +117,10 @@
                             </mat-panel-description>
                         </mat-expansion-panel-header>
 
-                        <div *ngFor="let ElementOrder of drinks_order">
+                        <div *ngFor="let ElementOrder of drinks_order; index as i">
                             <div class="ordAtt">
                                 {{ElementOrder.quantity}}x {{ElementOrder.name_element_menu}}
-                                <button mat-icon-button class="rip" color="warn" (click)="removeProd()"
+                                <button mat-icon-button class="rip" color="warn" (click)="removelementOrder('drink', i)"
                                     aria-label="Example icon-button with a heart icon">
                                     <mat-icon>cancel</mat-icon>
                                 </button>

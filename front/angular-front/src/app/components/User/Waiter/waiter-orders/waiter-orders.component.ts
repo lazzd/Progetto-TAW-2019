@@ -185,17 +185,37 @@ export class WaiterOrdersComponent implements OnInit {
         this.drinks_order.push(cpy_ElementOrder);
       if (cpy_ElementOrder.type == "food")
         this.foods_order.push(cpy_ElementOrder);
-      if (this.drinks_order.length > 0){
+      if (this.drinks_order.length > 0) {
         this.view_recap_order = true;
         this.view_recap_drinks = true;
       }
-      if (this.foods_order.length > 0){
+      if (this.foods_order.length > 0) {
         this.view_recap_order = true;
         this.view_recap_foods = true;
       }
       console.log("DRINKS", this.drinks_order);
       console.log("FOOD", this.foods_order);
     }
+  }
+
+  removelementOrder(type: string, i: number) {
+    console.log(type, i);
+    console.log("OLD TOT: ", this.tot_sub);
+    if (type == 'food') {
+      this.tot_sub -= this.foods_order[i].quantity * this.foods_order[i].price;
+      this.foods_order.splice(i, 1);
+      if(!this.foods_order.length)
+        this.view_recap_foods = false;
+    }
+    else {
+      this.tot_sub -= this.drinks_order[i].quantity * this.drinks_order[i].price;
+      this.drinks_order.splice(i, 1);
+      if(!this.drinks_order.length)
+        this.view_recap_drinks = false;
+    }
+    if(!this.view_recap_foods && !this.view_recap_drinks)
+      this.view_recap_order = false;
+    console.log("NEW TOT: ", this.tot_sub);
   }
 
   async sendOrder(): Promise<void> {
