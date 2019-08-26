@@ -50,23 +50,23 @@ export class WaiterOrdersService {
 
   // DA CREARE LA CLASSE CON IL TIPO GIUSTO PER LA RISPOSTA
 
-  async sendPUTOrder(id_order: number, drinks_order: ElementMenu[], foods_order: ElementMenu[]): Promise<Observable<ResOrder>> {
+  async sendPUTOrder(id_order: number, drinks_order: ElementMenu[], foods_order: ElementMenu[], tot_sub: number): Promise<Observable<ResOrder>> {
     try {
       let promRefeshToken = await this.refreshToken.refreshToken();
       console.log(promRefeshToken);
       // Ora posso fare la richiesta...
-      return this.http.put<ResOrder>(urlOrder + '/' + id_order, new ReqOrder(drinks_order, foods_order));
+      return this.http.put<ResOrder>(urlOrder + '/' + id_order, new ReqOrder(drinks_order, foods_order, tot_sub));
     } catch (ErrorRefreshToken) {
       return throwError(ErrorRefreshToken);
     }
   }
 
-  async sendPOSTOrder(drinks_order: ElementMenu[], foods_order: ElementMenu[], table: string, waiter: string): Promise<Observable<ResOrder>> {
+  async sendPOSTOrder(drinks_order: ElementMenu[], foods_order: ElementMenu[], tot_sub: number, table: string, waiter: string): Promise<Observable<ResOrder>> {
     try {
       let promRefeshToken = await this.refreshToken.refreshToken();
       console.log(promRefeshToken);
       // Ora posso fare la richiesta...
-      return this.http.post<ResOrder>(urlOrder, new ReqOrder(drinks_order, foods_order, table, waiter));
+      return this.http.post<ResOrder>(urlOrder, new ReqOrder(drinks_order, foods_order, tot_sub, table, waiter));
     } catch (ErrorRefreshToken) {
       return throwError(ErrorRefreshToken);
     }
