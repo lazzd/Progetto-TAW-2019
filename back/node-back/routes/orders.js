@@ -288,6 +288,7 @@ router.post("/", verifyAccessToken, async function (req, res, next) {
                 const isTablePresent = await TablesModel.findOne({ name_table: req.body.table });
                 if (!isTablePresent) return res.status(400).send("Table name isn't present");
                 // ----------------
+                model.tot += model_element_order.tot_sub;
                 await model.save()
                     .then(async doc => {
                         if (!doc || doc.length === 0) {
@@ -378,6 +379,7 @@ router.put("/:id_order", verifyAccessToken, async function (req, res, next) {
                     isOrderPresent.state_order.all_drinks_complete = false;
                 if (req.body.foods_order && isOrderPresent.state_order.all_foods_complete)
                     isOrderPresent.state_order.all_foods_complete = false;
+                isOrderPresent.tot += model_element_order.tot_sub;
                 await isOrderPresent.save()
                     .then(doc => {
                         if (!doc || doc.length === 0) {

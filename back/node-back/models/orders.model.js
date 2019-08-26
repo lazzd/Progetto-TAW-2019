@@ -35,6 +35,10 @@ let OrdersSchema = new mongoose.Schema({
     state_order: {
         type: StateOrderSchema,
         default: StateOrderSchema
+    },
+    tot: {
+        type: Number,
+        default: 0
     }
 });
 
