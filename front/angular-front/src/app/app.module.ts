@@ -53,6 +53,7 @@ import { CashierBillComponent } from './components/User/Cashier/cashier-bill/cas
 import { CashierTablesComponent } from './components/User/Cashier/cashier-tables/cashier-tables.component';
 import { CashierOrdersComponent } from './components/User/Cashier/cashier-orders/cashier-orders.component';
 import { CashierStatisticsComponent } from './components/User/Cashier/cashier-statistics/cashier-statistics.component';
+import { CashierReceiptsComponent } from './components/User/Cashier/cashier-receipts/cashier-receipts.component';
 
 export function tokenGetter() {
   //console.log(localStorage.getItem('AccessToken'))
@@ -88,7 +89,8 @@ export function tokenGetter() {
     CashierBillComponent,
     CashierTablesComponent,
     CashierOrdersComponent,
-    CashierStatisticsComponent
+    CashierStatisticsComponent,
+    CashierReceiptsComponent
   ],
   imports: [
     BrowserModule,
