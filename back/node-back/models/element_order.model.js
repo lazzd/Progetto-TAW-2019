@@ -28,6 +28,10 @@ let ElementOrderSchema = new mongoose.Schema ({
     employees: {
         type: StateEmployeesElementOrderSchema,
         default: StateEmployeesElementOrderSchema
+    },
+    tot_sub: {
+        type: Number,
+        default: 0
     }
 });
 
