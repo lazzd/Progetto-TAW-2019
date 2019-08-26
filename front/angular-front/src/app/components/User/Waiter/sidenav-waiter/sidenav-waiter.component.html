@@ -11,9 +11,9 @@
             <mat-nav-list>
                 <!--Funzione che ti setta i link correttamente-->
                 <!--Perfetto, cosí con i link funziona-->
-                <a mat-list-item class="vertical" routerLink="./tables/" (click)=setOff()>TAVOLI LIBERI</a>
-                <a mat-list-item class="vertical" routerLink="./orders/" (click)=setOff()>ORDINI</a>
-                <a mat-list-item class="vertical" routerLink="./arrival/" (click)=setOff()>DA SERVIRE</a>
+                <a mat-list-item class="vertical" routerLink="./tables/" (click)="setOff('tables')">TAVOLI LIBERI</a>
+                <a mat-list-item class="vertical" routerLink="./orders/" (click)="setOff('orders')">ORDINI</a>
+                <a mat-list-item class="vertical" routerLink="./arrival/" (click)="setOff('arrival')"><span matBadge="!" [matBadgeHidden]='!ntf_arrival' matBadgeOverlap="false">DA SERVIRE</span></a>
                 <a mat-list-item class="logout-item" (click)=logout()>Logout</a>
             </mat-nav-list>
         </mat-sidenav>

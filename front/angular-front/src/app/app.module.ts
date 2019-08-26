@@ -7,6 +7,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material';
+import { MatBadgeModule } from '@angular/material/badge';
 
 // httpModule
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -104,6 +105,7 @@ export function tokenGetter() {
     MatCheckboxModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatBadgeModule,
     HttpClientModule,
     BrowserAnimationsModule,
     MatToolbarModule,
