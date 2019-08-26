@@ -7,7 +7,7 @@
                     <mat-expansion-panel>
                         <mat-expansion-panel-header>
                             <mat-panel-title>
-                                TABLE: {{Order.table}}, ID_ORDER : {{Order.id_order}}, ALL SERVED:
+                                TABLE: {{Order.table}}, ID_ORDER : {{Order.id_order}}, TOT_PRICE: {{Order.tot}} , ALL SERVED:
                                 {{Order.state_order.all_served}}
                             </mat-panel-title>
                             <mat-panel-description>
@@ -26,8 +26,8 @@
                                     <ng-container *ngFor="let elemSuborder of Order.elements_order">
                                         <ng-container *ngFor="let food_elem of elemSuborder.foods_order">
                                             <mat-list-item>NAME: {{food_elem.name_element_menu}}, QUANTITY:
-                                                {{food_elem.quantity}}, COMPLETE: {{elemSuborder.state.foods_complete}},
-                                                SERVED {{elemSuborder.state.foods_served}}
+                                                {{food_elem.quantity}}, PRICE: {{food_elem.quantity * food_elem.price}}, COMPLETE: {{elemSuborder.state.foods_complete}},
+                                                SERVED: {{elemSuborder.state.foods_served}}
                                             </mat-list-item>
                                         </ng-container>
                                     </ng-container>
@@ -45,7 +45,7 @@
                                     <ng-container *ngFor="let elemSuborder of Order.elements_order">
                                         <ng-container *ngFor="let drink_elem of elemSuborder.drinks_order">
                                             <mat-list-item>NAME: {{drink_elem.name_element_menu}}, QUANTITY:
-                                                {{drink_elem.quantity}}, COMPLETE:
+                                                {{drink_elem.quantity}}, PRICE: {{drink_elem.quantity * drink_elem.price}}, COMPLETE:
                                                 {{elemSuborder.state.drinks_complete}}, SERVED
                                                 {{elemSuborder.state.drinks_served}}
                                             </mat-list-item>
