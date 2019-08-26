@@ -9,6 +9,7 @@ export class ResOrder{
     date: Date;
     num_suborders: number;
     id_order: number;
+    tot: number;
     constructor(order: ResOrder){
         this.state_order = new StateOrder(order.state_order);
         this.table = order.table;
@@ -20,5 +21,6 @@ export class ResOrder{
         this.date = order.date;
         this.num_suborders = order.num_suborders;
         this.id_order = order.id_order;
+        this.tot = order.tot;
     }
 }

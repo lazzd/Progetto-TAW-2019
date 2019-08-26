@@ -1,1 +1,21 @@
-<p>cashier-receipts works!</p>
+<router-outlet></router-outlet>
+<div class="container">
+    <mat-accordion>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    INCASSO GIORNALIERO: {{tot_today}}
+                </mat-panel-title>
+                <mat-panel-description>
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <mat-list>
+                <ng-container *ngFor="let elemTodayOrders of todayCompleteOrder">
+                    <mat-list-item>
+                        ORDINE NUMER: {{elemTodayOrders.id_order}}, CONTO: {{elemTodayOrders.tot}}
+                    </mat-list-item>
+                </ng-container>
+            </mat-list>
+        </mat-expansion-panel>
+    </mat-accordion>
+</div>

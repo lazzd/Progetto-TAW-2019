@@ -60,9 +60,22 @@ router.get("/", verifyAccessToken, async function (req, res, next) {
                 .catch(err => res.status(500).json(err));
         }
         else if (task == 'cashier') {
-            await OrdersModel.find({ 'state_order.complete': false })
-                .then(doc => res.json(doc))
-                .catch(err => res.status(500).json(err));
+            if (req.query.date) {
+                /*const dd = req.query.date.split("-");
+                console.log(dd);
+                if (dd.some(d => Number(d))==NaN)
+                    return res.status(400).send("Date isn't a valid date");
+                else*/
+                const start = new Date(req.query.date);
+                const end = new Date(start.getTime() + 86400000);
+                await OrdersModel.find({ date: { $gte: start, $lt: end } , 'state_order.complete': true})
+                    .then(doc => res.json(doc))
+                    .catch(err => res.status(500).json(err));
+            }
+            else
+                await OrdersModel.find({ 'state_order.complete': false })
+                    .then(doc => res.json(doc))
+                    .catch(err => res.status(500).json(err));
         }
         else {
             await OrdersModel.find({})
