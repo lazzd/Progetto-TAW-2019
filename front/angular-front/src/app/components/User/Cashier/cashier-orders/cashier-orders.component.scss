@@ -1,0 +1,59 @@
+.ext {
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+}
+
+.prova {
+  width: 800px;
+}
+
+.cibi {
+  font-size: 20px;
+}
+.titolo {
+  font-size: 24px;
+}
+
+mat-divider {
+  width: 90%;
+}
+
+mat-list-item{
+    padding: 20px 20px 20px 20px;
+}
+
+.part {
+  padding: 10px 0px 0px 10px;
+}
+
+.extra {
+  padding: 0px 0px 0px 5px;
+}
+
+.ord {
+  font-size: 22px;
+}
+
+@media screen and (max-width: 1060px) {
+  .prova {
+    width: 420px;
+  }
+}
+
+@media screen and (max-width: 435px) {
+  .prova {
+    width: 335px;
+  }
+}
+
+@media screen and (max-width: 335px) {
+  .prova {
+    width: 280px;
+  }
+}
