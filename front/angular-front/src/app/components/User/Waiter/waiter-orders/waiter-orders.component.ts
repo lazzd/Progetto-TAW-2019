@@ -40,6 +40,8 @@ export class WaiterOrdersComponent implements OnInit {
   drinks_order: ElementMenu[];
   foods_order: ElementMenu[];
 
+  tot_sub: number;
+
   // devo avere due oggetti, che li carico... la presenza dell'id_order la ho direttamente in myTables
   // metodo unico con bottone: invia ordine che discrimina se fare una post (create new order) oppure una put (update), grazie all'id
 
@@ -62,6 +64,7 @@ export class WaiterOrdersComponent implements OnInit {
     this.view_recap_foods = false;
     this.drinks_order = [];
     this.foods_order = [];
+    this.tot_sub = 0;
     this.getTablesByWaiter();
   }
 
@@ -177,6 +180,7 @@ export class WaiterOrdersComponent implements OnInit {
       //console.log(num);
       const cpy_ElementOrder = new ElementMenu(this.completeMenu[i].elements_category[u]);
       cpy_ElementOrder.quantity = num;
+      this.tot_sub += num * cpy_ElementOrder.price;
       if (cpy_ElementOrder.type == "drink")
         this.drinks_order.push(cpy_ElementOrder);
       if (cpy_ElementOrder.type == "food")
@@ -200,7 +204,7 @@ export class WaiterOrdersComponent implements OnInit {
       // già presente l'ordine, devo fare la put
       if (this.selectedTable.hasOwnProperty("id_order")) {
         const id_order = this.selectedTable.id_order;
-        let WaiterOrdersServicePromise = await this.waiterOrdersService.sendPUTOrder(id_order, this.drinks_order, this.foods_order);
+        let WaiterOrdersServicePromise = await this.waiterOrdersService.sendPUTOrder(id_order, this.drinks_order, this.foods_order, this.tot_sub);
         // ritorna l'observable...
         WaiterOrdersServicePromise.subscribe(
           (ResSub => {
@@ -226,7 +230,7 @@ export class WaiterOrdersComponent implements OnInit {
       else {
         console.log("qui");
         const waiter = localStorage.getItem('UserName');
-        let WaiterOrdersServicePromise = await this.waiterOrdersService.sendPOSTOrder(this.drinks_order, this.foods_order, this.selectedTable.name_table, waiter);
+        let WaiterOrdersServicePromise = await this.waiterOrdersService.sendPOSTOrder(this.drinks_order, this.foods_order, this.tot_sub, this.selectedTable.name_table, waiter);
         // ritorna l'observable...
         WaiterOrdersServicePromise.subscribe(
           (ResSub => {
