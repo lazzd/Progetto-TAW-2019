@@ -41,7 +41,7 @@
             <mat-accordion>
                 <ng-container *ngFor="let category of completeMenu; index as i">
 
-                    <mat-expansion-panel>
+                    <mat-expansion-panel class="uff">
                         <mat-expansion-panel-header>
                             <mat-panel-title>
                                 {{i + 1}}: {{category.category}}
@@ -66,7 +66,7 @@
                                         <mat-form-field>
                                             <input type="number" min=1 matInput formControlName="add_element_order">
                                         </mat-form-field>
-                                        <button type="submit" mat-flat-button color="primary">ADD</button>
+                                        <button type="submit" mat-flat-button color="primary">AGGIUNGI</button>
                                     </form>
                                 </mat-expansion-panel>
 
@@ -84,7 +84,7 @@
             <mat-accordion>
                 <label class="ordineA">Ordine Attuale:</label>
                 <span *ngIf="view_recap_foods">
-                    <mat-expansion-panel>
+                    <mat-expansion-panel class="uff">
                         <mat-expansion-panel-header>
                             <mat-panel-title>
                                 CIBI
@@ -92,13 +92,23 @@
                             <mat-panel-description>
                             </mat-panel-description>
                         </mat-expansion-panel-header>
-                        <p *ngFor="let ElementOrder of foods_order">
-                            {{ElementOrder.quantity}}x {{ElementOrder.name_element_menu}}
-                        </p>
+                        <div *ngFor="let ElementOrder of foods_order">
+                            <div class="ordAtt">
+                                {{ElementOrder.quantity}}x {{ElementOrder.name_element_menu}}
+                                <button mat-icon-button class="rip" color="warn" (click)="removeProd()"
+                                    aria-label="Example icon-button with a heart icon">
+                                    <mat-icon>cancel</mat-icon>
+                                </button>
+                            </div>
+                            <mat-divider></mat-divider>
+                        </div>
+
+
+
                     </mat-expansion-panel>
                 </span>
                 <span *ngIf="view_recap_drinks">
-                    <mat-expansion-panel>
+                    <mat-expansion-panel class="uff">
                         <mat-expansion-panel-header>
                             <mat-panel-title>
                                 BEVANDE
@@ -107,9 +117,19 @@
                             </mat-panel-description>
                         </mat-expansion-panel-header>
 
-                        <p *ngFor="let ElementOrder of drinks_order">
-                            {{ElementOrder.quantity}}x {{ElementOrder.name_element_menu}}
-                        </p>
+                        <div *ngFor="let ElementOrder of drinks_order">
+                            <div class="ordAtt">
+                                {{ElementOrder.quantity}}x {{ElementOrder.name_element_menu}}
+                                <button mat-icon-button class="rip" color="warn" (click)="removeProd()"
+                                    aria-label="Example icon-button with a heart icon">
+                                    <mat-icon>cancel</mat-icon>
+                                </button>
+                            </div>
+                            <mat-divider></mat-divider>
+                        </div>
+
+
+
                     </mat-expansion-panel>
                 </span>
             </mat-accordion>

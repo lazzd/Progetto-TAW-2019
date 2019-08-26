@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import "src/my-theme.scss";
 
-*{
+* {
   font-family: "Poppins", sans-serif;
 }
 
@@ -9,7 +9,7 @@ html,
 body {
   margin: 0;
   height: 100%;
-  width:100%;
+  width: 100%;
 }
 
 // Sidenav Style
@@ -24,11 +24,15 @@ body {
   right: 0;
 }
 
-
+.mat-flat-button .mat-warn{
+  min-width: 0px;
+  line-height: 0px;
+  padding: 0 0; 
+}
 
 @media screen and (max-width: 1060px) {
-  .mat-list .mat-list-item.nice .mat-list-item-content{
-    display:flex;
+  .mat-list .mat-list-item.nice .mat-list-item-content {
+    display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
@@ -37,7 +41,7 @@ body {
 }
 
 @media screen and (max-width: 335px) {
-  .mat-list .mat-list-item.nice .mat-list-item-content{
+  .mat-list .mat-list-item.nice .mat-list-item-content {
     margin: 20px 0px 30px 0px;
     padding: 0px 0px 60px 0px;
   }
