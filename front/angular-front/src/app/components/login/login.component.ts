@@ -66,7 +66,7 @@ export class LoginComponent implements OnInit {
             if (err.error === '"password" length must be at least 6 characters long') {
               this.erroreLungPass = true;
             }
-            if (err.error === 'Email or Password is wrong') {
+            if (err.error === 'Email or Password is wrong' || err.error === 'Invalid password') {
               this.erroreLog = true;
             }
           });
