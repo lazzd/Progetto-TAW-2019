@@ -235,7 +235,6 @@ router.post("/", verifyAccessToken, async function (req, res, next) {
         console.log(req.body);*/
 
             // vedere per la validazione
-
             const { error } = orderValidation(req.body);
             // problema nella validazione
             if (error) return res.status(400).send(error.details[0].message);
