@@ -22,4 +22,12 @@
     </button>
   </div>
 
+  <div class="center">
+    <div *ngIf="erroreLungMail" class="error">La mail deve essere lunga almeno 6 caratteri!</div>
+    <div *ngIf="erroreMail" class="error">La mail deve essere valida!</div>
+    <div *ngIf="erroreLungPass" class="error">La password deve essere lunga almeno 6 caratteri!</div>
+    <div *ngIf="erroreVuoto" class="error">I campi devono essere entrambi riempiti!</div>
+    <div *ngIf="erroreLog" class="error">Email o Password errate!</div>
+  </div>
+
 </div>

@@ -23,7 +23,10 @@ form {
   width: 100%;
 }
 
-button,mat-form-field,mat-option,mat-select{
+button,
+mat-form-field,
+mat-option,
+mat-select {
   font-size: 16px;
   font-family: "Poppins", sans-serif;
 }
@@ -36,6 +39,12 @@ button,mat-form-field,mat-option,mat-select{
   display: flex;
   flex-shrink: 0;
   justify-content: center;
+}
+
+.error {
+  color: #f44336;
+  padding: 20px 0px;
+  font-size: 18px;
 }
 
 @media screen and (max-width: 650px) {

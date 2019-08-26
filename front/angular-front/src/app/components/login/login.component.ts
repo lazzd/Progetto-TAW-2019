@@ -21,12 +21,25 @@ export class LoginComponent implements OnInit {
     private loginService: LoginService,
     private router: Router,
     private jwt: JwtHelperService) { }
+  erroreLungPass: boolean;
+  erroreLungMail: boolean;
+  erroreMail: boolean;
+  erroreVuoto: boolean;
+  erroreLog: boolean;
 
   ngOnInit() {
+
   }
 
   // salvo poi e metto nell'header...
   sendLogin(email: string, password: string): void {
+
+    this.erroreVuoto = false;
+    this.erroreLungPass = false;
+    this.erroreMail = false;
+    this.erroreLungMail = false;
+    this.erroreLog = false;
+
     if (email && password) {
       this.loginService.sendLogin({ email, password } as Login)
         .subscribe(
@@ -44,11 +57,23 @@ export class LoginComponent implements OnInit {
           (err: any) => {
             // text con errori
             console.log(err.error);
+            if (err.error === '"email" length must be at least 6 characters long') {
+              this.erroreLungMail = true;
+            }
+            if (err.error === '"email" must be a valid email') {
+              this.erroreMail = true;
+            }
+            if (err.error === '"password" length must be at least 6 characters long') {
+              this.erroreLungPass = true;
+            }
+            if (err.error === 'Email or Password is wrong') {
+              this.erroreLog = true;
+            }
           });
     }
     else {
       // text con errori con cambi non presenti
-      console.log(email, password);
+      this.erroreVuoto = true;
     }
   }
 
