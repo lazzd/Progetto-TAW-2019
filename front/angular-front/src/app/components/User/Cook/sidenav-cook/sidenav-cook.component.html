@@ -11,8 +11,8 @@
             <mat-nav-list>
                 <!--Funzione che ti setta i link correttamente-->
                 <!--Perfetto, cosí con i link funziona-->
-                <a mat-list-item routerLink="./free-suborders/">ORDINI LIBERI</a>
-                <a mat-list-item routerLink="./my-suborders/">ORDINI DA PREPARARE</a>
+                <a mat-list-item routerLink="./free-suborders/" (click)="setOff('free')"><span matBadge="!" [matBadgeHidden]='!ntf_free' matBadgeOverlap="false">ORDINI LIBERI</span></a>
+                <a mat-list-item routerLink="./my-suborders/" (click)="setOff('my')">ORDINI DA PREPARARE</a>
                 <a mat-list-item class="logout-item" (click)=logout()>Logout</a>
             </mat-nav-list>
         </mat-sidenav>

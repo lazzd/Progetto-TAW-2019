@@ -26,6 +26,15 @@ export class SidenavWaiterComponent implements OnDestroy {
 
   private _mobileQueryListener: () => void;
 
+  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
+    private logoutService: LogoutService,
+    private router: Router,
+    private socketService: SocketService) {
+    this.mobileQuery = media.matchMedia('(max-width: 600px)');
+    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+    this.mobileQuery.addListener(this._mobileQueryListener);
+  }
+
   ngOnInit() {
     this.initIoConnection();
     this.place = "main";
@@ -42,15 +51,6 @@ export class SidenavWaiterComponent implements OnDestroy {
         if(this.place!='arrival' && !this.ntf_arrival)
           this.ntf_arrival = true;
       });
-  }
-
-  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
-    private logoutService: LogoutService,
-    private router: Router,
-    private socketService: SocketService) {
-    this.mobileQuery = media.matchMedia('(max-width: 600px)');
-    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-    this.mobileQuery.addListener(this._mobileQueryListener);
   }
 
   ngOnDestroy(): void {
