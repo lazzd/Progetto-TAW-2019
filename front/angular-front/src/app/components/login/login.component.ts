@@ -37,6 +37,10 @@ export class LoginComponent implements OnInit {
     })
   }
 
+  returnAuth(): void{
+    this.router.navigate(['/auth']);
+  }
+
   // salvo poi e metto nell'header...
   sendLogin(): void {
 
