@@ -48,7 +48,7 @@ export class SidenavWaiterComponent implements OnDestroy {
     this.socketService
       .arrivalSuborder()
       .subscribe(Order => {
-        if(this.place!='arrival' && !this.ntf_arrival)
+        if( Order.waiter == localStorage.getItem('UserName') && this.place!='arrival' && !this.ntf_arrival)
           this.ntf_arrival = true;
       });
   }
