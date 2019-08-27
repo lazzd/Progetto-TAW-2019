@@ -18,8 +18,8 @@ export class AuthComponent implements OnInit {
     this.router.navigate(['/auth/login']);
   }
 
-  goRegister(){
+  /*goRegister(){
     this.router.navigate(['/auth/register']);
-  }
+  }*/
 
 }
