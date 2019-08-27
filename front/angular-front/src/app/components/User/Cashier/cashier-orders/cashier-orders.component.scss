@@ -20,12 +20,14 @@
   font-size: 24px;
 }
 
+
+
 mat-divider {
   width: 90%;
 }
 
-mat-list-item{
-    padding: 20px 20px 20px 20px;
+mat-list-item {
+  padding: 20px 20px 20px 20px;
 }
 
 .part {
@@ -55,5 +57,9 @@ mat-list-item{
 @media screen and (max-width: 335px) {
   .prova {
     width: 280px;
+  }
+
+  table{
+    font-size:100px;
   }
 }
