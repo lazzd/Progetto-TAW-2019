@@ -14,7 +14,7 @@ import { Router } from "@angular/router";
 export class CashierBillComponent implements OnInit {
 
   view_bills: Boolean;
-  allNotCompleteOrder: ResOrder[];
+  allServedNotCompleteOrder: ResOrder[];
 
   constructor(
     private cashierBillService: CashierBillService,
@@ -23,7 +23,7 @@ export class CashierBillComponent implements OnInit {
 
   ngOnInit() {
     this.initIoConnection();
-    this.allNotCompleteOrder = [];
+    this.allServedNotCompleteOrder = [];
     this.view_bills = false;
     this.getAllNotCompleteOrder();
   }
@@ -35,15 +35,23 @@ export class CashierBillComponent implements OnInit {
       .arrivalSuborder()
       .subscribe(Order => {
         console.log("ARRIVAL", Order);
-        const indexPresent = this.allNotCompleteOrder.findIndex(elem => elem.id_order == Order.id_order);
-        if (indexPresent != -1)
-          this.allNotCompleteOrder[indexPresent] = new ResOrder(Order);
+        const indexPresent = this.allServedNotCompleteOrder.findIndex(elem => elem.id_order == Order.id_order);
+        if (Order.state_order.all_served) {
+          if (indexPresent != -1)
+            this.allServedNotCompleteOrder[indexPresent] = new ResOrder(Order);
+          else {
+            console.log("IMPOSSIBLE");
+            this.allServedNotCompleteOrder.push(new ResOrder(Order));
+            if (this.allServedNotCompleteOrder.length > 0)
+              this.view_bills = true;
+            //this.view_tables = true;
+          }
+        }
         else {
-          console.log("IMPOSSIBLE");
-          this.allNotCompleteOrder.push(new ResOrder(Order));
-          if (this.allNotCompleteOrder.length > 0)
-            this.view_bills = true;
-          //this.view_tables = true;
+          if (indexPresent != -1)
+            this.allServedNotCompleteOrder.splice(indexPresent, 1);
+          if (!this.allServedNotCompleteOrder.length)
+            this.view_bills = false;
         }
       });
 
@@ -51,26 +59,36 @@ export class CashierBillComponent implements OnInit {
       .newSuborder()
       .subscribe(Order => {
         console.log("NEW", Order);
-        const indexPresent = this.allNotCompleteOrder.findIndex(elem => elem.id_order == Order.id_order);
-        if (indexPresent != -1)
-          this.allNotCompleteOrder[indexPresent] = new ResOrder(Order);
+        const indexPresent = this.allServedNotCompleteOrder.findIndex(elem => elem.id_order == Order.id_order);
+        if (Order.state_order.all_served) {
+          if (indexPresent != -1)
+            this.allServedNotCompleteOrder[indexPresent] = new ResOrder(Order);
+          else {
+            console.log("IMPOSSIBLE");
+            this.allServedNotCompleteOrder.push(new ResOrder(Order));
+            if (this.allServedNotCompleteOrder.length > 0)
+              this.view_bills = true;
+            //this.view_tables = true;
+          }
+        }
         else {
-          console.log("sssssss");
-          this.allNotCompleteOrder.push(new ResOrder(Order));
-          if (this.allNotCompleteOrder.length > 0)
-            this.view_bills = true;
-          //this.view_tables = true;
+          if (indexPresent != -1)
+            this.allServedNotCompleteOrder.splice(indexPresent, 1);
+          if (!this.allServedNotCompleteOrder.length)
+            this.view_bills = false;
         }
       });
+
+    // OK
 
     this.socketService
       .completeOrder()
       .subscribe(Order => {
         console.log("DELETE", Order);
-        const indexPresent = this.allNotCompleteOrder.findIndex(elem => elem.id_order == Order.id_order);
+        const indexPresent = this.allServedNotCompleteOrder.findIndex(elem => elem.id_order == Order.id_order);
         if (indexPresent != -1)
-          this.allNotCompleteOrder.splice(indexPresent, 1);
-        if (!this.allNotCompleteOrder.length)
+          this.allServedNotCompleteOrder.splice(indexPresent, 1);
+        if (!this.allServedNotCompleteOrder.length)
           this.view_bills = false;
       })
 
@@ -91,9 +109,11 @@ export class CashierBillComponent implements OnInit {
             //for(let i=0;i<ResSub.length;++i)
             //this.myTables.push(new Table(ResSub[i]));
             ResSub.forEach(element => {
-              this.allNotCompleteOrder.push(new ResOrder(element));
+              if (element.state_order.all_served)
+                this.allServedNotCompleteOrder.push(new ResOrder(element));
             });
-            if (this.allNotCompleteOrder.length > 0)
+            console.log(this.allServedNotCompleteOrder)
+            if (this.allServedNotCompleteOrder.length > 0)
               this.view_bills = true;
             //this.view_tables = true;
           }
@@ -116,9 +136,9 @@ export class CashierBillComponent implements OnInit {
 
   async completeOrder(id_order: number, name_table: string) {
     try {
-      let CashierBillServicePromise1 = await this.cashierBillService.table(id_order, name_table);
+      let CashierBillServicePromise1 = await this.cashierBillService.completeOrder(id_order);
       CashierBillServicePromise1.subscribe((async ResSub => {
-        let CashierBillServicePromise2 = await this.cashierBillService.completeOrder(id_order, name_table);
+        let CashierBillServicePromise2 = await this.cashierBillService.table(name_table);
         // ritorna l'observable...
         CashierBillServicePromise2.subscribe(
           (ResSub => {

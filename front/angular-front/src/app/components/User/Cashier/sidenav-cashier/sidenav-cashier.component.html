@@ -11,11 +11,11 @@
             <mat-nav-list>
                 <!--Funzione che ti setta i link correttamente-->
                 <!--Perfetto, cosí con i link funziona-->
-                <a mat-list-item routerLink="./bills/">FATTURAZIONE</a>
-                <a mat-list-item routerLink="./tables/">TAVOLI</a>
-                <a mat-list-item routerLink="./orders/">ORDINI</a>
-                <a mat-list-item routerLink="./statistics/">STATISTICHE</a>
-                <a mat-list-item routerLink="./receipts/">INCASSI</a>
+                <a mat-list-item routerLink="./bills/" (click)="setOff('bills')"><span matBadge="!" [matBadgeHidden]='!ntf_bills' matBadgeOverlap="false">FATTURAZIONE</span></a>
+                <a mat-list-item routerLink="./tables/" (click)="setOff('tables')">TAVOLI</a>
+                <a mat-list-item routerLink="./orders/" (click)="setOff('orders')">ORDINI</a>
+                <a mat-list-item routerLink="./statistics/" (click)="setOff('statistics')">STATISTICHE</a>
+                <a mat-list-item routerLink="./receipts/" (click)="setOff('receipts')">INCASSI</a>
                 <a mat-list-item class="logout-item" (click)=logout()>Logout</a>
             </mat-nav-list>
         </mat-sidenav>
