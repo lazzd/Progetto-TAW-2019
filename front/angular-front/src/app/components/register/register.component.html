@@ -3,7 +3,7 @@
 
     <header>
 
-        <div class="logo"></div>
+        <div class="centerTitle"> Registra un nuovo account:</div>
 
     </header>
 
@@ -13,12 +13,12 @@
             <input type="text" matInput placeholder="Nome e Cognome" formControlName="nameRegister">
         </mat-form-field>
         <mat-form-field class="field-register">
-                <mat-label>Mail</mat-label>
+            <mat-label>Mail</mat-label>
             <input type="email" matInput placeholder="Mail" formControlName="emailRegister">
         </mat-form-field>
 
         <mat-form-field class="field-register">
-                <mat-label>Password</mat-label>
+            <mat-label>Password</mat-label>
             <input type="password" matInput placeholder="Password" formControlName="passwordRegister">
         </mat-form-field>
 
@@ -34,8 +34,19 @@
         </div>
 
         <div class="center">
-            <button type="submit" class="btn_register" mat-raised-button color="primary">REGISTRATI</button>
+            <button type="submit" class="btn_register" mat-raised-button color="primary">REGISTRA</button>
         </div>
     </form>
+
+    <div class="center">
+        <div *ngIf="erroreLungMail" class="error">La mail deve essere lunga almeno 6 caratteri!</div>
+        <div *ngIf="erroreMailEsistente" class="error">La mail è gia usata!</div>
+        <div *ngIf="erroreMail" class="error">La mail deve essere valida!</div>
+        <div *ngIf="erroreLungPass" class="error">La password deve essere lunga almeno 6 caratteri!</div>
+        <div *ngIf="erroreVuoto" class="error">I campi devono essere tutti riempiti!</div>
+        <div *ngIf="erroreLungNome" class="error">Il nome deve essere lungo almeno 6 caratteri!</div>
+        <div *ngIf="erroreNomeEsistente" class="error">Il nome è già usato!</div>
+        <div *ngIf="regCompletata" class="error">Registrazione Effetuata!</div>
+    </div>
 
 </div>
