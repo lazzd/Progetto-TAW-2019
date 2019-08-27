@@ -80,7 +80,7 @@
         <span *ngIf=add_table>
             <form [formGroup]="form_add_table" (ngSubmit)="postNewTable()">
                 <mat-form-field>
-                    <input matInput placeholder="Numero" formControlName="input_name_table">
+                    <input type="number" matInput placeholder="Numero" formControlName="input_name_table">
                 </mat-form-field>
                 <mat-form-field>
                     <input type="number" matInput placeholder="Posti" formControlName="input_seats">
