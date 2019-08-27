@@ -8,6 +8,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { RegisterService } from '../../services/register/register.service';
 // import Class
 import { Register } from '../../classes/register';
+import { FormGroup, FormControl } from '@angular/forms';
 
 export interface Tasks {
   value: string;
@@ -28,15 +29,30 @@ export class RegisterComponent implements OnInit {
     { value: 'cashier', viewValue: 'Cassiere' }
   ];
 
+  form_reg: FormGroup;
+
   constructor(
     private registerService: RegisterService,
     private router: Router,
     private jwt: JwtHelperService) { }
 
   ngOnInit() {
+    this.form_reg = new FormGroup({
+      nameRegister: new FormControl(),
+      emailRegister: new FormControl(),
+      passwordRegister: new FormControl(),
+      taskRegister: new FormControl()
+    })
   }
 
-  sendRegister(name: string, email: string, password: string, task: string): void {
+  sendRegister(): void {
+
+    const name = this.form_reg.value.nameRegister;
+    const email = this.form_reg.value.emailRegister;
+    const password = this.form_reg.value.passwordRegister;
+    const task = this.form_reg.value.taskRegister;
+
+    
     if (name && email && password && task) {
       this.registerService.sendRegister({ name, email, password, task } as Register)
         .subscribe(

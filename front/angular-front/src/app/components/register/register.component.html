@@ -6,34 +6,34 @@
 
     </header>
 
-    <form>
+    <form [formGroup]="form_reg" (ngSubmit)="sendRegister()">
         <mat-form-field class="field-register">
-            <input type="text" matInput placeholder="Nome e Cognome" #nameRegister>
+            <mat-label>Nome e Cognome</mat-label>
+            <input type="text" matInput placeholder="Nome e Cognome" formControlName="nameRegister">
         </mat-form-field>
         <mat-form-field class="field-register">
-            <input type="email" matInput placeholder="Mail" #emailRegister>
+                <mat-label>Mail</mat-label>
+            <input type="email" matInput placeholder="Mail" formControlName="emailRegister">
         </mat-form-field>
 
         <mat-form-field class="field-register">
-            <input type="password" matInput placeholder="Password" #passwordRegister>
+                <mat-label>Password</mat-label>
+            <input type="password" matInput placeholder="Password" formControlName="passwordRegister">
         </mat-form-field>
 
         <div class="center">
             <mat-form-field>
                 <mat-label>Ruolo</mat-label>
-                <mat-select #taskRegister>
+                <mat-select formControlName="taskRegister">
                     <mat-option *ngFor="let task of tasks" [value]="task.value">
                         {{task.viewValue}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
         </div>
-        
+
         <div class="center">
-            <button class="btn_register" mat-raised-button color="primary"
-            (click)="sendRegister(nameRegister.value, emailRegister.value, passwordRegister.value, taskRegister.value)">
-                REGISTRATI
-            </button>
+            <button type="submit" class="btn_register" mat-raised-button color="primary">REGISTRATI</button>
         </div>
     </form>
 
