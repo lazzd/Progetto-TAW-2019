@@ -51,10 +51,6 @@ const routes: Routes = [
     component: AuthComponent
   },
   {
-    path: 'auth/register',
-    component: RegisterComponent
-  },
-  {
     path: 'auth/login',
     component: LoginComponent
   },
@@ -153,6 +149,10 @@ const routes: Routes = [
       {
         path: 'receipts',
         component: CashierReceiptsComponent
+      },
+      {
+        path: 'register',
+        component: RegisterComponent
       }
     ]
   }
