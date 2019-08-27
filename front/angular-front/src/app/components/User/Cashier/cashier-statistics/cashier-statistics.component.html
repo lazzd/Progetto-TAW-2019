@@ -86,7 +86,16 @@
                         <mat-list-item *ngIf="user.task=='waiter'">
                             {{user.name}} | ORDINI SERVITI: {{user.actions}}
                         </mat-list-item>
+
                     </ng-container>
+
+
+                    <div style="display: block" class="chart">
+                        <canvas baseChart [data]="pieChartDataWaiter" [labels]="pieChartLabelsWaiter"
+                            [chartType]="pieChartType" [legend]="false" [options]="options"></canvas>
+                    </div>
+
+
                 </mat-list>
             </mat-tab>
             <mat-tab label="BARISTI">
@@ -96,6 +105,13 @@
                             {{user.name}} | ORDINI PREPARATI: {{user.actions}}
                         </mat-list-item>
                     </ng-container>
+
+                    <div style="display: block" class="chart">
+                        <canvas baseChart [data]="pieChartDataBarman" [labels]="pieChartLabelsBarman"
+                            [chartType]="pieChartType" [legend]="false" [options]="options"></canvas>
+                    </div>
+
+
                 </mat-list>
             </mat-tab>
             <mat-tab label="CUOCHI">
@@ -105,6 +121,13 @@
                             {{user.name}} | ORDINI PREPARATI: {{user.actions}}
                         </mat-list-item>
                     </ng-container>
+
+                    <div style="display: block" class="chart">
+                        <canvas baseChart [data]="pieChartDataChef" [labels]="pieChartLabelsChef"
+                            [chartType]="pieChartType" [legend]="false" [options]="options"></canvas>
+                    </div>
+
+
                 </mat-list>
             </mat-tab>
             <mat-tab label="CASSIERI">
@@ -114,10 +137,19 @@
                             {{user.name}} | SCONTRINI BATTUTI: {{user.actions}}
                         </mat-list-item>
                     </ng-container>
+
+                    <div style="display: block" class="chart">
+                        <canvas baseChart [data]="pieChartDataCashier" [labels]="pieChartLabelsCashier"
+                            [chartType]="pieChartType" [legend]="false" [options]="options"></canvas>
+                    </div>
+
+
                 </mat-list>
             </mat-tab>
 
 
         </mat-tab-group>
+
     </span>
+
 </div>

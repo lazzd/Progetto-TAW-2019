@@ -16,17 +16,51 @@ export class CashierStatisticsComponent implements OnInit {
   view_users: Boolean;
   allUsers: User[];
 
+  //dati per i vari chart
+  pieChartLabelsWaiter: string[];
+  pieChartDataWaiter: number[];
+
+  pieChartLabelsBarman: string[];
+  pieChartDataBarman: number[];
+
+  pieChartLabelsChef: string[];
+  pieChartDataChef: number[];
+
+  pieChartLabelsCashier: string[];
+  pieChartDataCashier: number[];
+
+  private options: any = {
+    legend: { position: 'bottom' }
+  }
+
+  pieChartType = 'pie';
+
   constructor(
     private cashierStatisticsService: CashierStatisticsService,
     private router: Router,
     private socketService: SocketService) { }
 
   ngOnInit() {
+
     this.initIoConnection();
     this.view_users = false;
     this.allUsers = [];
     this.getAllUsers();
+
+    this.pieChartLabelsWaiter = [];
+    this.pieChartDataWaiter = [];
+
+    this.pieChartLabelsBarman = [];
+    this.pieChartDataBarman = [];
+
+    this.pieChartLabelsChef = [];
+    this.pieChartDataChef = [];
+
+    this.pieChartLabelsCashier = [];
+    this.pieChartDataCashier = [];
   }
+
+
 
   private initIoConnection(): void {
     this.socketService.initSocket();
@@ -64,8 +98,24 @@ export class CashierStatisticsComponent implements OnInit {
             ResSub.forEach(element => {
               this.allUsers.push(new User(element));
             });
-            if (this.allUsers.length > 0)
+            if (this.allUsers.length > 0) {
               this.view_users = true;
+
+
+              for (let us of this.allUsers) {
+                if (us.task === 'waiter') { this.pieChartLabelsWaiter.push(us.name); this.pieChartDataWaiter.push(us.actions); } 
+                else if (us.task === 'barman') { this.pieChartLabelsBarman.push(us.name); this.pieChartDataBarman.push(us.actions); }
+                else if (us.task === 'cook') { this.pieChartLabelsChef.push(us.name); this.pieChartDataChef.push(us.actions); }
+                else if (us.task === 'cashier') { this.pieChartLabelsCashier.push(us.name); this.pieChartDataCashier.push(us.actions); }
+              }
+              
+
+
+
+            }
+
+
+
             //this.view_tables = true;
           }
         }),
