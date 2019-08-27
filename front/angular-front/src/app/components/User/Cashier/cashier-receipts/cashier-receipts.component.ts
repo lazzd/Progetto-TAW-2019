@@ -101,6 +101,10 @@ export class CashierReceiptsComponent implements OnInit {
     }
   }
 
+  async hideDate(): Promise<void>{
+    this.view_by_date = false;
+  }
+
   async getCompleteOrdersByDate(): Promise<void> {
     try {
       if (this.form_date.value.input_date) {
