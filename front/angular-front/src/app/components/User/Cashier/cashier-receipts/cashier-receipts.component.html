@@ -1,11 +1,13 @@
 <router-outlet></router-outlet>
 <div class="container">
     <span>
-        <mat-accordion>
+        <div class="cent">
             <mat-expansion-panel>
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                        INCASSO GIORNALIERO: {{tot_today}} $
+
+                        INCASSO GIORNALIERO: {{tot_today}} €
+
                     </mat-panel-title>
                     <mat-panel-description>
                     </mat-panel-description>
@@ -13,28 +15,36 @@
                 <mat-list>
                     <ng-container *ngFor="let elemTodayOrders of todayCompleteOrder">
                         <mat-list-item>
-                            ORDINE NUMBER: {{elemTodayOrders.id_order}}, CONTO: {{elemTodayOrders.tot}} $
+                            <div class="rimp">
+                                ORDINE ID: {{elemTodayOrders.id_order}} | CONTO: {{elemTodayOrders.tot}} €
+                            </div>
                         </mat-list-item>
                     </ng-container>
                 </mat-list>
             </mat-expansion-panel>
-        </mat-accordion>
+        </div>
+
     </span>
-    <form [formGroup]="form_date" (ngSubmit)="getCompleteOrdersByDate()">
-        <mat-form-field>
-            <mat-label>Ricerca per Data</mat-label>
-            <input formControlName="input_date" matInput [matDatepicker]="picker" placeholder="Insert Date">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker touchUi #picker></mat-datepicker>
-        </mat-form-field>
-        <button type="submit" mat-flat-button color="primary">CERCA</button>
-    </form>
+    <div class="center">
+        <form [formGroup]="form_date" (ngSubmit)="getCompleteOrdersByDate()">
+            <mat-form-field>
+                <mat-label>Ricerca per Data</mat-label>
+                <input formControlName="input_date" matInput [matDatepicker]="picker" placeholder="Insert Date">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker touchUi #picker></mat-datepicker>
+            </mat-form-field>
+            <button type="submit" mat-flat-button color="primary">CERCA</button>
+        </form>
+    </div>
     <span *ngIf=view_by_date>
-        <mat-accordion>
-            <mat-expansion-panel>
+
+        <div class="center">
+            <mat-expansion-panel [disabled]="true" [expanded]="true">
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                        INCASSO {{select_date.toDateString()}}: {{tot_by_date}} $
+
+                        INCASSO {{select_date.toDateString().toUpperCase()}}: {{tot_by_date}} €
+
                     </mat-panel-title>
                     <mat-panel-description>
                     </mat-panel-description>
@@ -42,11 +52,20 @@
                 <mat-list>
                     <ng-container *ngFor="let elemTodayOrders of byDateCompleteOrder">
                         <mat-list-item>
-                            ORDINE NUMBER: {{elemTodayOrders.id_order}}, CONTO: {{elemTodayOrders.tot}} $
+                            <div class="rimp">
+                                ORDINE ID: {{elemTodayOrders.id_order}} | CONTO: {{elemTodayOrders.tot}} €
+                            </div>
                         </mat-list-item>
                     </ng-container>
                 </mat-list>
+
             </mat-expansion-panel>
-        </mat-accordion>
+
+        </div>
+
+        <div class="but">
+            <button type="submit" mat-flat-button color="primary" (click)="hideDate()">NASCONDI</button>
+        </div>
+
     </span>
 </div>

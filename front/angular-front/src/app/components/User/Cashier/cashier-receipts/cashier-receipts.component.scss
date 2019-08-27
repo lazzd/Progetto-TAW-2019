@@ -1,0 +1,64 @@
+.container {
+}
+
+.cent {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0px 60px 0px;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  padding: 0px 0px 20px 0px;
+}
+
+.but {
+  display: flex;
+  justify-content: center;
+  padding: 0px 0px 0px 0px;
+}
+
+mat-panel-title {
+  font-size: 24px;
+}
+
+mat-expansion-panel {
+  width: 800px;
+}
+
+@media screen and (max-width: 900px) {
+  mat-expansion-panel {
+    width: 420px;
+  }
+  mat-panel-title {
+    font-size: 20px;
+  }
+}
+
+@media screen and (max-width: 435px) {
+  mat-list-item {
+    margin: 4px 0px 4px 0px;
+  }
+  mat-list {
+    padding: 0px 0px 0px 0px;
+  }
+  mat-expansion-panel {
+    width: 335px;
+  }
+  mat-panel-title {
+    font-size: 16px;
+  }
+  .rimp {
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 335px) {
+  mat-list-item {
+    margin: 0px 0px 0px 0px;
+  }
+  mat-expansion-panel {
+    width: 280px;
+  }
+}
