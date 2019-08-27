@@ -33,6 +33,7 @@ export class WaiterArrivalComponent implements OnInit {
   private initIoConnection(): void {
     this.socketService.initSocket();
 
+    // filtro da backend per nome
     this.socketService
       .arrivalSuborder()
       .subscribe(Order => {
@@ -85,6 +86,16 @@ export class WaiterArrivalComponent implements OnInit {
         }
       }
       );
+
+    this.socketService
+      .completeOrder()
+      .subscribe(Order => {
+        console.log("DELETE", Order);
+        this.allArrivalSuborders = this.allArrivalSuborders.filter(elem => elem.id_order!=Order.id_order);
+        if (!this.allArrivalSuborders.length)
+          this.view_arrival_Suborders = false;
+      })
+
   }
 
   async getMyArrivalOrders(): Promise<void> {

@@ -5,6 +5,8 @@ import { CookMySubordersService } from '../../../../services/User/Cook/cook-my-s
 import { Router } from "@angular/router";
 import { WaitSuborder } from 'src/app/classes/wait_suborder';
 
+import { SocketService } from '../../../../services/socket/socket.service';
+
 @Component({
   selector: 'app-cook-my-suborders',
   templateUrl: './cook-my-suborders.component.html',
@@ -18,12 +20,33 @@ export class CookMySubordersComponent implements OnInit {
 
   constructor(
     private cookMySubordersService: CookMySubordersService,
-    private router: Router) { }
+    private router: Router,
+    private socketService: SocketService) { }
 
   ngOnInit() {
+    this.initIoConnection();
     this.allMySuborders = [];
     this.view_my_Suborders = false;
     this.getMyOrdersByCook();
+  }
+
+  private initIoConnection(): void {
+    this.socketService.initSocket();
+
+    this.socketService
+      .completeOrder()
+      .subscribe(Order => {
+        console.log("DELETE", Order);
+        this.allMySuborders = this.allMySuborders.filter(elem => elem.id_order != Order.id_order);
+        if (this.firstMySuborders.id_order == Order.id_order)
+          if (this.allMySuborders.length)
+            this.firstMySuborders = this.allMySuborders.shift();
+          else
+            this.firstMySuborders = null;
+        if (!this.firstMySuborders)
+          this.view_my_Suborders = false;
+      })
+
   }
 
   async getMyOrdersByCook(): Promise<void> {

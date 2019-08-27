@@ -8,7 +8,7 @@
                         <mat-expansion-panel-header>
                             <mat-panel-title class="imp">
                                 <div class="titolo">
-                                    TAVOLO {{Order.table}}
+                                    TAVOLO {{Order.table}}, all_served {{Order.state_order.all_served}}
                                 </div>
 
                                 <!--<div class="titolo">
@@ -31,16 +31,18 @@
                                     <th mat-sort-header="quantity">Quantità</th>
                                     <th mat-sort-header="price">Prezzo</th>
                                 </tr>
-                             
+
 
                                 <ng-container *ngFor="let elemSuborder of Order.elements_order">
-                                    <tr *ngFor="let food_elem of elemSuborder.foods_order">
+                                    <tr [ngClass]="elemSuborder.state.foods_served ? 'served' : 'notServed'"
+                                        *ngFor="let food_elem of elemSuborder.foods_order">
                                         <td>{{food_elem.name_element_menu}}</td>
                                         <td>{{food_elem.quantity}}</td>
                                         <td>{{food_elem.quantity * food_elem.price}}€</td>
                                     </tr>
 
-                                    <tr *ngFor="let drink_elem of elemSuborder.drinks_order">
+                                    <tr [ngClass]="elemSuborder.state.drinks_served ? 'served' : 'notServed'"
+                                        *ngFor="let drink_elem of elemSuborder.drinks_order">
                                         <td>{{drink_elem.name_element_menu}}</td>
                                         <td>{{drink_elem.quantity}}</td>
                                         <td>{{drink_elem.quantity * drink_elem.price}}€</td>
@@ -58,7 +60,7 @@
                             </table>
                         </div>
 
-                        <button *ngIf="Order.state_order.all_served" mat-flat-button color="primary"
+                        <button mat-flat-button color="primary"
                             (click)="completeOrder(Order.id_order, Order.table)">BATTI SCONTRINO</button>
                     </mat-expansion-panel>
                 </ng-container>

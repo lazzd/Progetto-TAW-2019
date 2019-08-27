@@ -40,7 +40,8 @@ export class WaiterOrdersComponent implements OnInit {
   drinks_order: ElementMenu[];
   foods_order: ElementMenu[];
 
-  tot_sub: number;
+  tot_sub_drinks: number;
+  tot_sub_foods: number;
 
   // devo avere due oggetti, che li carico... la presenza dell'id_order la ho direttamente in myTables
   // metodo unico con bottone: invia ordine che discrimina se fare una post (create new order) oppure una put (update), grazie all'id
@@ -64,7 +65,8 @@ export class WaiterOrdersComponent implements OnInit {
     this.view_recap_foods = false;
     this.drinks_order = [];
     this.foods_order = [];
-    this.tot_sub = 0;
+    this.tot_sub_drinks = 0;
+    this.tot_sub_foods = 0;
     this.getTablesByWaiter();
   }
 
@@ -180,11 +182,14 @@ export class WaiterOrdersComponent implements OnInit {
       //console.log(num);
       const cpy_ElementOrder = new ElementMenu(this.completeMenu[i].elements_category[u]);
       cpy_ElementOrder.quantity = num;
-      this.tot_sub += num * cpy_ElementOrder.price;
-      if (cpy_ElementOrder.type == "drink")
+      if (cpy_ElementOrder.type == "drink"){
         this.drinks_order.push(cpy_ElementOrder);
-      if (cpy_ElementOrder.type == "food")
+        this.tot_sub_drinks += num * cpy_ElementOrder.price;
+      }
+      if (cpy_ElementOrder.type == "food"){
         this.foods_order.push(cpy_ElementOrder);
+        this.tot_sub_foods += num * cpy_ElementOrder.price;
+      }
       if (this.drinks_order.length > 0) {
         this.view_recap_order = true;
         this.view_recap_drinks = true;
@@ -200,22 +205,20 @@ export class WaiterOrdersComponent implements OnInit {
 
   removelementOrder(type: string, i: number) {
     console.log(type, i);
-    console.log("OLD TOT: ", this.tot_sub);
     if (type == 'food') {
-      this.tot_sub -= this.foods_order[i].quantity * this.foods_order[i].price;
+      this.tot_sub_foods -= this.foods_order[i].quantity * this.foods_order[i].price;
       this.foods_order.splice(i, 1);
-      if(!this.foods_order.length)
+      if (!this.foods_order.length)
         this.view_recap_foods = false;
     }
     else {
-      this.tot_sub -= this.drinks_order[i].quantity * this.drinks_order[i].price;
+      this.tot_sub_drinks -= this.drinks_order[i].quantity * this.drinks_order[i].price;
       this.drinks_order.splice(i, 1);
-      if(!this.drinks_order.length)
+      if (!this.drinks_order.length)
         this.view_recap_drinks = false;
     }
-    if(!this.view_recap_foods && !this.view_recap_drinks)
+    if (!this.view_recap_foods && !this.view_recap_drinks)
       this.view_recap_order = false;
-    console.log("NEW TOT: ", this.tot_sub);
   }
 
   async sendOrder(): Promise<void> {
@@ -224,7 +227,7 @@ export class WaiterOrdersComponent implements OnInit {
       // già presente l'ordine, devo fare la put
       if (this.selectedTable.hasOwnProperty("id_order")) {
         const id_order = this.selectedTable.id_order;
-        let WaiterOrdersServicePromise = await this.waiterOrdersService.sendPUTOrder(id_order, this.drinks_order, this.foods_order, this.tot_sub);
+        let WaiterOrdersServicePromise = await this.waiterOrdersService.sendPUTOrder(id_order, this.drinks_order, this.foods_order, this.tot_sub_drinks, this.tot_sub_foods);
         // ritorna l'observable...
         WaiterOrdersServicePromise.subscribe(
           (ResSub => {
@@ -250,7 +253,7 @@ export class WaiterOrdersComponent implements OnInit {
       else {
         console.log("qui");
         const waiter = localStorage.getItem('UserName');
-        let WaiterOrdersServicePromise = await this.waiterOrdersService.sendPOSTOrder(this.drinks_order, this.foods_order, this.tot_sub, this.selectedTable.name_table, waiter);
+        let WaiterOrdersServicePromise = await this.waiterOrdersService.sendPOSTOrder(this.drinks_order, this.foods_order, this.tot_sub_drinks, this.tot_sub_foods, this.selectedTable.name_table, waiter);
         // ritorna l'observable...
         WaiterOrdersServicePromise.subscribe(
           (ResSub => {

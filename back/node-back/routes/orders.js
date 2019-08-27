@@ -40,7 +40,7 @@ router.get("/", verifyAccessToken, async function (req, res, next) {
     try {
         const task = jwt.decode(req.header('auth-token')).task;
         if (task == 'cook') {
-            await OrdersModel.find({ 'state_order.all_foods_complete': false })
+            await OrdersModel.find({ 'state_order.complete': false, 'state_order.all_foods_complete': false })
                 .then(array => {
                     for (let i = 0; i < array.length; ++i) {
                         array[i].elements_order = array[i].elements_order.filter(sub_order => sub_order.employees.foods_employee == null);
@@ -50,7 +50,7 @@ router.get("/", verifyAccessToken, async function (req, res, next) {
                 .catch(err => res.status(500).json(err));
         }
         else if (task == 'barman') {
-            await OrdersModel.find({ 'state_order.all_drinks_complete': false })
+            await OrdersModel.find({ 'state_order.complete': false, 'state_order.all_drinks_complete': false })
                 .then(array => {
                     for (let i = 0; i < array.length; ++i) {
                         array[i].elements_order = array[i].elements_order.filter(sub_order => sub_order.employees.drinks_employee == null);
@@ -68,7 +68,7 @@ router.get("/", verifyAccessToken, async function (req, res, next) {
                 else*/
                 const start = new Date(req.query.date);
                 const end = new Date(start.getTime() + 86400000);
-                await OrdersModel.find({ date: { $gte: start, $lt: end } , 'state_order.complete': true})
+                await OrdersModel.find({ date: { $gte: start, $lt: end }, 'state_order.complete': true })
                     .then(doc => res.json(doc))
                     .catch(err => res.status(500).json(err));
             }
@@ -87,6 +87,7 @@ router.get("/", verifyAccessToken, async function (req, res, next) {
     }
 });
 
+// anche qua da mettere l'end
 
 // VEDERE SE L'ENDPOINT PUO' ANDARE BENE
 router.get("/myOrders", verifyAccessToken, async function (req, res, next) {
@@ -94,7 +95,7 @@ router.get("/myOrders", verifyAccessToken, async function (req, res, next) {
         const task = jwt.decode(req.header('auth-token')).task;
         if (task == 'cook') {
             const name = jwt.decode(req.header('auth-token')).name;
-            await OrdersModel.find({ 'state_order.all_foods_complete': false })
+            await OrdersModel.find({ 'state_order.complete': false, 'state_order.all_foods_complete': false })
                 .then(array => {
                     for (let i = 0; i < array.length; ++i) {
                         array[i].elements_order = array[i].elements_order.filter(sub_order => sub_order.state.foods_complete == false && sub_order.employees.foods_employee == name);
@@ -105,7 +106,7 @@ router.get("/myOrders", verifyAccessToken, async function (req, res, next) {
         }
         else if (task == 'barman') {
             const name = jwt.decode(req.header('auth-token')).name;
-            await OrdersModel.find({ 'state_order.all_drinks_complete': false })
+            await OrdersModel.find({ 'state_order.complete': false, 'state_order.all_drinks_complete': false })
                 .then(array => {
                     for (let i = 0; i < array.length; ++i) {
                         array[i].elements_order = array[i].elements_order.filter(sub_order => sub_order.state.drinks_complete == false && sub_order.employees.drinks_employee == name);
@@ -116,7 +117,7 @@ router.get("/myOrders", verifyAccessToken, async function (req, res, next) {
         }
         else if (task == 'waiter') {
             const name = jwt.decode(req.header('auth-token')).name;
-            await OrdersModel.find({ waiter: name, 'state_order.all_served': false })
+            await OrdersModel.find({ waiter: name, 'state_order.complete': false, 'state_order.all_served': false })
                 .then(array => {
                     //console.log(array);
                     /*for (let i = 0; i < array.length; ++i) {
@@ -301,7 +302,6 @@ router.post("/", verifyAccessToken, async function (req, res, next) {
                 const isTablePresent = await TablesModel.findOne({ name_table: req.body.table });
                 if (!isTablePresent) return res.status(400).send("Table name isn't present");
                 // ----------------
-                model.tot += model_element_order.tot_sub;
                 await model.save()
                     .then(async doc => {
                         if (!doc || doc.length === 0) {
@@ -392,7 +392,6 @@ router.put("/:id_order", verifyAccessToken, async function (req, res, next) {
                     isOrderPresent.state_order.all_drinks_complete = false;
                 if (req.body.foods_order && isOrderPresent.state_order.all_foods_complete)
                     isOrderPresent.state_order.all_foods_complete = false;
-                isOrderPresent.tot += model_element_order.tot_sub;
                 await isOrderPresent.save()
                     .then(doc => {
                         if (!doc || doc.length === 0) {
@@ -432,8 +431,10 @@ router.put("/:id_order/complete", verifyAccessToken, async function (req, res, n
             // CONTROLLO LATO BACK AND AUTO PER SET COMPLETE A TRUE, ORA DA FARE CON IL SERVED
             if (req.body.state) {
                 //if (!isOrderPresent.elements_order.every((elem) => elem.state.foods_complete) || !isOrderPresent.elements_order.every((elem) => elem.state.drinks_complete))
+                /*
                 if (!isOrderPresent.state_order.all_served)
                     return res.status(400).send("Some Suborder isn't serve");
+                */
                 isOrderPresent.state_order.complete = req.body.state;
             }
             else {
@@ -514,10 +515,14 @@ router.put("/:id_order/suborders/:id_suborder/complete", verifyAccessToken, asyn
                     return res.status(400).send('Missing parameters');
                 if (req.body.type != "food" && req.body.type != "drink")
                     return res.status(400).send("Type parameter isn't correct");
-                if (req.body.type == "food")
+                if (req.body.type == "food") {
                     suborders.state.foods_served = req.body.state;
-                if (req.body.type == "drink")
+                    isOrderPresent.tot += suborders.tot_sub_foods;
+                }
+                if (req.body.type == "drink") {
                     suborders.state.drinks_served = req.body.state;
+                    isOrderPresent.tot += suborders.tot_sub_drinks;
+                }
                 if (req.body.state)
                     if (isOrderPresent.elements_order.every((elem) => elem.state.foods_served == true && elem.state.drinks_served == true))
                         isOrderPresent.state_order.all_served = true;

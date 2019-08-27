@@ -43,6 +43,7 @@ export class SidenavCashierComponent implements OnDestroy {
     this.ntf_bills = false;
   }
 
+  // FAI PROVE PER NOTIFICHE
   private initIoConnection(): void {
     this.socketService.initSocket();
 

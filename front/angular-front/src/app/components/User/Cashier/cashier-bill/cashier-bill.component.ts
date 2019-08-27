@@ -36,22 +36,14 @@ export class CashierBillComponent implements OnInit {
       .subscribe(Order => {
         console.log("ARRIVAL", Order);
         const indexPresent = this.allServedNotCompleteOrder.findIndex(elem => elem.id_order == Order.id_order);
-        if (Order.state_order.all_served) {
-          if (indexPresent != -1)
-            this.allServedNotCompleteOrder[indexPresent] = new ResOrder(Order);
-          else {
-            console.log("IMPOSSIBLE");
-            this.allServedNotCompleteOrder.push(new ResOrder(Order));
-            if (this.allServedNotCompleteOrder.length > 0)
-              this.view_bills = true;
-            //this.view_tables = true;
-          }
-        }
+        if (indexPresent != -1)
+          this.allServedNotCompleteOrder[indexPresent] = new ResOrder(Order);
         else {
-          if (indexPresent != -1)
-            this.allServedNotCompleteOrder.splice(indexPresent, 1);
-          if (!this.allServedNotCompleteOrder.length)
-            this.view_bills = false;
+          console.log("IMPOSSIBLE");
+          this.allServedNotCompleteOrder.push(new ResOrder(Order));
+          if (this.allServedNotCompleteOrder.length > 0)
+            this.view_bills = true;
+          //this.view_tables = true;
         }
       });
 
@@ -60,22 +52,14 @@ export class CashierBillComponent implements OnInit {
       .subscribe(Order => {
         console.log("NEW", Order);
         const indexPresent = this.allServedNotCompleteOrder.findIndex(elem => elem.id_order == Order.id_order);
-        if (Order.state_order.all_served) {
-          if (indexPresent != -1)
-            this.allServedNotCompleteOrder[indexPresent] = new ResOrder(Order);
-          else {
-            console.log("IMPOSSIBLE");
-            this.allServedNotCompleteOrder.push(new ResOrder(Order));
-            if (this.allServedNotCompleteOrder.length > 0)
-              this.view_bills = true;
-            //this.view_tables = true;
-          }
-        }
+        if (indexPresent != -1)
+          this.allServedNotCompleteOrder[indexPresent] = new ResOrder(Order);
         else {
-          if (indexPresent != -1)
-            this.allServedNotCompleteOrder.splice(indexPresent, 1);
-          if (!this.allServedNotCompleteOrder.length)
-            this.view_bills = false;
+          console.log("IMPOSSIBLE");
+          this.allServedNotCompleteOrder.push(new ResOrder(Order));
+          if (this.allServedNotCompleteOrder.length > 0)
+            this.view_bills = true;
+          //this.view_tables = true;
         }
       });
 
@@ -109,8 +93,7 @@ export class CashierBillComponent implements OnInit {
             //for(let i=0;i<ResSub.length;++i)
             //this.myTables.push(new Table(ResSub[i]));
             ResSub.forEach(element => {
-              if (element.state_order.all_served)
-                this.allServedNotCompleteOrder.push(new ResOrder(element));
+              this.allServedNotCompleteOrder.push(new ResOrder(element));
             });
             console.log(this.allServedNotCompleteOrder)
             if (this.allServedNotCompleteOrder.length > 0)
