@@ -14,12 +14,21 @@
   background: url("../../images/logo.jpg") no-repeat center center;
 }
 
+.error {
+  color: #f44336;
+  padding: 20px 0px;
+  font-size: 18px;
+}
+
 form {
   max-width: 400px;
   margin: auto;
 }
 
-button,mat-form-field,mat-option,mat-select{
+button,
+mat-form-field,
+mat-option,
+mat-select {
   font-size: 16px;
   font-family: "Poppins", sans-serif;
 }
@@ -34,8 +43,23 @@ button,mat-form-field,mat-option,mat-select{
   justify-content: center;
 }
 
+.centerTitle {
+  font-size: 35px;
+  font-weight: bold;
+  padding: 25px 0px 20px 0px;
+  display: flex;
+  flex-shrink: 0;
+  justify-content: center;
+}
+
 @media screen and (max-width: 650px) {
   .logo {
     background: url("../../images/logomin.jpg") no-repeat center center;
+  }
+}
+
+@media screen and (max-width: 340px) {
+  .centerTitle {
+    font-size: 28px;
   }
 }
