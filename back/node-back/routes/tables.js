@@ -75,10 +75,10 @@ router.post("/", verifyAccessToken, async function (req, res, next) {
             console.log(task);
             if (task != 'cashier')
                 return res.status(400).send('Missing permissions');
-            console.log(req.body);
             const { error } = tableValidation(req.body);
             if (error) return res.status(400).send(error.details[0].message);
             const isTablePresent = await TablesModel.findOne({ name_table: req.body.name_table });
+            console.log("IS", isTablePresent);
             if (isTablePresent) return res.status(400).send("Table name is already present");
             let model = new TablesModel(req.body);
             await model.save()

@@ -37,6 +37,18 @@ mat-grid-tile{
   padding: 0px 0px 20px 0px;
 }
 
+.center {
+  display: flex;
+  flex-shrink: 0;
+  justify-content: center;
+}
+
+.error {
+  color: #f44336;
+  padding: 20px 0px;
+  font-size: 18px;
+}
+
 @media screen and (max-width: 870px) {
   .grid {
     width: 400px;

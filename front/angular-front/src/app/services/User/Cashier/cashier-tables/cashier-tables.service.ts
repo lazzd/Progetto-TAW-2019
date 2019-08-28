@@ -30,12 +30,12 @@ export class CashierTablesService {
       }
     }
 
-    async postNewTable(name_table: string, seats: number): Promise<Observable<Table>> {
+    async postNewTable(name_table: number, seats: number): Promise<Observable<Table>> {
       try {
         let promRefeshToken = await this.refreshToken.refreshToken();
         console.log(promRefeshToken);
         // Ora posso fare la richiesta...
-        return this.http.post<Table>(urlTable, {name_table: name_table, seats: seats});
+        return this.http.post<Table>(urlTable, {'name_table': name_table, 'seats': seats});
       } catch (ErrorRefreshToken) {
         return throwError(ErrorRefreshToken);
       }

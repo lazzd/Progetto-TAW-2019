@@ -24,6 +24,8 @@ export class CashierTablesComponent implements OnInit {
   add_table: Boolean;
   form_add_table: FormGroup;
 
+  erroreTavoloDuplicato: boolean;
+
   constructor(
     private cashierTablesService: CashierTablesService,
     private router: Router,
@@ -38,6 +40,7 @@ export class CashierTablesComponent implements OnInit {
       input_seats: new FormControl()
     })
     this.initIoConnection();
+    this.erroreTavoloDuplicato = false;
     this.allTables = [];
     this.view_tables = false;
     this.selectedTable = null;
@@ -144,24 +147,32 @@ export class CashierTablesComponent implements OnInit {
 
   async postNewTable() {
     try {
-      const newNameTable: string = this.form_add_table.value.input_name_table;
+      const newNameTable: number = this.form_add_table.value.input_name_table;
       const newSeats: number = this.form_add_table.value.input_seats;
       if (newNameTable && newSeats) {
+        console.log("NAME: ", newNameTable);
+        console.log("NUM: ", newSeats);
         let CashierTablesServicePromise = await this.cashierTablesService.postNewTable(newNameTable, newSeats);
         // ritorna l'observable...
         CashierTablesServicePromise.subscribe(
           (ResSub => {
             // L'AccessToken è valido: o perchè NON era scaduto oppure perchè il refresh è avvenuto in maniara corretta
+            this.erroreTavoloDuplicato = false;
             this.allTables.push(new Table(ResSub));
           }),
           (ErrSub => {
-            if (ErrSub.error = "Table name is already present")
-              console.log("Tavolo già esistente");
-            // necessario il catch della promise non gestisce l'errore dell'observable
-            // E' avvenuto un errore con il refresh dell'AccessToken: è necessario un nuovo login
-            this.router.navigate(['/auth/login']);
-            // da andare in pagina di login
-            console.log("SEND ORDER err", ErrSub);
+            console.log(ErrSub);
+            if (ErrSub.error == "Table name is already present") {
+              this.erroreTavoloDuplicato = true;
+              console.log("ERRORE INSERIMENTO: Tavolo già esistente!");
+            }
+            else {
+              // necessario il catch della promise non gestisce l'errore dell'observable
+              // E' avvenuto un errore con il refresh dell'AccessToken: è necessario un nuovo login
+              this.router.navigate(['/auth/login']);
+              // da andare in pagina di login
+              console.log("SEND ORDER err", ErrSub);
+            }
           })
         )
       }
