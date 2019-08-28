@@ -83,6 +83,9 @@ export class WaiterArrivalComponent implements OnInit {
             this.view_arrival_Suborders = true;
             console.log(this.allArrivalSuborders);
           }
+          else{
+            this.view_arrival_Suborders = false;
+          }
         }
       }
       );
