@@ -7,12 +7,13 @@
   background-color: lightgray;
 }
 
-mat-grid-tile{
+mat-grid-tile {
   border-radius: 4px;
 }
 
 .container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   text-align: center;
 }
@@ -31,6 +32,8 @@ mat-grid-tile{
 .grid {
   width: 800px;
   padding: 30px 30px 30px 30px;
+  text-align: center;
+  display: inline-block;
 }
 
 .selTable {
@@ -38,9 +41,8 @@ mat-grid-tile{
 }
 
 .center {
-  display: flex;
-  flex-shrink: 0;
-  justify-content: center;
+  text-align: center;
+  display: inline-block;
 }
 
 .error {
