@@ -17,25 +17,6 @@ let verifyAccessToken = require('./verifyAccessToken');
 // per validazione schema
 const { orderValidation, elementOrderValidation } = require('../validation');
 
-async function isElementMenuPresent(elem) {
-    try {
-        await MenuModel.findOne({ category: elem.category })
-            .then(category => {
-                if (!category)
-                    return false;
-                let res = category.elements_category.some(ElementMenu => ElementMenu.name_element_menu == elem.name_element_menu);
-                return (res) ? true : false;
-            })
-            .catch(err => {
-                console.log(err);
-                return false;
-            });
-    } catch (err) {
-        return false;
-    }
-}
-
-
 router.get("/", verifyAccessToken, async function (req, res, next) {
     try {
         const task = jwt.decode(req.header('auth-token')).task;
@@ -61,11 +42,6 @@ router.get("/", verifyAccessToken, async function (req, res, next) {
         }
         else if (task == 'cashier') {
             if (req.query.date) {
-                /*const dd = req.query.date.split("-");
-                console.log(dd);
-                if (dd.some(d => Number(d))==NaN)
-                    return res.status(400).send("Date isn't a valid date");
-                else*/
                 const start = new Date(req.query.date);
                 const end = new Date(start.getTime() + 86400000);
                 await OrdersModel.find({ date: { $gte: start, $lt: end }, 'state_order.complete': true })
@@ -87,9 +63,6 @@ router.get("/", verifyAccessToken, async function (req, res, next) {
     }
 });
 
-// anche qua da mettere l'end
-
-// VEDERE SE L'ENDPOINT PUO' ANDARE BENE
 router.get("/myOrders", verifyAccessToken, async function (req, res, next) {
     try {
         const task = jwt.decode(req.header('auth-token')).task;
@@ -119,16 +92,6 @@ router.get("/myOrders", verifyAccessToken, async function (req, res, next) {
             const name = jwt.decode(req.header('auth-token')).name;
             await OrdersModel.find({ waiter: name, 'state_order.complete': false, 'state_order.all_served': false })
                 .then(array => {
-                    //console.log(array);
-                    /*for (let i = 0; i < array.length; ++i) {
-                        array[i].elements_order = array[i].elements_order.filter(sub_order => (sub_order.state.drinks_served == false || sub_order.state.foods_served == false) && (sub_order.state.drinks_complete == true || sub_order.state.foods_complete == true));
-                        for (let u = 0; u < array[i].elements_order.length; ++u) {
-                            if (array[i].elements_order[u].state.drinks_served || !array[i].elements_order[u].state.drinks_complete)
-                                array[i].elements_order[u].drinks_order = [];
-                            if (array[i].elements_order[u].state.foods_served || !array[i].elements_order[u].state.foods_complete)
-                                array[i].elements_order[u].foods_order = [];
-                        }
-                    }*/
                     res.json(array)
                 })
                 .catch(err => res.status(500).json(err));
@@ -165,7 +128,6 @@ router.get("/:id_order/suborders", verifyAccessToken, async function (req, res, 
     }
 });
 
-// OK
 router.get("/:id_order/suborders/:id_suborder", verifyAccessToken, async function (req, res, next) {
     try {
         if (isNaN(req.params.id_order))
@@ -185,7 +147,6 @@ router.get("/:id_order/suborders/:id_suborder", verifyAccessToken, async functio
     }
 });
 
-// OK
 router.put("/:id_order/suborders/:id_suborder", verifyAccessToken, async function (req, res, next) {
     try {
         if (isNaN(req.params.id_order))
@@ -215,13 +176,12 @@ router.put("/:id_order/suborders/:id_suborder", verifyAccessToken, async functio
             await isOrderPresent.save()
                 .then(doc => {
                     if (!doc || doc.length === 0) {
-                        // ACCOLLA
                         return res.status(500).send(doc);
                     }
-                    if(task == 'barman'){
+                    if (task == 'barman') {
                         res.io.emit("take-suborder", "A BARMAN take the first suborder");
                     }
-                    if(task == 'cook'){
+                    if (task == 'cook') {
                         res.io.emit("take-suborder", "A COOK take the first suborder");
                     }
                     console.log(doc);
@@ -236,29 +196,12 @@ router.put("/:id_order/suborders/:id_suborder", verifyAccessToken, async functio
 
 // only users that are "..." can access in the post method
 router.post("/", verifyAccessToken, async function (req, res, next) {
-    /*
-      ASSOLUTMANETE: alla creazione dell'ordine buttare dentro l'id sul tavolo con find...
-    */
     try {
         if (!req.body)
             return res.status(400).send('Request body is missing');
-        /*else if (!req.body.name_table || !req.body.seats)
-          return res.status(400).send('Missing parameters');*/
         else {
-            /*
-        // serve validazione per ...
-        const task = jwt.decode(req.header('auth-token')).task;
-        console.log(task);
-        if (task != '...')
-            return res.status(400).send('Missing permissions');
-        console.log(req.body);*/
-
-            // vedere per la validazione
             const { error } = orderValidation(req.body);
-            // problema nella validazione
             if (error) return res.status(400).send(error.details[0].message);
-            // da vedere se è necessaria anche la find su un order non completed e già con quel nome del tavolo
-
             if (!req.body.drinks_order && !req.body.foods_order) {
                 return res.status(400).send("No Order Request");
             }
@@ -289,7 +232,6 @@ router.post("/", verifyAccessToken, async function (req, res, next) {
                 let model = new OrdersModel(req.body);
                 // first order with this id_order
                 model.num_suborders = 1;
-                // vedere se ti butta giá dentro il table ed il waiter presenti nel body;
                 let model_element_order = new ElementOrderModel(req.body);
                 if (!req.body.drinks_order) {
                     model_element_order.state.drinks_complete = true;
@@ -301,7 +243,6 @@ router.post("/", verifyAccessToken, async function (req, res, next) {
                     model_element_order.state.foods_served = true;
                     model.state_order.all_foods_complete = true;
                 }
-                //model_element_order.id_suborder = model.num_suborders;
                 model.elements_order.push(model_element_order);
                 // ---------------- Aggiunta id a tavolo
                 const isTablePresent = await TablesModel.findOne({ name_table: req.body.table });
@@ -340,21 +281,11 @@ router.put("/:id_order", verifyAccessToken, async function (req, res, next) {
             return res.status(400).send('Request body is missing');
         else {
             const { error } = elementOrderValidation(req.body);
-            // problema nella validazione
             if (error) return res.status(400).send(error.details[0].message);
             if (!req.body.drinks_order && !req.body.foods_order) {
                 return res.status(400).send("No Order Request");
             }
             else {
-                /*
-        // serve validazione per Waiter
-        const task = jwt.decode(req.header('auth-token')).task;
-        //console.log(task);
-        if (task == 'waiter')
-          isOrderPresent.state.complete = req.body.state;
-        else
-          return res.status(400).send('Missing permissions');
-        */
                 const isOrderPresent = await OrdersModel.findOne({ id_order: req.params.id_order }, { state: false });
                 if (!isOrderPresent) return res.status(400).send("Order isn't present");
                 const drinks_order = req.body.drinks_order;
@@ -414,7 +345,6 @@ router.put("/:id_order", verifyAccessToken, async function (req, res, next) {
     }
 });
 
-// OK
 router.put("/:id_order/complete", verifyAccessToken, async function (req, res, next) {
     try {
         if (isNaN(req.params.id_order))
@@ -424,7 +354,6 @@ router.put("/:id_order/complete", verifyAccessToken, async function (req, res, n
         else if (!req.body.state)
             return res.status(400).send('Missing parameters');
         else if (req.body.state != false && req.body.state != true)
-            // verifica se così o a stringa
             return res.status(400).send("Parameter isn't correct");
         else {
             // serve validazione per Cashier
@@ -435,21 +364,11 @@ router.put("/:id_order/complete", verifyAccessToken, async function (req, res, n
             if (!isOrderPresent) return res.status(400).send("Order isn't present");
             // CONTROLLO LATO BACK AND AUTO PER SET COMPLETE A TRUE, ORA DA FARE CON IL SERVED
             if (req.body.state) {
-                //if (!isOrderPresent.elements_order.every((elem) => elem.state.foods_complete) || !isOrderPresent.elements_order.every((elem) => elem.state.drinks_complete))
-                /*
-                if (!isOrderPresent.state_order.all_served)
-                    return res.status(400).send("Some Suborder isn't serve");
-                */
                 isOrderPresent.state_order.complete = req.body.state;
             }
             else {
                 isOrderPresent.state_order.complete = req.body.state;
             }
-            // DOVREBBE ANDARE TUTTO IN AUTOMATICO, IMPLEMENTA L'EVERY
-            /*if (task == 'barman')
-                isOrderPresent.state_order.all_drinks_complete = req.body.state;
-            if (task == 'cook')
-                isOrderPresent.state_order.all_foods_complete = req.body.state;*/
             const name = jwt.decode(req.header('auth-token')).name;
             const isUserPresent = await UsersModel.findOne({ name: name });
             if (!isUserPresent) return res.status(400).send("User isn't present");
@@ -460,7 +379,6 @@ router.put("/:id_order/complete", verifyAccessToken, async function (req, res, n
                         return res.status(500).send(doc);
                     }
                     console.log(doc);
-                    // Da implementare per più cashier
                     res.io.emit("new-user-action", doc);
                     console.log("IS ORDER PRESENT", isUserPresent);
                     await isOrderPresent.save()
@@ -469,7 +387,6 @@ router.put("/:id_order/complete", verifyAccessToken, async function (req, res, n
                                 return res.status(500).send(doc);
                             }
                             console.log(doc);
-                            // Da implementare per più cashier
                             res.io.emit("new-complete-order", doc);
                             res.status(201).type("application/json").send(doc);
                         })
@@ -491,7 +408,6 @@ router.put("/:id_order/suborders/:id_suborder/complete", verifyAccessToken, asyn
         else if (!req.body.state)
             return res.status(400).send('Missing parameters');
         else if (req.body.state != false && req.body.state != true)
-            // verifica se così o a stringa
             return res.status(400).send("Parameter isn't correct");
         else {
             // serve validazione per Cashier
@@ -564,7 +480,5 @@ router.put("/:id_order/suborders/:id_suborder/complete", verifyAccessToken, asyn
         return res.status(400).send(err);
     }
 });
-
-// da aggiungere i PUT state per i barman, e cuochi e il cassiere per la terminazione in complete
 
 module.exports = router;

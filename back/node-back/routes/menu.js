@@ -29,17 +29,7 @@ router.post("/", verifyAccessToken, async function (req, res, next) {
     try {
         if (!req.body)
             return res.status(400).send('Request body is missing');
-        /*else if (!req.body.name_element_menu || !req.body.category || !req.body.time || !req.body.price)
-            return res.status(400).send('Missing parameters');*/
         else {
-            /*
-// serve validazione per ...
-const task = jwt.decode(req.header('auth-token')).task;
-console.log(task);
-if(task != '...')
-    return res.status(400).send('Missing permissions');
-console.log(req.body);
-*/
             const { error } = elementMenuValidation(req.body);
             if (error) return res.status(400).send(error.details[0].message);
             if (req.body.type != "food" && req.body.type != "drink") {
@@ -54,7 +44,6 @@ console.log(req.body);
                 // Il metodo some() verifica se almeno un elemento nell'array passa la verifica implementata dalla funzione fornita
                 const isElementMenuPresent = isCategoryPresent.elements_category
                     .some((obj) => (obj.name_element_menu == req.body.name_element_menu));
-                console.log("eeeee");
                 if (!isElementMenuPresent) {
                     isCategoryPresent.elements_category.push(elementMenu);
                     await isCategoryPresent.save()
@@ -69,12 +58,11 @@ console.log(req.body);
                 }
                 else {
                     // nome giá presente per quella categoria
-                    console.log("qui");
                     return res.status(400).send("ElementMenu is already present in this category");
                 }
             }
             else {
-                // qui non é presente la category, bisogna prima crearla e poi buttare dentro il new element.
+                // qui non é presente la category, bisogna prima crearla e poi buttare dentro il new element
                 const menu = new MenuModel({ category: req.body.category });
                 console.log(elementMenu);
                 menu.elements_category.push(elementMenu);
@@ -90,7 +78,6 @@ console.log(req.body);
             }
         }
     } catch (err) {
-        // mi catcha tutto qua
         return res.status(400).send(err);
     }
 });

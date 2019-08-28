@@ -13,5 +13,3 @@ module.exports = function(req, res, next){
         res.status(400).send(err.name);
     }
 }
-
-// nuova funzione, per una nuova path: auth/refresh-token

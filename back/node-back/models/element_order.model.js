@@ -41,5 +41,4 @@ let ElementOrderSchema = new mongoose.Schema ({
 
 ElementOrderSchema.plugin(AutoIncrement, { inc_field: 'id_suborder' });
 
-
 module.exports = mongoose.model ("ElementOrder", ElementOrderSchema );

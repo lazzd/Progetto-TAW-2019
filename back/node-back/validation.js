@@ -42,8 +42,6 @@ const elementMenuValidation = function (data) {
     return Joi.validate(data, ElementMenuValidation);
 }
 
-// Posso fare il validate anche di menu POST
-
 // -----------------------------------------
 
 const ElementMenuNestedSchema = {

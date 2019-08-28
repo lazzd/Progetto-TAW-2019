@@ -9,7 +9,6 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 dotenv.config();
 
-
 const indexRouter = require('./routes/index');
 // myRoutes
 
@@ -30,8 +29,6 @@ const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
-
-// FOR CONNECTION SEE VIDEO .env
 // import mongoose for connection
 const mongoose = require('mongoose');
 // connessione mongoose in local host
@@ -57,10 +54,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 io.on('connect', function (socket) {
   console.log('a user connected');
-  /*socket.on('message', function(msg){ // listen
-    console.log(msg);
-    io.emit('message', msg); // broadcast to all
-  });*/
   socket.on('disconnect', function () {
     console.log('user disconnected');
   });
@@ -72,8 +65,6 @@ app.use(function (req, res, next) {
 });
 
 app.use('/', indexRouter);
-//app.use('/users', usersRouter);
-// my use routes
 
 app.use('/auth', authRouter);
 

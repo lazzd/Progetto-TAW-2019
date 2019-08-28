@@ -1,9 +1,3 @@
-// Perfetto
-
-// importa la validazione con joi...
-
-// verifica chi ha il diretti di fare le operazioni
-
 var express = require('express');
 var router = express.Router();
 
@@ -86,7 +80,6 @@ router.post('/', verifyAccessToken, async function (req, res, next) {
 router.get('/:id', verifyAccessToken, async function (req, res, next) {
     try {
         let param_id = req.params.id;
-        //Se non presente l'id NON dovrebbe mai cadere qui dentro per la presenza del GET all without id
         if (!param_id) {
             res.send("ERRORE");
         }

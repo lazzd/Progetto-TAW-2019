@@ -33,7 +33,6 @@ function createJwt(bodyJson) {
     // set the header
     console.log(AccessToken);
     console.log(RefreshToken);
-    //res.header('Access-Control-Expose-Headers', token).send(token);
     //inviamo il body vuoto, l'authorization si troverà nell'header della respose
     return ({ AccessToken, RefreshToken });
 }
@@ -48,7 +47,6 @@ function refreshAccessJwt(bodyJson) {
         task: bodyJson.task
     }, process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: AccessExpire });
-    //res.header('Access-Control-Expose-Headers', token).send(token);
     //inviamo il body vuoto, l'authorization si troverà nell'header della respose
     return ({ AccessToken});
 }
@@ -57,11 +55,8 @@ router.post("/register", async function (req, res, next) {
     try {
         if (!req.body)
             return res.status(400).send('Request body is missing');
-        /*else if (!req.body.name || !req.body.email || !req.body.password || !req.body.task)
-            return res.status(400).send('Missing parameters');*/
         else {
-            // VALIDATE WITH JOI , guarda video per scrivere il documento
-            //const validation = Joi.validate(req.body, schema);
+            // VALIDATE WITH JOI
             const { error } = registerValidation(req.body);
             if (error) return res.status(400).send(error.details[0].message);
             // checking if the email already exists
@@ -101,16 +96,12 @@ router.post("/register", async function (req, res, next) {
     }
 });
 
-// REFRESH-TOKEN V.2
 router.post("/login", async function (req, res, next) {
     try {
         if (!req.body)
             return res.status(400).send('Request body is missing');
-        /*else if (!req.body.email || !req.body.password)
-            return res.status(400).send('Missing parameters');*/
         else {
-            // VALIDATE WITH JOI , guarda video per scrivere il documento
-            //const validation = Joi.validate(req.body, schema);
+            // VALIDATE WITH JOI
             const { error } = loginValidation(req.body);
             if (error) return res.status(400).send(error.details[0].message);
             // checking if the email already exists
@@ -122,15 +113,12 @@ router.post("/login", async function (req, res, next) {
             const jwtToken = createJwt(user);
             console.log(jwtToken);
             return res.status(201).header('auth-token', jwtToken.AccessToken).send(jwtToken);
-            //posso qui inoltre salvarmi il token in localSession
-            //res.send('Logged in');
         }
     } catch (err) {
         return res.status(400).send(err);
     }
 });
 
-// OK
 router.post("/refresh-token", RefreshVerify, async function (req, res, next) {
     try {
         if (!req.body)

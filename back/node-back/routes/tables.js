@@ -44,19 +44,6 @@ router.get('/:name_table', verifyAccessToken, async function (req, res, next) {
         await TablesModel.find({ name_table: req.params.name_table })
             .then(doc => res.json(doc))
             .catch(err => res.status(500).send(err));
-
-        /*
-        let param_name_table = req.params.name_table;
-        //Se non presente l'id NON dovrebbe mai cadere qui dentro per la presenza del GET all without id. Array vuoto, no vuoto
-        if (!param_name_table) {
-            return res.status(400).send('Missing parameters');
-        }
-        else {
-            await TablesModel.find({ name_table: param_name_table })
-                .then(doc => res.json(doc))
-                .catch(err => res.status(500).send(err));
-        }
-        */
     } catch (err) {
         return res.status(400).send(err);
     }
@@ -67,8 +54,6 @@ router.post("/", verifyAccessToken, async function (req, res, next) {
     try {
         if (!req.body)
             return res.status(400).send('Request body is missing');
-        /*else if (!req.body.name_table || !req.body.seats)
-            return res.status(400).send('Missing parameters');*/
         else {
             // serve validazione per Cashier
             const task = jwt.decode(req.header('auth-token')).task;
@@ -104,7 +89,6 @@ router.put("/:name_table", verifyAccessToken, async function (req, res, next) {
         else if (!(req.body.hasOwnProperty("state")))
             return res.status(400).send('Missing parameters');
         else if (req.body.state != false && req.body.state != true)
-            // verifica se così o a stringa
             return res.status(400).send("Parameter isn't correct");
         else {
             // serve validazione per Waiter
