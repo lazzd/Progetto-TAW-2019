@@ -8,7 +8,8 @@ export class ElementOrder{
     drinks_order: ElementMenu[];
     foods_order: ElementMenu[];
     id_suborder: number;
-    tot_sub: number;
+    tot_sub_drinks: number;
+    tot_sub_foods: number;
     constructor(elementOrder: ElementOrder){
         this.state = new StateElementOrder(elementOrder.state);
         this.employees = new StateEmployeesElementOrder(elementOrder.employees);
@@ -20,6 +21,7 @@ export class ElementOrder{
         elementOrder.foods_order.forEach((elem) => this.foods_order.push(new ElementMenu(elem)));
 
         this.id_suborder = elementOrder.id_suborder;
-        this.tot_sub = elementOrder.tot_sub;
+        this.tot_sub_drinks = elementOrder.tot_sub_drinks;
+        this.tot_sub_foods = elementOrder.tot_sub_foods;
     }
 }

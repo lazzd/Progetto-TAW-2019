@@ -63,7 +63,8 @@ const orderValidation = function (data) {
         foods_order: Joi.array().items(Joi.object(ElementMenuNestedSchema)),
         table: Joi.string().required(),
         waiter: Joi.string().required(),
-        tot_sub: Joi.number().required()
+        tot_sub_drinks: Joi.number().required(),
+        tot_sub_foods: Joi.number().required()
     }
     return Joi.validate(data, OrderValidation);
 
@@ -74,7 +75,8 @@ const elementOrderValidation = function (data) {
     const ElementOrderValidation = {
         drinks_order: Joi.array().items(Joi.object(ElementMenuNestedSchema)),
         foods_order: Joi.array().items(Joi.object(ElementMenuNestedSchema)),
-        tot_sub: Joi.number().required()
+        tot_sub_drinks: Joi.number().required(),
+        tot_sub_foods: Joi.number().required()
     }
     return Joi.validate(data, ElementOrderValidation);
 }

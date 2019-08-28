@@ -8,34 +8,11 @@
                         <mat-expansion-panel class="exp">
                             <mat-expansion-panel-header>
                                 <mat-panel-title>
-                                    <div class="titolo">TAVOLO {{arrivalSuborder.table}}</div>
+                                    <div class="titolo">TAVOLO {{arrivalSuborder.table}} | ID SOTTO-ORDINE: {{arrivalSuborder.id_suborder}}</div>
                                 </mat-panel-title>
                                 <mat-panel-description>
                                 </mat-panel-description>
                             </mat-expansion-panel-header>
-                            <!--
-                        <mat-accordion *ngIf="arrivalSuborder.foods_order">
-                            <mat-expansion-panel>
-                                <mat-expansion-panel-header>
-                                    <mat-panel-title>
-                                        CIBI
-                                    </mat-panel-title>
-                                    <mat-panel-description>
-                                    </mat-panel-description>
-                                </mat-expansion-panel-header>
-                                <mat-list>
-                                    <ng-container *ngFor="let elem of arrivalSuborder.foods_order">
-                                        <mat-list-item>NAME: {{elem.name_element_menu}}, TIME: {{elem.time}}, QUANTITY:
-                                            {{elem.quantity}}
-                                        </mat-list-item>
-                                    </ng-container>
-                                </mat-list>
-                                <button mat-flat-button color="primary" class="btn_submit"
-                                    (click)="completeArrivalSuborder(arrivalSuborder.id_order, arrivalSuborder.id_suborder, 'food')">SUBORDER
-                                    CONSEGNATO</button>
-                            </mat-expansion-panel>
-                        </mat-accordion>
--->
                             <div class="hax">
                                 <mat-accordion *ngIf="arrivalSuborder.foods_order">
                                     <div class="ext">
@@ -51,31 +28,6 @@
                                             (click)="completeArrivalSuborder(arrivalSuborder.id_order, arrivalSuborder.id_suborder, 'food')">SERVITO</button>
                                     </div>
                                 </mat-accordion>
-
-                                <!--
-                        <mat-accordion *ngIf="arrivalSuborder.drinks_order">
-                            <mat-expansion-panel>
-                                <mat-expansion-panel-header>
-                                    <mat-panel-title>
-                                        DRINKS
-                                    </mat-panel-title>
-                                    <mat-panel-description>
-                                    </mat-panel-description>
-                                </mat-expansion-panel-header>
-                                <mat-list>
-                                    <ng-container *ngFor="let elem of arrivalSuborder.drinks_order">
-                                        <mat-list-item>NAME: {{elem.name_element_menu}}, TIME: {{elem.time}}, QUANTITY:
-                                            {{elem.quantity}}
-                                        </mat-list-item>
-                                    </ng-container>
-                                </mat-list>
-                                <button mat-flat-button color="primary" class="btn_submit"
-                                    (click)="completeArrivalSuborder(arrivalSuborder.id_order, arrivalSuborder.id_suborder, 'drink')">SUBORDER
-                                    CONSEGNATO</button>
-                            </mat-expansion-panel>
-                        </mat-accordion>
--->
-
                                 <mat-accordion *ngIf="arrivalSuborder.drinks_order">
                                     <div class="ext">
                                         <div class="cibi">BEVANDE:</div>

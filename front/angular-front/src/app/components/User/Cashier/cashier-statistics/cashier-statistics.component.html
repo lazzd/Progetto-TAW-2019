@@ -1,82 +1,5 @@
 <router-outlet></router-outlet>
-<!--
-<div class="container">
-    <span *ngIf=view_users>
-        <mat-accordion>
-            <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        WAITERS
-                    </mat-panel-title>
-                    <mat-panel-description>
-                    </mat-panel-description>
-                </mat-expansion-panel-header>
-                <mat-list>
-                    <ng-container *ngFor="let user of allUsers">
-                        <mat-list-item *ngIf="user.task=='waiter'">
-                            NAME: {{user.name}}, SUBORDERS SERVITI: {{user.actions}}
-                        </mat-list-item>
-                    </ng-container>
-                </mat-list>
-            </mat-expansion-panel>
-        </mat-accordion>
-        <mat-accordion>
-            <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        BARMAN
-                    </mat-panel-title>
-                    <mat-panel-description>
-                    </mat-panel-description>
-                </mat-expansion-panel-header>
-                <mat-list>
-                    <ng-container *ngFor="let user of allUsers">
-                        <mat-list-item *ngIf="user.task=='barman'">
-                            NAME: {{user.name}}, SUBORDERS COMPLETATI: {{user.actions}}
-                        </mat-list-item>
-                    </ng-container>
-                </mat-list>
-            </mat-expansion-panel>
-        </mat-accordion>
-        <mat-accordion>
-            <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        COOK
-                    </mat-panel-title>
-                    <mat-panel-description>
-                    </mat-panel-description>
-                </mat-expansion-panel-header>
-                <mat-list>
-                    <ng-container *ngFor="let user of allUsers">
-                        <mat-list-item *ngIf="user.task=='cook'">
-                            NAME: {{user.name}}, SUBORDERS COMPLETATI: {{user.actions}}
-                        </mat-list-item>
-                    </ng-container>
-                </mat-list>
-            </mat-expansion-panel>
-        </mat-accordion>
-        <mat-accordion>
-            <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        CASHIER
-                    </mat-panel-title>
-                    <mat-panel-description>
-                    </mat-panel-description>
-                </mat-expansion-panel-header>
-                <mat-list>
-                    <ng-container *ngFor="let user of allUsers">
-                        <mat-list-item *ngIf="user.task=='cashier'">
-                            NAME: {{user.name}}, SCONTRINI BATTUTI: {{user.actions}}
-                        </mat-list-item>
-                    </ng-container>
-                </mat-list>
-            </mat-expansion-panel>
-        </mat-accordion>
-    </span>
-</div>
--->
+
 <div class="container">
     <span *ngIf=view_users>
         <mat-tab-group animationDuration="0ms" mat-align-tabs="center">
@@ -86,7 +9,16 @@
                         <mat-list-item *ngIf="user.task=='waiter'">
                             {{user.name}} | ORDINI SERVITI: {{user.actions}}
                         </mat-list-item>
+
                     </ng-container>
+
+
+                    <div style="display: block" class="chart">
+                        <canvas baseChart [data]="pieChartDataWaiter" [labels]="pieChartLabelsWaiter"
+                            [chartType]="pieChartType" [legend]="false" [options]="options"></canvas>
+                    </div>
+
+
                 </mat-list>
             </mat-tab>
             <mat-tab label="BARISTI">
@@ -96,6 +28,13 @@
                             {{user.name}} | ORDINI PREPARATI: {{user.actions}}
                         </mat-list-item>
                     </ng-container>
+
+                    <div style="display: block" class="chart">
+                        <canvas baseChart [data]="pieChartDataBarman" [labels]="pieChartLabelsBarman"
+                            [chartType]="pieChartType" [legend]="false" [options]="options"></canvas>
+                    </div>
+
+
                 </mat-list>
             </mat-tab>
             <mat-tab label="CUOCHI">
@@ -105,6 +44,13 @@
                             {{user.name}} | ORDINI PREPARATI: {{user.actions}}
                         </mat-list-item>
                     </ng-container>
+
+                    <div style="display: block" class="chart">
+                        <canvas baseChart [data]="pieChartDataChef" [labels]="pieChartLabelsChef"
+                            [chartType]="pieChartType" [legend]="false" [options]="options"></canvas>
+                    </div>
+
+
                 </mat-list>
             </mat-tab>
             <mat-tab label="CASSIERI">
@@ -114,10 +60,19 @@
                             {{user.name}} | SCONTRINI BATTUTI: {{user.actions}}
                         </mat-list-item>
                     </ng-container>
+
+                    <div style="display: block" class="chart">
+                        <canvas baseChart [data]="pieChartDataCashier" [labels]="pieChartLabelsCashier"
+                            [chartType]="pieChartType" [legend]="false" [options]="options"></canvas>
+                    </div>
+
+
                 </mat-list>
             </mat-tab>
 
 
         </mat-tab-group>
+
     </span>
+
 </div>

@@ -9,23 +9,19 @@
     <mat-sidenav-container class="sidenav-sidenav-container" [style.paddingTop.%]="mobileQuery.matches ? 5 : 2">
         <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" fixedTopGap="5%">
             <mat-nav-list>
-                <!--Funzione che ti setta i link correttamente-->
-                <!--Perfetto, cosí con i link funziona-->
-                <a mat-list-item routerLink="./free-suborders/" (click)="setOff('free')"><span matBadge="!" [matBadgeHidden]='!ntf_free' matBadgeOverlap="false">ORDINI LIBERI</span></a>
-                <a mat-list-item routerLink="./my-suborders/" (click)="setOff('my')">ORDINI DA PREPARARE</a>
+                <a mat-list-item class="vertical" routerLink="./free-suborders/" (click)="setOff('free')"><span matBadge="!" [matBadgeHidden]='!ntf_free' matBadgeOverlap="false">ORDINI LIBERI</span></a>
+                <a mat-list-item class="vertical" routerLink="./my-suborders/" (click)="setOff('my')">ORDINI DA PREPARARE</a>
                 <a mat-list-item class="logout-item" (click)=logout()>Logout</a>
             </mat-nav-list>
         </mat-sidenav>
 
         <mat-sidenav-content>
-            <!--Da capire come implementare per le varie funzioni da vedere a seconda di cosa premi sulla sidenav-->
-            <!--Carica solamente il router outer-->
             <div *ngIf="router.url === '/user/cook'" class="content">
                 <p class="description"> Hai fatto il login come cuoco, hai accesso a queste funzioni:
                 </p>
                 <ul class="list">
                     <li>per prendersi responsabilità di un ordine usare la funzione 'Ordini Liberi'.</li>
-                    <li>per vedere gli ordini di cui sei responsabile usare la funzione 'Ordini da Preparare</li>
+                    <li>per vedere gli ordini di cui sei responsabile usare la funzione 'Ordini da Preparare'.</li>
                 </ul>
             </div>
             <router-outlet></router-outlet>

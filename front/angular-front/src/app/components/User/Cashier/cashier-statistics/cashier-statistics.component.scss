@@ -2,7 +2,24 @@
   text-align: center;
 }
 
-mat-list{
-    display: inline-block;
-    text-align: center;
+mat-list {
+  display: inline-block;
+  text-align: center;
+}
+
+.chart {
+  padding: 20px 0px 0px 0px; 
+  width:600px;
+}
+
+@media screen and (max-width: 600px) {
+  .chart {
+    width: 400px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .chart {
+    width: 300px;
+  }
 }

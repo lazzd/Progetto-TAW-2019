@@ -1,0 +1,57 @@
+.titolo {
+  font-size: 24px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+}
+
+th {
+  text-align: left;
+  padding: 0px 10px 0px 0px;
+}
+
+.mat-sort-header-container {
+  align-items: center;
+}
+
+.prova {
+  width: 800px;
+}
+
+.vuoto {
+  font-size: 24px;
+}
+
+.extra {
+  padding: 0px 0px 0px 5px;
+}
+
+.imp {
+  display: flex;
+  justify-content: space-between;
+}
+
+.notServed{
+  color: red;
+}
+
+@media screen and (max-width: 1060px) {
+  .prova {
+    width: 420px;
+  }
+}
+
+@media screen and (max-width: 435px) {
+  .prova {
+    width: 335px;
+  }
+}
+
+@media screen and (max-width: 335px) {
+  .prova {
+    width: 280px;
+  }
+}

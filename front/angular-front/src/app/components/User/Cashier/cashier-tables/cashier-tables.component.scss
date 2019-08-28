@@ -3,16 +3,16 @@
 }
 
 .notbus {
-  //background-color: #3f51b5
   background-color: lightgray;
 }
 
-mat-grid-tile{
+mat-grid-tile {
   border-radius: 4px;
 }
 
 .container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   text-align: center;
 }
@@ -31,10 +31,23 @@ mat-grid-tile{
 .grid {
   width: 800px;
   padding: 30px 30px 30px 30px;
+  text-align: center;
+  display: inline-block;
 }
 
 .selTable {
   padding: 0px 0px 20px 0px;
+}
+
+.center {
+  text-align: center;
+  display: inline-block;
+}
+
+.error {
+  color: #f44336;
+  padding: 20px 0px;
+  font-size: 18px;
 }
 
 @media screen and (max-width: 870px) {

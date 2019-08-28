@@ -29,7 +29,11 @@ let ElementOrderSchema = new mongoose.Schema ({
         type: StateEmployeesElementOrderSchema,
         default: StateEmployeesElementOrderSchema
     },
-    tot_sub: {
+    tot_sub_drinks: {
+        type: Number,
+        default: 0
+    },
+    tot_sub_foods: {
         type: Number,
         default: 0
     }

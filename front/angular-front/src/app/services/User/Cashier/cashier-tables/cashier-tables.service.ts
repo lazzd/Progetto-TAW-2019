@@ -35,7 +35,7 @@ export class CashierTablesService {
         let promRefeshToken = await this.refreshToken.refreshToken();
         console.log(promRefeshToken);
         // Ora posso fare la richiesta...
-        return this.http.post<Table>(urlTable, {name_table: name_table, seats: seats});
+        return this.http.post<Table>(urlTable, {name_table: name_table.toString(), seats: seats});
       } catch (ErrorRefreshToken) {
         return throwError(ErrorRefreshToken);
       }

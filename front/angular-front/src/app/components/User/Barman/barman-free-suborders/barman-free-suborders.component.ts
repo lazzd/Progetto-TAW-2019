@@ -65,6 +65,20 @@ export class BarmanFreeSubordersComponent implements OnInit {
         }
       })
 
+    this.socketService
+      .completeOrder()
+      .subscribe(Order => {
+        console.log("DELETE", Order);
+        this.allSuborders = this.allSuborders.filter(elem => elem.id_order != Order.id_order);
+        if (this.firstSuborders.id_order == Order.id_order)
+          if (this.allSuborders.length)
+            this.firstSuborders = this.allSuborders.shift();
+          else
+            this.firstSuborders = null;
+        if (!this.firstSuborders)
+          this.view_Suborders = false;
+      })
+
   }
 
   async getOrdersByBarman(): Promise<void> {

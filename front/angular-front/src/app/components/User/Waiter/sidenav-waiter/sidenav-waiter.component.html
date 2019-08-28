@@ -9,8 +9,6 @@
     <mat-sidenav-container class="sidenav-sidenav-container" [style.paddingTop.%]="mobileQuery.matches ? 5 : 2">
         <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" fixedTopGap="5%">
             <mat-nav-list>
-                <!--Funzione che ti setta i link correttamente-->
-                <!--Perfetto, cosí con i link funziona-->
                 <a mat-list-item class="vertical" routerLink="./tables/" (click)="setOff('tables')">TAVOLI LIBERI</a>
                 <a mat-list-item class="vertical" routerLink="./orders/" (click)="setOff('orders')">ORDINI</a>
                 <a mat-list-item class="vertical" routerLink="./arrival/" (click)="setOff('arrival')"><span matBadge="!" [matBadgeHidden]='!ntf_arrival' matBadgeOverlap="false">DA SERVIRE</span></a>
@@ -19,8 +17,6 @@
         </mat-sidenav>
 
         <mat-sidenav-content>
-            <!--Da capire come implementare per le varie funzioni da vedere a seconda di cosa premi sulla sidenav-->
-            <!--Carica solamente il router outer-->
             <div *ngIf="router.url === '/user/waiter'" class="content">
                 <p class="description"> Hai fatto il login come cameriere, hai accesso a queste funzioni:
                 </p>

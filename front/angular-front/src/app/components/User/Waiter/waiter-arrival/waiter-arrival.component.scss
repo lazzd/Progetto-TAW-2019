@@ -46,16 +46,27 @@ mat-expansion-panel{
   mat-expansion-panel{
     width:420px;
   }
+  .titolo{
+    font-size: 20px;
+  }
 }
 
 @media screen and (max-width: 435px) {
   mat-expansion-panel {
     width: 335px;
   }
+
+  .titolo{
+    font-size: 18px;
+  }
+  
 }
 
 @media screen and (max-width: 335px) {
   mat-expansion-panel {
     width: 280px;
+  }
+  .titolo{
+    font-size: 16px;
   }
 }

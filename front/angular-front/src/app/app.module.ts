@@ -23,6 +23,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 
+// chart js module
+import { ChartsModule } from 'ng2-charts';
+
 // angular JWT
 import { JwtModule } from '@auth0/angular-jwt';
 
@@ -116,6 +119,7 @@ export function tokenGetter() {
     MatInputModule,
     MatSelectModule,
     MatTabsModule,
+    ChartsModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,

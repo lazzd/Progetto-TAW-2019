@@ -7,7 +7,6 @@
                     <mat-expansion-panel-header>
                         <mat-panel-title>
                             <div class="titolo"> TAVOLO {{Order.table}}
-                                <!--| ID ORDINE: {{Order.id_order}} -->
                             </div>
                         </mat-panel-title>
                         <mat-panel-description>
@@ -129,4 +128,5 @@
             </ng-container>
         </mat-accordion>
     </span>
+    <div *ngIf=!view_orders class="vuoto">Nessun ordine è in corso!</div>
 </div>

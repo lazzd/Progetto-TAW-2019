@@ -1,7 +1,11 @@
 .container {
   max-width: 500px;
-  width: 80%;
+  width: 100%;
   margin: auto;
+}
+
+mat-icon{
+  font-size: 40px;
 }
 
 .logo {
@@ -17,6 +21,7 @@
 form {
   max-width: 400px;
   margin: auto;
+  width: 80%;
 }
 
 .field-login {

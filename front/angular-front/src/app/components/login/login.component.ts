@@ -8,6 +8,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { LoginService } from '../../services/login/login.service';
 // import Class
 import { Login } from '../../classes/login';
+import { FormGroup, FormControl } from '@angular/forms';
 
 
 @Component({
@@ -16,6 +17,8 @@ import { Login } from '../../classes/login';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+
+  form_login: FormGroup;
 
   constructor(
     private loginService: LoginService,
@@ -28,17 +31,27 @@ export class LoginComponent implements OnInit {
   erroreLog: boolean;
 
   ngOnInit() {
+    this.form_login = new FormGroup({
+      emailLogin: new FormControl(),
+      passwordLogin: new FormControl()
+    })
+  }
 
+  returnAuth(): void{
+    this.router.navigate(['/auth']);
   }
 
   // salvo poi e metto nell'header...
-  sendLogin(email: string, password: string): void {
+  sendLogin(): void {
 
     this.erroreVuoto = false;
     this.erroreLungPass = false;
     this.erroreMail = false;
     this.erroreLungMail = false;
     this.erroreLog = false;
+
+    const email = this.form_login.value.emailLogin;
+    const password = this.form_login.value.passwordLogin;
 
     if (email && password) {
       this.loginService.sendLogin({ email, password } as Login)
