@@ -8,7 +8,9 @@
                         <mat-expansion-panel-header>
                             <mat-panel-title class="imp">
                                 <div class="titolo">
-                                    TAVOLO {{Order.table}}, all_served {{Order.state_order.all_served}}
+                                    TAVOLO {{Order.table}} | <div *ngIf="Order.state_order.all_served" class="extra">
+                                        SERVIZIO COMPLETATO</div>
+                                    <div *ngIf="!Order.state_order.all_served" class="extra"> SERVIZIO IN CORSO</div>
                                 </div>
                             </mat-panel-title>
                             <mat-panel-description>

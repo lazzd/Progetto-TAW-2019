@@ -1,5 +1,6 @@
 .titolo {
-  font-size: 24px;
+  font-size: 22px;
+  display:flex;
 }
 
 .container {
@@ -42,16 +43,25 @@ th {
   .prova {
     width: 420px;
   }
+  .titolo{
+    font-size: 20px;
+  }
 }
 
 @media screen and (max-width: 435px) {
   .prova {
     width: 335px;
   }
+  .titolo{
+    font-size: 18px;
+  }
 }
 
 @media screen and (max-width: 335px) {
   .prova {
     width: 280px;
+  }
+  .titolo{
+    font-size: 16px;
   }
 }
