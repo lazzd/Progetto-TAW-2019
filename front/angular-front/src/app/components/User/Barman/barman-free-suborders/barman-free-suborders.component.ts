@@ -39,11 +39,13 @@ export class BarmanFreeSubordersComponent implements OnInit {
       .takeSuborder()
       .subscribe(data => {
         console.log('Incoming msg', data);
-        if (this.allSuborders.length > 0)
-          this.firstSuborders = this.allSuborders.shift();
-        else {
-          this.view_Suborders = false;
-          this.firstSuborders = null;
+        if (data == "A BARMAN take the first suborder") {
+          if (this.allSuborders.length > 0)
+            this.firstSuborders = this.allSuborders.shift();
+          else {
+            this.view_Suborders = false;
+            this.firstSuborders = null;
+          }
         }
       });
 

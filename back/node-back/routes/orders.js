@@ -217,7 +217,12 @@ router.put("/:id_order/suborders/:id_suborder", verifyAccessToken, async functio
                         // ACCOLLA
                         return res.status(500).send(doc);
                     }
-                    res.io.emit("take-suborder", "A user take the first suborder");
+                    if(task == 'barman'){
+                        res.io.emit("take-suborder", "A BARMAN take the first suborder");
+                    }
+                    if(task == 'cook'){
+                        res.io.emit("take-suborder", "A COOK take the first suborder");
+                    }
                     console.log(doc);
                     res.status(201).type("application/json").send(doc);
                 })
