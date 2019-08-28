@@ -14,25 +14,6 @@
                 </mat-form-field>
                 <button type="submit" mat-flat-button color="primary">CERCA</button>
             </form>
-
-
-            <!--
-            <form [formGroup]="form_my_tables" (ngSubmit)="getMenu()">
-
-                <label>Seleziona il Tavolo:</label>
-
-                <mat-grid-list [cols]="breakpoint" rowHeight="1:1" (window:resize)="onResize($event)" ng-click="getMenu()">
-                    <mat-grid-tile *ngFor="let table of myTables">
-                        {{table.name_table}} </mat-grid-tile>
-                </mat-grid-list>
-
-
-            </form>
-            -->
-
-
-
-
         </span>
         <div *ngIf=view_btn_menu class="btn_search">
             <button mat-flat-button color="primary" (click)="showMenu()">MOSTRA MENU</button>
