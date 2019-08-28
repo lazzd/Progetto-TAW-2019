@@ -2,7 +2,7 @@ let mongoose = require('mongoose');
 
 let TablesSchema = new mongoose.Schema({
     name_table: {
-        type: Number,
+        type: String,
         required: true
     },
     seats: {

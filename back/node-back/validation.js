@@ -22,7 +22,7 @@ const loginValidation = function (data) {
 
 const tableValidation = function (data) {
     const TablesSchema = {
-        name_table: Joi.number().min(1).required(),
+        name_table: Joi.string().min(1).required(),
         seats: Joi.number().min(1).required(),
         waiter: Joi.string(),
         id_order: Joi.number()

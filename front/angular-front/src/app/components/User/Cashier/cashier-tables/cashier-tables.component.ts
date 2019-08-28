@@ -147,7 +147,7 @@ export class CashierTablesComponent implements OnInit {
 
   async postNewTable() {
     try {
-      const newNameTable: number = this.form_add_table.value.input_name_table;
+      const newNameTable: string = this.form_add_table.value.input_name_table;
       const newSeats: number = this.form_add_table.value.input_seats;
       if (newNameTable && newSeats) {
         console.log("NAME: ", newNameTable);
