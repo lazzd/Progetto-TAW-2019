@@ -36,8 +36,6 @@ import { RegisterComponent } from './components/register/register.component';
 import { AppRoutingModule } from './app-routing.module';
 import { OrderComponent } from './components/order/order.component';
 import { InitComponent } from './components/init/init.component';
-import { SidenavComponent } from './components/sidenav/sidenav.component';
-import { UserBarmanComponent } from './components/user-barman/user-barman.component';
 import { UserMainComponent } from './components/User/user-main/user-main.component';
 import { SidenavWaiterComponent } from './components/User/Waiter/sidenav-waiter/sidenav-waiter.component';
 import { WaiterComponent } from './components/User/Waiter/waiter/waiter.component';
@@ -73,8 +71,6 @@ export function tokenGetter() {
     AuthComponent,
     OrderComponent,
     InitComponent,
-    SidenavComponent,
-    UserBarmanComponent,
     UserMainComponent,
     SidenavWaiterComponent,
     WaiterComponent,

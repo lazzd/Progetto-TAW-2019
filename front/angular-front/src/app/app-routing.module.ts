@@ -20,7 +20,6 @@ import { WaiterArrivalComponent } from './components/User/Waiter/waiter-arrival/
 import { BarmanComponent } from './components/User/Barman/barman/barman.component';
 import { BarmanFreeSubordersComponent } from './components/User/Barman/barman-free-suborders/barman-free-suborders.component';
 import { BarmanMySubordersComponent } from './components/User/Barman/barman-my-suborders/barman-my-suborders.component';
-import { UserBarmanComponent } from './components/user-barman/user-barman.component';
 
 // User Cook
 import { CookComponent } from './components/User/Cook/cook/cook.component';
