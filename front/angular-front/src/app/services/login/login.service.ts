@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
 
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 
-import { HttpClient, HttpHeaders, HttpEventType, HttpResponse } from '@angular/common/http';
-
-// for handler errors
-import { catchError, map, tap } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 // import Class
 import { Login } from '../../classes/login';
@@ -16,7 +13,7 @@ const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
     'auth-token': 'text'
- })
+  })
 };
 
 @Injectable({

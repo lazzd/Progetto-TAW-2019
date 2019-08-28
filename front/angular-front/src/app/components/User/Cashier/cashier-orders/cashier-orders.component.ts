@@ -40,11 +40,9 @@ export class CashierOrdersComponent implements OnInit {
         if (indexPresent != -1)
           this.allNotCompleteOrder[indexPresent] = new ResOrder(Order);
         else {
-          console.log("IMPOSSIBLE");
           this.allNotCompleteOrder.push(new ResOrder(Order));
           if (this.allNotCompleteOrder.length > 0)
             this.view_orders = true;
-          //this.view_tables = true;
         }
       });
 
@@ -56,11 +54,9 @@ export class CashierOrdersComponent implements OnInit {
         if (indexPresent != -1)
           this.allNotCompleteOrder[indexPresent] = new ResOrder(Order);
         else {
-          console.log("sssssss");
           this.allNotCompleteOrder.push(new ResOrder(Order));
           if (this.allNotCompleteOrder.length > 0)
             this.view_orders = true;
-          //this.view_tables = true;
         }
       });
 
@@ -83,18 +79,15 @@ export class CashierOrdersComponent implements OnInit {
         (ResSub => {
           // L'AccessToken è valido: o perchè NON era scaduto oppure perchè il refresh è avvenuto in maniara corretta
           if (ResSub.length == 0) {
-            //this.view_tables = false;
+            console.log("ResSub Length == 0");
           }
           else {
             console.log(ResSub);
-            //for(let i=0;i<ResSub.length;++i)
-            //this.myTables.push(new Table(ResSub[i]));
             ResSub.forEach(element => {
               this.allNotCompleteOrder.push(new ResOrder(element));
             });
             if (this.allNotCompleteOrder.length > 0)
               this.view_orders = true;
-            //this.view_tables = true;
           }
         }),
         (ErrSub => {
@@ -108,7 +101,6 @@ export class CashierOrdersComponent implements OnInit {
     } catch (errorPromise) {
       this.router.navigate(['/auth/login']);
       // da andare in pagina di login, MA: sarebbe poi da fare un back a questa pagina quando si è fatto effettivamente il login
-      console.log("sono qui");
       console.log("SEND ORDER err", errorPromise);
     }
   }

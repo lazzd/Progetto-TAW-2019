@@ -17,7 +17,7 @@ export class InitComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
-    // per prova vai a registration, in realtà vai a profilo. OK
+    // Scelta della route a seconda dei permessi
     (this.auth.isAuthenticated()) ? this.router.navigate(['/user']) : this.router.navigate(['/auth']);
   }
 

@@ -63,26 +63,19 @@ export class CashierReceiptsComponent implements OnInit {
       const date = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
       console.log("Date", date);
       let CashierReceiptsServicePromise = await this.cashierReceiptsService.getCompleteOrdersByDate(date);
-      // ritorna l'observable...
+      // ritorna l'observable
       CashierReceiptsServicePromise.subscribe(
         (ResSub => {
           // L'AccessToken è valido: o perchè NON era scaduto oppure perchè il refresh è avvenuto in maniara corretta
           if (ResSub.length == 0) {
-            //this.view_tables = false;
+            console.log("ResSub Length == 0");
           }
           else {
             console.log(ResSub);
-            //for(let i=0;i<ResSub.length;++i)
-            //this.myTables.push(new Table(ResSub[i]));
             ResSub.forEach(element => {
               this.todayCompleteOrder.push(new ResOrder(element));
               this.tot_today += element.tot;
             });
-            /*
-            if (this.allNotCompleteOrder.length > 0)
-              this.view_orders = true;
-            //this.view_tables = true;
-            */
           }
         }),
         (ErrSub => {
@@ -96,12 +89,11 @@ export class CashierReceiptsComponent implements OnInit {
     } catch (errorPromise) {
       this.router.navigate(['/auth/login']);
       // da andare in pagina di login, MA: sarebbe poi da fare un back a questa pagina quando si è fatto effettivamente il login
-      console.log("sono qui");
       console.log("SEND ORDER err", errorPromise);
     }
   }
 
-  async hideDate(): Promise<void>{
+  async hideDate(): Promise<void> {
     this.view_by_date = false;
   }
 
@@ -114,27 +106,19 @@ export class CashierReceiptsComponent implements OnInit {
         this.tot_by_date = 0;
         console.log(date);
         let CashierReceiptsServicePromise = await this.cashierReceiptsService.getCompleteOrdersByDate(date);
-        // ritorna l'observable...
+        // ritorna l'observable
         CashierReceiptsServicePromise.subscribe(
           (ResSub => {
             // L'AccessToken è valido: o perchè NON era scaduto oppure perchè il refresh è avvenuto in maniara corretta
             if (ResSub.length == 0) {
-              // DA METTERE MESSAGGIO CON: IN QUEL GIORNO NON C'è STATO INCASSO, O ROBA DEL GENERE
-              //this.view_tables = false;
+              console.log("ResSub Length == 0");
             }
             else {
               console.log(ResSub);
-              //for(let i=0;i<ResSub.length;++i)
-              //this.myTables.push(new Table(ResSub[i]));
               ResSub.forEach(element => {
                 this.byDateCompleteOrder.push(new ResOrder(element));
                 this.tot_by_date += element.tot;
               });
-              /*
-              if (this.allNotCompleteOrder.length > 0)
-                this.view_orders = true;
-              //this.view_tables = true;
-              */
             }
             this.view_by_date = true;
           }),
@@ -150,7 +134,6 @@ export class CashierReceiptsComponent implements OnInit {
     } catch (errorPromise) {
       this.router.navigate(['/auth/login']);
       // da andare in pagina di login, MA: sarebbe poi da fare un back a questa pagina quando si è fatto effettivamente il login
-      console.log("sono qui");
       console.log("SEND ORDER err", errorPromise);
     }
   }

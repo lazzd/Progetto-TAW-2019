@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 
-import { HttpClient, HttpHeaders, HttpEventType, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 // import for refresh-token
 import { RefreshTokenService } from '../../../refresh-token/refresh-token.service';
@@ -19,15 +19,15 @@ export class CashierOrdersService {
     private refreshToken: RefreshTokenService,
     private http: HttpClient) { }
 
-    async getAllNotCompleteOrder(): Promise<Observable<Array<ResOrder>>> {
-      try {
-        let promRefeshToken = await this.refreshToken.refreshToken();
-        console.log(promRefeshToken);
-        // Ora posso fare la richiesta...
-        return this.http.get<Array<ResOrder>>(urlOrder);
-      } catch (ErrorRefreshToken) {
-        return throwError(ErrorRefreshToken);
-      }
+  async getAllNotCompleteOrder(): Promise<Observable<Array<ResOrder>>> {
+    try {
+      let promRefeshToken = await this.refreshToken.refreshToken();
+      console.log(promRefeshToken);
+      // Ora posso fare la richiesta
+      return this.http.get<Array<ResOrder>>(urlOrder);
+    } catch (ErrorRefreshToken) {
+      return throwError(ErrorRefreshToken);
     }
+  }
 
 }

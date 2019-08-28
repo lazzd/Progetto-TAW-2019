@@ -10,7 +10,6 @@ import { LoginService } from '../../services/login/login.service';
 import { Login } from '../../classes/login';
 import { FormGroup, FormControl } from '@angular/forms';
 
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -20,15 +19,16 @@ export class LoginComponent implements OnInit {
 
   form_login: FormGroup;
 
-  constructor(
-    private loginService: LoginService,
-    private router: Router,
-    private jwt: JwtHelperService) { }
   erroreLungPass: boolean;
   erroreLungMail: boolean;
   erroreMail: boolean;
   erroreVuoto: boolean;
   erroreLog: boolean;
+
+  constructor(
+    private loginService: LoginService,
+    private router: Router,
+    private jwt: JwtHelperService) { }
 
   ngOnInit() {
     this.form_login = new FormGroup({
@@ -37,11 +37,10 @@ export class LoginComponent implements OnInit {
     })
   }
 
-  returnAuth(): void{
+  returnAuth(): void {
     this.router.navigate(['/auth']);
   }
 
-  // salvo poi e metto nell'header...
   sendLogin(): void {
 
     this.erroreVuoto = false;

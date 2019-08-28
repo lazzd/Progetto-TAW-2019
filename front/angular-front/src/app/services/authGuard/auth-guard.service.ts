@@ -7,7 +7,7 @@ import { RefreshTokenService } from '../refresh-token/refresh-token.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuardService implements CanActivate{
+export class AuthGuardService implements CanActivate {
 
   constructor(
     private auth: RefreshTokenService,

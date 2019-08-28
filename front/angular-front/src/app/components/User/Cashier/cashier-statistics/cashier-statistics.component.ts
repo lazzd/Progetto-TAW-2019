@@ -60,8 +60,6 @@ export class CashierStatisticsComponent implements OnInit {
     this.pieChartDataCashier = [];
   }
 
-
-
   private initIoConnection(): void {
     this.socketService.initSocket();
 
@@ -70,7 +68,7 @@ export class CashierStatisticsComponent implements OnInit {
       .subscribe(user => {
         console.log("A NEW USER ACTION", user);
         const indexPresent = this.allUsers.findIndex(elem => elem.email == user.email);
-        // User già pushato e presente nel pie chart, ricerca per nomi univoci (i nomi dovrebbero essere univoci per costruzione db), oppure usa mail nel pie chart
+        // User già pushato e presente nel pie chart, ricerca per nomi univoci (i nomi sono univoci per db)
         if (indexPresent != -1) {
           this.allUsers[indexPresent] = new User(user);
           if (user.task === 'waiter') {
@@ -102,7 +100,6 @@ export class CashierStatisticsComponent implements OnInit {
           else if (user.task === 'cashier') { this.pieChartLabelsCashier.push(user.name); this.pieChartDataCashier.push(user.actions); }
           if (this.allUsers.length > 0)
             this.view_users = true;
-          //this.view_tables = true;
         }
       });
   }
@@ -110,39 +107,27 @@ export class CashierStatisticsComponent implements OnInit {
   async getAllUsers(): Promise<void> {
     try {
       let CashierStatisticsServicePromise = await this.cashierStatisticsService.getAllUsers();
-      // ritorna l'observable...
+      // ritorna l'observable
       CashierStatisticsServicePromise.subscribe(
         (ResSub => {
           // L'AccessToken è valido: o perchè NON era scaduto oppure perchè il refresh è avvenuto in maniara corretta
           if (ResSub.length == 0) {
-            //this.view_tables = false;
+            console.log("ResSub Length == 0");
           }
           else {
             console.log(ResSub);
-            //for(let i=0;i<ResSub.length;++i)
-            //this.myTables.push(new Table(ResSub[i]));
             ResSub.forEach(element => {
               this.allUsers.push(new User(element));
             });
             if (this.allUsers.length > 0) {
               this.view_users = true;
-
-
               for (let us of this.allUsers) {
                 if (us.task === 'waiter') { this.pieChartLabelsWaiter.push(us.name); this.pieChartDataWaiter.push(us.actions); }
                 else if (us.task === 'barman') { this.pieChartLabelsBarman.push(us.name); this.pieChartDataBarman.push(us.actions); }
                 else if (us.task === 'cook') { this.pieChartLabelsChef.push(us.name); this.pieChartDataChef.push(us.actions); }
                 else if (us.task === 'cashier') { this.pieChartLabelsCashier.push(us.name); this.pieChartDataCashier.push(us.actions); }
               }
-
-
-
-
             }
-
-
-
-            //this.view_tables = true;
           }
         }),
         (ErrSub => {
@@ -156,7 +141,6 @@ export class CashierStatisticsComponent implements OnInit {
     } catch (errorPromise) {
       this.router.navigate(['/auth/login']);
       // da andare in pagina di login, MA: sarebbe poi da fare un back a questa pagina quando si è fatto effettivamente il login
-      console.log("sono qui");
       console.log("SEND ORDER err", errorPromise);
     }
   }

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 
-import { HttpClient, HttpHeaders, HttpEventType, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 // import Class
 import { Table } from '../../classes/table';
@@ -23,8 +23,7 @@ export class TablesService {
   async getTables(): Promise<Observable<any>> {
     try {
       await this.refreshToken.refreshToken();
-      //console.log(promRefeshToken);
-      // Ora posso fare la richiesta...
+      // Ora posso fare la richiesta
       return this.http.get(url);
     } catch (ErrorRefreshToken) {
       return throwError(ErrorRefreshToken);
@@ -34,8 +33,7 @@ export class TablesService {
   async getTablesByName(name_table: string): Promise<Observable<any>> {
     try {
       await this.refreshToken.refreshToken();
-      //console.log(promRefeshToken);
-      // Ora posso fare la richiesta...
+      // Ora posso fare la richiesta
       return this.http.get(url + '/' + name_table);
     } catch (ErrorRefreshToken) {
       return throwError(ErrorRefreshToken);
@@ -45,8 +43,7 @@ export class TablesService {
   async createTables(tableJson: Table): Promise<Observable<any>> {
     try {
       await this.refreshToken.refreshToken();
-      //console.log(promRefeshToken);
-      // Ora posso fare la richiesta...
+      // Ora posso fare la richiesta
       return this.http.post(url, tableJson);
     } catch (ErrorRefreshToken) {
       return throwError(ErrorRefreshToken);
@@ -56,8 +53,7 @@ export class TablesService {
   async updateTables(name_table: string, state: boolean): Promise<Observable<any>> {
     try {
       await this.refreshToken.refreshToken();
-      //console.log(promRefeshToken);
-      // Ora posso fare la richiesta...
+      // Ora posso fare la richiesta
       return this.http.post(url + '/' + name_table, state);
     } catch (ErrorRefreshToken) {
       return throwError(ErrorRefreshToken);

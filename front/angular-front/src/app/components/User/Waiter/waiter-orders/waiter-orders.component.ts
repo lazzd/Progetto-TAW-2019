@@ -24,9 +24,7 @@ export class WaiterOrdersComponent implements OnInit {
   view_btn_menu: Boolean;
   view_menu: Boolean;
 
-  // view_form_element_order_element_order
   form_element_order: FormGroup[][];
-  //breakpoint: number;
   form_my_tables: FormGroup;
   myTables: Table[];
   completeMenu: Menu[];
@@ -43,9 +41,6 @@ export class WaiterOrdersComponent implements OnInit {
   tot_sub_drinks: number;
   tot_sub_foods: number;
 
-  // devo avere due oggetti, che li carico... la presenza dell'id_order la ho direttamente in myTables
-  // metodo unico con bottone: invia ordine che discrimina se fare una post (create new order) oppure una put (update), grazie all'id
-
   constructor(
     private waiterOrdersService: WaiterOrdersService,
     private router: Router) { }
@@ -54,7 +49,6 @@ export class WaiterOrdersComponent implements OnInit {
     this.form_my_tables = new FormGroup({
       my_table: new FormControl()
     });
-    //this.breakpoint = (window.innerWidth <= 400) ? 1 : 6;
     this.myTables = [];
     this.completeMenu = [];
     this.view_btn_menu = false;
@@ -70,26 +64,18 @@ export class WaiterOrdersComponent implements OnInit {
     this.getTablesByWaiter();
   }
 
-  /*
-  onResize(event) {
-    this.breakpoint = (event.target.innerWidth <= 400) ? 1 : 6;
-  }
-  */
-
   async getTablesByWaiter(): Promise<void> {
     try {
       let WaiterOrdersServicePromise = await this.waiterOrdersService.getTablesByWaiter(localStorage.getItem('UserName'));
-      // ritorna l'observable...
+      // ritorna l'observable
       WaiterOrdersServicePromise.subscribe(
         (ResSub => {
           // L'AccessToken è valido: o perchè NON era scaduto oppure perchè il refresh è avvenuto in maniara corretta
           if (ResSub.length == 0) {
-            //this.view_tables = false;
+            console.log("ResSub Length == 0");
           }
           else {
             console.log(ResSub);
-            //for(let i=0;i<ResSub.length;++i)
-            //this.myTables.push(new Table(ResSub[i]));
             ResSub.forEach(element => {
               this.myTables.push(new Table(element));
             });
@@ -97,7 +83,6 @@ export class WaiterOrdersComponent implements OnInit {
               return parseInt(a.name_table) - parseInt(b.name_table);
             });
             console.log(this.myTables);
-            //this.view_tables = true;
           }
         }),
         (ErrSub => {
@@ -111,7 +96,6 @@ export class WaiterOrdersComponent implements OnInit {
     } catch (errorPromise) {
       this.router.navigate(['/auth/login']);
       // da andare in pagina di login, MA: sarebbe poi da fare un back a questa pagina quando si è fatto effettivamente il login
-      console.log("sono qui");
       console.log("SEND ORDER err", errorPromise);
     }
   }
@@ -119,17 +103,14 @@ export class WaiterOrdersComponent implements OnInit {
   async getMenu(): Promise<void> {
     try {
       if (this.form_my_tables.value.my_table) {
-        console.log("MIEI TAVOLI:", this.myTables);
         this.selectedTable = this.myTables.find(table => table.name_table == this.form_my_tables.value.my_table);
-        console.log("MY TABLES", this.selectedTable);
         let WaiterOrdersServicePromise = await this.waiterOrdersService.getMenu();
-        // ritorna l'observable...
+        // ritorna l'observable
         WaiterOrdersServicePromise.subscribe(
           (ResSub => {
-            //DA VEDERE SE IF null else NON fai nulla
             // L'AccessToken è valido: o perchè NON era scaduto oppure perchè il refresh è avvenuto in maniara corretta
             if (ResSub.length == 0) {
-              //this.view_tables = false;
+              console.log("ResSub Length == 0");
             }
             else {
               // ri azzero gli array degli ordini
@@ -151,7 +132,6 @@ export class WaiterOrdersComponent implements OnInit {
               });
               console.log(this.completeMenu);
               this.view_btn_menu = true;
-              //this.view_tables = true;
             }
           }),
           (ErrSub => {
@@ -166,7 +146,6 @@ export class WaiterOrdersComponent implements OnInit {
     } catch (errorPromise) {
       this.router.navigate(['/auth/login']);
       // da andare in pagina di login, MA: sarebbe poi da fare un back a questa pagina quando si è fatto effettivamente il login
-      console.log("sono qui");
       console.log("SEND ORDER err", errorPromise);
     }
   }
@@ -178,15 +157,13 @@ export class WaiterOrdersComponent implements OnInit {
   addElementOrder(i, u) {
     const num = this.form_element_order[i][u].value.add_element_order;
     if (num) {
-      //console.log(this.completeMenu[i].elements_category[u]);
-      //console.log(num);
       const cpy_ElementOrder = new ElementMenu(this.completeMenu[i].elements_category[u]);
       cpy_ElementOrder.quantity = num;
-      if (cpy_ElementOrder.type == "drink"){
+      if (cpy_ElementOrder.type == "drink") {
         this.drinks_order.push(cpy_ElementOrder);
         this.tot_sub_drinks += num * cpy_ElementOrder.price;
       }
-      if (cpy_ElementOrder.type == "food"){
+      if (cpy_ElementOrder.type == "food") {
         this.foods_order.push(cpy_ElementOrder);
         this.tot_sub_foods += num * cpy_ElementOrder.price;
       }
@@ -228,7 +205,7 @@ export class WaiterOrdersComponent implements OnInit {
       if (this.selectedTable.hasOwnProperty("id_order")) {
         const id_order = this.selectedTable.id_order;
         let WaiterOrdersServicePromise = await this.waiterOrdersService.sendPUTOrder(id_order, this.drinks_order, this.foods_order, this.tot_sub_drinks, this.tot_sub_foods);
-        // ritorna l'observable...
+        // ritorna l'observable
         WaiterOrdersServicePromise.subscribe(
           (ResSub => {
             // DA MOSTRARE UN ALERT CON LA CONFERMA DI INVIO
@@ -251,10 +228,9 @@ export class WaiterOrdersComponent implements OnInit {
         )
       }
       else {
-        console.log("qui");
         const waiter = localStorage.getItem('UserName');
         let WaiterOrdersServicePromise = await this.waiterOrdersService.sendPOSTOrder(this.drinks_order, this.foods_order, this.tot_sub_drinks, this.tot_sub_foods, this.selectedTable.name_table, waiter);
-        // ritorna l'observable...
+        // ritorna l'observable
         WaiterOrdersServicePromise.subscribe(
           (ResSub => {
             // DA MOSTRARE UN ALERT CON LA CONFERMA DI INVIO
@@ -280,7 +256,6 @@ export class WaiterOrdersComponent implements OnInit {
     } catch (errorPromise) {
       this.router.navigate(['/auth/login']);
       // da andare in pagina di login, MA: sarebbe poi da fare un back a questa pagina quando si è fatto effettivamente il login
-      console.log("sono qui");
       console.log("SEND ORDER err", errorPromise);
     }
   }

@@ -39,11 +39,9 @@ export class CashierBillComponent implements OnInit {
         if (indexPresent != -1)
           this.allServedNotCompleteOrder[indexPresent] = new ResOrder(Order);
         else {
-          console.log("IMPOSSIBLE");
           this.allServedNotCompleteOrder.push(new ResOrder(Order));
           if (this.allServedNotCompleteOrder.length > 0)
             this.view_bills = true;
-          //this.view_tables = true;
         }
       });
 
@@ -55,15 +53,11 @@ export class CashierBillComponent implements OnInit {
         if (indexPresent != -1)
           this.allServedNotCompleteOrder[indexPresent] = new ResOrder(Order);
         else {
-          console.log("IMPOSSIBLE");
           this.allServedNotCompleteOrder.push(new ResOrder(Order));
           if (this.allServedNotCompleteOrder.length > 0)
             this.view_bills = true;
-          //this.view_tables = true;
         }
       });
-
-    // OK
 
     this.socketService
       .completeOrder()
@@ -86,19 +80,16 @@ export class CashierBillComponent implements OnInit {
         (ResSub => {
           // L'AccessToken è valido: o perchè NON era scaduto oppure perchè il refresh è avvenuto in maniara corretta
           if (ResSub.length == 0) {
-            //this.view_tables = false;
+            console.log("ResSub Length == 0");
           }
           else {
             console.log(ResSub);
-            //for(let i=0;i<ResSub.length;++i)
-            //this.myTables.push(new Table(ResSub[i]));
             ResSub.forEach(element => {
               this.allServedNotCompleteOrder.push(new ResOrder(element));
             });
             console.log(this.allServedNotCompleteOrder)
             if (this.allServedNotCompleteOrder.length > 0)
               this.view_bills = true;
-            //this.view_tables = true;
           }
         }),
         (ErrSub => {
@@ -112,7 +103,6 @@ export class CashierBillComponent implements OnInit {
     } catch (errorPromise) {
       this.router.navigate(['/auth/login']);
       // da andare in pagina di login, MA: sarebbe poi da fare un back a questa pagina quando si è fatto effettivamente il login
-      console.log("sono qui");
       console.log("SEND ORDER err", errorPromise);
     }
   }
@@ -125,19 +115,7 @@ export class CashierBillComponent implements OnInit {
         // ritorna l'observable...
         CashierBillServicePromise2.subscribe(
           (ResSub => {
-            // ResSub dovrebbe essere un Order normale non array
-            // L'AccessToken è valido: o perchè NON era scaduto oppure perchè il refresh è avvenuto in maniara corretta
-            if (ResSub.length == 0) {
-              //this.view_tables = false;
-            }
-            else {
-              /*console.log(ResSub);
-              const index = this.allNotCompleteOrder.findIndex(elem => elem.id_order == id_order)
-              this.allNotCompleteOrder.splice(index, 1);
-              if (!this.allNotCompleteOrder.length)
-                this.view_bills = false;
-              //this.view_tables = true;*/
-            }
+            console.log("OK");
           }),
           (ErrSub => {
             // necessario il catch della promise non gestisce l'errore dell'observable
@@ -159,7 +137,6 @@ export class CashierBillComponent implements OnInit {
     } catch (errorPromise) {
       this.router.navigate(['/auth/login']);
       // da andare in pagina di login, MA: sarebbe poi da fare un back a questa pagina quando si è fatto effettivamente il login
-      console.log("sono qui");
       console.log("SEND ORDER err", errorPromise);
     }
   }

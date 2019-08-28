@@ -52,7 +52,7 @@ export class CookMySubordersComponent implements OnInit {
   async getMyOrdersByCook(): Promise<void> {
     try {
       let CookMySubordersServicePromise = await this.cookMySubordersService.getMyOrdersByCook();
-      // ritorna l'observable...
+      // ritorna l'observable
       CookMySubordersServicePromise.subscribe(
         (ResSub => {
           // L'AccessToken è valido: o perchè NON era scaduto oppure perchè il refresh è avvenuto in maniara corretta
@@ -76,7 +76,6 @@ export class CookMySubordersComponent implements OnInit {
               this.view_my_Suborders = true;
               console.log(this.allMySuborders);
             }
-            //this.view_tables = true;
           }
         }),
         (ErrSub => {
@@ -90,7 +89,6 @@ export class CookMySubordersComponent implements OnInit {
     } catch (errorPromise) {
       this.router.navigate(['/auth/login']);
       // da andare in pagina di login, MA: sarebbe poi da fare un back a questa pagina quando si è fatto effettivamente il login
-      console.log("sono qui");
       console.log("SEND ORDER err", errorPromise);
     }
   }
@@ -102,12 +100,12 @@ export class CookMySubordersComponent implements OnInit {
   async completeMySuborder() {
     try {
       let CookMySubordersServicePromise = await this.cookMySubordersService.completeMySuborder(this.firstMySuborders.id_order, this.firstMySuborders.id_suborder);
-      // ritorna l'observable...
+      // ritorna l'observable
       CookMySubordersServicePromise.subscribe(
         (ResSub => {
           // L'AccessToken è valido: o perchè NON era scaduto oppure perchè il refresh è avvenuto in maniara corretta
           if (ResSub.length == 0) {
-            //this.view_tables = false;
+            console.log("ResSub Length == 0");
           }
           else {
             console.log(ResSub);
@@ -117,7 +115,6 @@ export class CookMySubordersComponent implements OnInit {
               this.view_my_Suborders = false;
               this.firstMySuborders = null;
             }
-            //this.view_tables = true;
           }
         }),
         (ErrSub => {
@@ -131,7 +128,6 @@ export class CookMySubordersComponent implements OnInit {
     } catch (errorPromise) {
       this.router.navigate(['/auth/login']);
       // da andare in pagina di login, MA: sarebbe poi da fare un back a questa pagina quando si è fatto effettivamente il login
-      console.log("sono qui");
       console.log("SEND ORDER err", errorPromise);
     }
   }

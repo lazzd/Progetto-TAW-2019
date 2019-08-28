@@ -84,7 +84,7 @@ export class CookFreeSubordersComponent implements OnInit {
   async getOrdersByCook(): Promise<void> {
     try {
       let CookFreeSubordersServicePromise = await this.cookFreeSubordersService.getOrdersByCook();
-      // ritorna l'observable...
+      // ritorna l'observable
       CookFreeSubordersServicePromise.subscribe(
         (ResSub => {
           // L'AccessToken è valido: o perchè NON era scaduto oppure perchè il refresh è avvenuto in maniara corretta
@@ -105,7 +105,6 @@ export class CookFreeSubordersComponent implements OnInit {
               this.view_Suborders = true;
               console.log(this.allSuborders);
             }
-            //this.view_tables = true;
           }
         }),
         (ErrSub => {
@@ -119,7 +118,6 @@ export class CookFreeSubordersComponent implements OnInit {
     } catch (errorPromise) {
       this.router.navigate(['/auth/login']);
       // da andare in pagina di login, MA: sarebbe poi da fare un back a questa pagina quando si è fatto effettivamente il login
-      console.log("sono qui");
       console.log("SEND ORDER err", errorPromise);
     }
   }
@@ -130,21 +128,7 @@ export class CookFreeSubordersComponent implements OnInit {
       // ritorna l'observable...
       CookFreeSubordersServicePromise.subscribe(
         (ResSub => {
-          // L'AccessToken è valido: o perchè NON era scaduto oppure perchè il refresh è avvenuto in maniara corretta
-          if (ResSub.length == 0) {
-            //this.view_tables = false;
-          }
-          else {
-            console.log(ResSub);
-            // TOLTO PERCHE' MESSO NESSLA IMPLEMENTAZIONE DEI WEB SOCKET
-            /*if (this.allSuborders.length > 0)
-              this.firstSuborders = this.allSuborders.shift();
-            else {
-              this.view_Suborders = false;
-              this.firstSuborders = null;
-            }*/
-            //this.view_tables = true;
-          }
+          console.log("OK");
         }),
         (ErrSub => {
           // necessario il catch della promise non gestisce l'errore dell'observable
@@ -157,7 +141,6 @@ export class CookFreeSubordersComponent implements OnInit {
     } catch (errorPromise) {
       this.router.navigate(['/auth/login']);
       // da andare in pagina di login, MA: sarebbe poi da fare un back a questa pagina quando si è fatto effettivamente il login
-      console.log("sono qui");
       console.log("SEND ORDER err", errorPromise);
     }
   }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Observable, Observer } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import * as socketIo from 'socket.io-client';
 import { ResOrder } from 'src/app/classes/res_order';

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 
-import { HttpClient, HttpHeaders, HttpEventType, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 // import for refresh-token
 import { RefreshTokenService } from '../../../refresh-token/refresh-token.service';
@@ -24,7 +24,7 @@ export class BarmanFreeSubordersService {
     try {
       let promRefeshToken = await this.refreshToken.refreshToken();
       console.log(promRefeshToken);
-      // Ora posso fare la richiesta...
+      // Ora posso fare la richiesta
       return this.http.get<Array<ResOrder>>(urlOrder);
     } catch (ErrorRefreshToken) {
       return throwError(ErrorRefreshToken);
@@ -35,7 +35,7 @@ export class BarmanFreeSubordersService {
     try {
       let promRefeshToken = await this.refreshToken.refreshToken();
       console.log(promRefeshToken);
-      // Ora posso fare la richiesta...
+      // Ora posso fare la richiesta
       return this.http.put<Array<ResOrder>>(urlOrder + '/' + id_order + '/suborders/' + id_suborder, new ReqEmployee(name));
     } catch (ErrorRefreshToken) {
       return throwError(ErrorRefreshToken);

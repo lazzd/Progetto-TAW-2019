@@ -42,7 +42,7 @@ export class WaiterTablesComponent implements OnInit {
       const seats = this.form_table.value.num_seats;
       if (seats) {
         let WaiterTablesServicePromise = await this.waiterTablesService.getTablesBySeats(seats);
-        // ritorna l'observable...
+        // ritorna l'observable
         WaiterTablesServicePromise.subscribe(
           (ResSub => {
             // L'AccessToken è valido: o perchè NON era scaduto oppure perchè il refresh è avvenuto in maniara corretta
@@ -85,7 +85,6 @@ export class WaiterTablesComponent implements OnInit {
     } catch (errorPromise) {
       this.router.navigate(['/auth/login']);
       // da andare in pagina di login, MA: sarebbe poi da fare un back a questa pagina quando si è fatto effettivamente il login
-      console.log("sono qui");
       console.log("SEND ORDER err", errorPromise);
     }
   }
@@ -93,7 +92,7 @@ export class WaiterTablesComponent implements OnInit {
   async pairTable(): Promise<void> {
     try {
       let WaiterTablesServicePromise = await this.waiterTablesService.pairTable(this.selectTable, new State(true, localStorage.getItem('UserName')));
-      // ritorna l'observable...
+      // ritorna l'observable
       WaiterTablesServicePromise.subscribe(
         (ResSub => {
           // L'AccessToken è valido: o perchè NON era scaduto oppure perchè il refresh è avvenuto in maniara corretta
@@ -101,7 +100,6 @@ export class WaiterTablesComponent implements OnInit {
           console.log("SEND STATE RES", ResSub);
           this.selectTable = "";
           this.view_tables = false;
-
         }),
         (ErrSub => {
           // necessario il catch della promise non gestisce l'errore dell'observable
@@ -114,7 +112,6 @@ export class WaiterTablesComponent implements OnInit {
     } catch (errorPromise) {
       //this.router.navigate(['/auth/login']);
       // da andare in pagina di login, MA: sarebbe poi da fare un back a questa pagina quando si è fatto effettivamente il login
-      console.log("sono qui");
       console.log("SEND ORDER err", errorPromise);
     }
   }

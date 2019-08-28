@@ -9,7 +9,6 @@
     </div>
   </header>
 
-
   <form [formGroup]="form_login" (ngSubmit)="sendLogin()">
     <mat-form-field class="field-login">
       <mat-label>Mail</mat-label>
@@ -23,8 +22,6 @@
       <button type="submit" class="btn_login" mat-raised-button color="primary">LOGIN</button>
     </div>
   </form>
-
-
 
   <div class="center">
     <div *ngIf="erroreLungMail" class="error">La mail deve essere lunga almeno 6 caratteri!</div>

@@ -43,7 +43,6 @@ export class SidenavCashierComponent implements OnDestroy {
     this.ntf_bills = false;
   }
 
-  // FAI PROVE PER NOTIFICHE
   private initIoConnection(): void {
     this.socketService.initSocket();
 
@@ -56,7 +55,6 @@ export class SidenavCashierComponent implements OnDestroy {
           if (indexPresent != -1)
             this.allServedNotCompleteOrder[indexPresent] = new ResOrder(Order);
           else {
-            console.log("IMPOSSIBLE");
             this.allServedNotCompleteOrder.push(new ResOrder(Order));
           }
         }
@@ -83,7 +81,6 @@ export class SidenavCashierComponent implements OnDestroy {
           if (indexPresent != -1)
             this.allServedNotCompleteOrder[indexPresent] = new ResOrder(Order);
           else {
-            console.log("IMPOSSIBLE");
             this.allServedNotCompleteOrder.push(new ResOrder(Order));
           }
         }
@@ -101,8 +98,6 @@ export class SidenavCashierComponent implements OnDestroy {
         }
       });
 
-    // OK
-
     this.socketService
       .completeOrder()
       .subscribe(Order => {
@@ -110,14 +105,14 @@ export class SidenavCashierComponent implements OnDestroy {
         const indexPresent = this.allServedNotCompleteOrder.findIndex(elem => elem.id_order == Order.id_order);
         if (indexPresent != -1)
           this.allServedNotCompleteOrder.splice(indexPresent, 1);
-          if (this.allServedNotCompleteOrder.length > 0) {
-            if (this.place != 'bills' && !this.ntf_bills)
-              this.ntf_bills = true;
-          }
-          else {
-            if (this.ntf_bills)
-              this.ntf_bills = false;
-          }
+        if (this.allServedNotCompleteOrder.length > 0) {
+          if (this.place != 'bills' && !this.ntf_bills)
+            this.ntf_bills = true;
+        }
+        else {
+          if (this.ntf_bills)
+            this.ntf_bills = false;
+        }
       })
 
   }

@@ -108,7 +108,7 @@ export class BarmanMySubordersComponent implements OnInit {
           // ResSub dovrebbe essere un Order normale non array
           // L'AccessToken è valido: o perchè NON era scaduto oppure perchè il refresh è avvenuto in maniara corretta
           if (ResSub.length == 0) {
-            //this.view_tables = false;
+            console.log("ResSub Length == 0");
           }
           else {
             console.log(ResSub);
@@ -118,7 +118,6 @@ export class BarmanMySubordersComponent implements OnInit {
               this.view_my_Suborders = false;
               this.firstMySuborders = null;
             }
-            //this.view_tables = true;
           }
         }),
         (ErrSub => {
@@ -132,7 +131,6 @@ export class BarmanMySubordersComponent implements OnInit {
     } catch (errorPromise) {
       this.router.navigate(['/auth/login']);
       // da andare in pagina di login, MA: sarebbe poi da fare un back a questa pagina quando si è fatto effettivamente il login
-      console.log("sono qui");
       console.log("SEND ORDER err", errorPromise);
     }
   }

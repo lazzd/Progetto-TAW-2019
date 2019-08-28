@@ -81,11 +81,9 @@ export class CashierTablesComponent implements OnInit {
         if (indexPresent != -1)
           this.allTables[indexPresent] = new Table(table);
         else {
-          console.log("IMPOSSIBLE");
           this.allTables.push(new Table(table));
           if (this.allTables.length > 0)
             this.view_tables = true;
-          //this.view_tables = true;
         }
       });
   }
@@ -93,24 +91,21 @@ export class CashierTablesComponent implements OnInit {
   async getAllTables(): Promise<void> {
     try {
       let CashierTablesServicePromise = await this.cashierTablesService.getAllTables();
-      // ritorna l'observable...
+      // ritorna l'observable
       CashierTablesServicePromise.subscribe(
         (ResSub => {
           // L'AccessToken è valido: o perchè NON era scaduto oppure perchè il refresh è avvenuto in maniara corretta
           if (ResSub.length == 0) {
-            //this.view_tables = false;
+            console.log("ResSub Length == 0");
           }
           else {
             console.log(ResSub);
-            //for(let i=0;i<ResSub.length;++i)
-            //this.myTables.push(new Table(ResSub[i]));
             ResSub.forEach(element => {
               this.allTables.push(new Table(element));
             });
             this.allTables.sort((a, b) => parseInt(a.name_table) - parseInt(b.name_table));
             if (this.allTables.length > 0)
               this.view_tables = true;
-            //this.view_tables = true;
           }
         }),
         (ErrSub => {
@@ -124,7 +119,6 @@ export class CashierTablesComponent implements OnInit {
     } catch (errorPromise) {
       this.router.navigate(['/auth/login']);
       // da andare in pagina di login, MA: sarebbe poi da fare un back a questa pagina quando si è fatto effettivamente il login
-      console.log("sono qui");
       console.log("SEND ORDER err", errorPromise);
     }
   }
@@ -135,7 +129,6 @@ export class CashierTablesComponent implements OnInit {
 
   getInfoTable(num) {
     if (this.allTables.length > 0) {
-      //this.selectedTable = this.allTables.find(elem => elem.name_table == this.form_my_tables.value.my_table);
       this.selectedTable = this.allTables.find(elem => elem.name_table === num);
     }
     console.log(this.selectedTable);
@@ -153,7 +146,7 @@ export class CashierTablesComponent implements OnInit {
         console.log("NAME: ", newNameTable);
         console.log("NUM: ", newSeats);
         let CashierTablesServicePromise = await this.cashierTablesService.postNewTable(newNameTable, newSeats);
-        // ritorna l'observable...
+        // ritorna l'observable
         CashierTablesServicePromise.subscribe(
           (ResSub => {
             // L'AccessToken è valido: o perchè NON era scaduto oppure perchè il refresh è avvenuto in maniara corretta
@@ -179,7 +172,6 @@ export class CashierTablesComponent implements OnInit {
     } catch (errorPromise) {
       this.router.navigate(['/auth/login']);
       // da andare in pagina di login, MA: sarebbe poi da fare un back a questa pagina quando si è fatto effettivamente il login
-      console.log("sono qui");
       console.log("SEND ORDER err", errorPromise);
     }
   }

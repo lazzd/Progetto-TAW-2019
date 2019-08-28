@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 
-import { HttpClient, HttpHeaders, HttpEventType, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 // import for refresh-token
 import { RefreshTokenService } from '../../../refresh-token/refresh-token.service';
@@ -24,7 +24,7 @@ export class WaiterTablesService {
     try {
       let promRefeshToken = await this.refreshToken.refreshToken();
       console.log(promRefeshToken);
-      // Ora posso fare la richiesta...
+      // Ora posso fare la richiesta
       return this.http.get<Array<Table>>(url + '?seats=' + seats);
     } catch (ErrorRefreshToken) {
       return throwError(ErrorRefreshToken);
@@ -36,7 +36,7 @@ export class WaiterTablesService {
     try {
       let promRefeshToken = await this.refreshToken.refreshToken();
       console.log(promRefeshToken);
-      // Ora posso fare la richiesta...
+      // Ora posso fare la richiesta
       return this.http.put<Table>((url + '/' + name_table), state);
     } catch (ErrorRefreshToken) {
       return throwError(ErrorRefreshToken);
