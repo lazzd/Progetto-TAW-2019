@@ -107,20 +107,18 @@ button {
     flex-direction: column;
   }
 
-  .corpo {
-    top: 0vh;
-  }
+
 
   .intro-text {
-    padding: 0px;
+    padding: 15px 10px 10px 10px;
   }
 
   .intro-text h1 {
-    font-size: 30px;
+    font-size: 35px;
   }
 
   .intro-text p {
-    font-size: 20px;
+    font-size: 25px;
   }
 
   .bottoni {
@@ -135,7 +133,7 @@ button {
   }
 
   button {
-    margin: 25px 20px 0px 0px;
+    margin: 30px 20px 0px 0px;
     width: 140px;
   }
 }
