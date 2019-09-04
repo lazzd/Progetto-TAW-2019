@@ -1,3 +1,5 @@
+import { environment } from "../../../../../environments/environment";
+
 import { Injectable } from '@angular/core';
 
 import { Observable, throwError } from 'rxjs';
@@ -8,7 +10,7 @@ import { HttpClient } from '@angular/common/http';
 import { RefreshTokenService } from '../../../refresh-token/refresh-token.service';
 import { User } from 'src/app/classes/user';
 
-const urlUser = "http://localhost:3000/users";
+const urlUser = environment.serverURL + "/users";
 
 @Injectable({
   providedIn: 'root'

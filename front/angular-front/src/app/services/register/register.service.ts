@@ -1,3 +1,5 @@
+import { environment } from "../../../environments/environment";
+
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
@@ -7,7 +9,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 // import Class
 import { Register } from '../../classes/register';
 
-const url = "http://localhost:3000/auth/register";
+const url = environment.serverURL + "/auth/register";
 
 const httpOptions = {
   headers: new HttpHeaders({

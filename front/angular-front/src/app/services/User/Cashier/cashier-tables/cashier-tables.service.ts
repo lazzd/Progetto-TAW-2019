@@ -1,3 +1,5 @@
+import { environment } from "../../../../../environments/environment";
+
 import { Injectable } from '@angular/core';
 
 import { Observable, throwError } from 'rxjs';
@@ -8,7 +10,7 @@ import { HttpClient } from '@angular/common/http';
 import { RefreshTokenService } from '../../../refresh-token/refresh-token.service';
 import { Table } from 'src/app/classes/table';
 
-const urlTable = 'http://localhost:3000/tables';
+const urlTable = environment.serverURL + '/tables';
 
 @Injectable({
   providedIn: 'root'

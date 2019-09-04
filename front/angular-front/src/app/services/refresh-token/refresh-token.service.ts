@@ -1,3 +1,5 @@
+import { environment } from "../../../environments/environment";
+
 import { Injectable } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
@@ -8,7 +10,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 // class jwtToken for ts
 import { JwtToken } from 'src/app/classes/jwtToken';
 
-const url = "http://localhost:3000/auth/refresh-token";
+const url = environment.serverURL + "/auth/refresh-token";
 
 @Injectable({
   providedIn: 'root'

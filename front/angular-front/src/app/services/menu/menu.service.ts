@@ -1,3 +1,5 @@
+import { environment } from "../../../environments/environment";
+
 import { Injectable } from '@angular/core';
 
 import { Observable, throwError } from 'rxjs';
@@ -10,7 +12,7 @@ import { ElementMenu } from '../../classes/element_menu';
 // import for refresh-token
 import { RefreshTokenService } from '../refresh-token/refresh-token.service';
 
-const url = "http://localhost:3000/menu";
+const url = environment.serverURL + "/menu";
 
 @Injectable({
   providedIn: 'root'

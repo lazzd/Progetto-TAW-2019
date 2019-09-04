@@ -1,3 +1,5 @@
+import { environment } from "../../../../../environments/environment";
+
 import { Injectable } from '@angular/core';
 
 import { Observable, throwError } from 'rxjs';
@@ -10,8 +12,8 @@ import { ResOrder } from 'src/app/classes/res_order';
 import { State } from 'src/app/classes/state';
 import { Table } from 'src/app/classes/table';
 
-const urlOrder = "http://localhost:3000/orders";
-const urlTable = "http://localhost:3000/tables";
+const urlOrder = environment.serverURL + "/orders";
+const urlTable = environment.serverURL + "/tables";
 
 @Injectable({
   providedIn: 'root'

@@ -1,3 +1,5 @@
+import { environment } from "../../../../../environments/environment";
+
 import { Injectable } from '@angular/core';
 
 import { Observable, throwError } from 'rxjs';
@@ -9,8 +11,8 @@ import { RefreshTokenService } from '../../../refresh-token/refresh-token.servic
 import { ResOrder } from 'src/app/classes/res_order';
 import { State } from 'src/app/classes/state';
 
-const urlOrder = "http://localhost:3000/orders";
-const urlMyOrder = "http://localhost:3000/orders/myOrders";
+const urlOrder = environment.serverURL + "/orders";
+const urlMyOrder = environment.serverURL + "/orders/myOrders";
 
 @Injectable({
   providedIn: 'root'

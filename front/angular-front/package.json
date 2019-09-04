@@ -1,13 +1,17 @@
 {
   "name": "angular-front",
   "version": "0.0.0",
+  "main": "main.js",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "electron:build": "ng build --base-href ./ --output-path ./dist",
+    "electron:start": "electron .",
+    "mobile:build": "ng build --configuration=cordova --base-href ./ --output-path ./logicaldishes/www"
   },
   "private": true,
   "dependencies": {
@@ -36,10 +40,11 @@
     "@angular/cli": "~8.0.6",
     "@angular/compiler-cli": "~8.0.3",
     "@angular/language-service": "~8.0.3",
-    "@types/node": "~8.9.4",
     "@types/jasmine": "~3.3.8",
     "@types/jasminewd2": "~2.0.3",
+    "@types/node": "~8.9.4",
     "codelyzer": "^5.0.0",
+    "electron": "^6.0.7",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~4.1.0",

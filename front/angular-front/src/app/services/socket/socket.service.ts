@@ -1,3 +1,5 @@
+import { environment } from "../../../environments/environment";
+
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
@@ -7,7 +9,7 @@ import { ResOrder } from 'src/app/classes/res_order';
 import { Table } from 'src/app/classes/table';
 import { User } from 'src/app/classes/user';
 
-const SERVER_URL = 'http://localhost:3000/';
+const SERVER_URL = environment.serverURL;
 
 @Injectable({
   providedIn: 'root'
