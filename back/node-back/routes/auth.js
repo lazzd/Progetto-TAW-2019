@@ -7,6 +7,9 @@ let UsersModel = require('../models/users.model');
 let jwt = require('jsonwebtoken');
 let bcrypt = require('bcrypt');
 
+// verify function
+let verifyAccessToken = require('./verifyAccessToken');
+
 // verify for refreshing Token
 let RefreshVerify = require('./verifyRefreshToken');
 
@@ -48,14 +51,17 @@ function refreshAccessJwt(bodyJson) {
     }, process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: AccessExpire });
     //inviamo il body vuoto, l'authorization si troverà nell'header della respose
-    return ({ AccessToken});
+    return ({ AccessToken });
 }
 
-router.post("/register", async function (req, res, next) {
+router.post("/register", verifyAccessToken, async function (req, res, next) {
     try {
         if (!req.body)
             return res.status(400).send('Request body is missing');
         else {
+            const task = jwt.decode(req.header('auth-token')).task;
+            if (task != 'cashier')
+                return res.status(400).send('Missing permissions');
             // VALIDATE WITH JOI
             const { error } = registerValidation(req.body);
             if (error) return res.status(400).send(error.details[0].message);
@@ -84,7 +90,7 @@ router.post("/register", async function (req, res, next) {
                     // ----------------------------------- nel doc dovrebbe esserci il _id necessario per il jwt, OK
                     const jwtToken = createJwt(doc);
                     res.io.emit("new-user-action", doc);
-                    return res.status(201).header('auth-token', jwtToken.AccessToken).type("application/json").send(jwtToken);
+                    return res.status(201).send("Registration completed");
 
                 })
                 .catch(err => {

@@ -53,27 +53,26 @@ export class RegisterComponent implements OnInit {
     })
   }
 
-  sendRegister(): void {
+  async sendRegister(): Promise<void> {
+    try {
+      this.erroreNomeEsistente = false;
+      this.erroreMailEsistente = false;
+      this.erroreVuoto = false;
+      this.erroreLungPass = false;
+      this.erroreMail = false;
+      this.regCompletata = false;
+      this.erroreLungMail = false;
+      this.erroreLungNome = false;
 
-    this.erroreNomeEsistente = false;
-    this.erroreMailEsistente = false;
-    this.erroreVuoto = false;
-    this.erroreLungPass = false;
-    this.erroreMail = false;
-    this.regCompletata = false;
-    this.erroreLungMail = false;
-    this.erroreLungNome = false;
+      const name = this.form_reg.value.nameRegister;
+      const email = this.form_reg.value.emailRegister;
+      const password = this.form_reg.value.passwordRegister;
+      const task = this.form_reg.value.taskRegister;
 
-    const name = this.form_reg.value.nameRegister;
-    const email = this.form_reg.value.emailRegister;
-    const password = this.form_reg.value.passwordRegister;
-    const task = this.form_reg.value.taskRegister;
-
-
-    if (name && email && password && task) {
-      this.registerService.sendRegister({ name, email, password, task } as Register)
-        .subscribe(
-          (res: any) => {
+      if (name && email && password && task) {
+        let registerServicePromise = await this.registerService.sendRegister({ name, email, password, task } as Register);
+        registerServicePromise.subscribe(
+          (res: string) => {
 
             this.form_reg.reset();
             this.regCompletata = true;
@@ -102,10 +101,18 @@ export class RegisterComponent implements OnInit {
             // text con errori DA SERVER
             console.log(err.error);
           });
+      }
+      else {
+        // text con errori con cambi non presenti
+        this.erroreVuoto = true;
+      }
+    } catch (errorPromise) {
+      this.router.navigate(['/auth/login']);
+      // da andare in pagina di login, MA: sarebbe poi da fare un back a questa pagina quando si è fatto effettivamente il login
+      console.log("sono qui");
+      console.log("SEND ORDER err", errorPromise);
     }
-    else {
-      // text con errori con cambi non presenti
-      this.erroreVuoto = true;
-    }
+
+
   }
 }

@@ -5238,51 +5238,71 @@ var RegisterComponent = /** @class */ (function () {
         });
     };
     RegisterComponent.prototype.sendRegister = function () {
-        var _this = this;
-        this.erroreNomeEsistente = false;
-        this.erroreMailEsistente = false;
-        this.erroreVuoto = false;
-        this.erroreLungPass = false;
-        this.erroreMail = false;
-        this.regCompletata = false;
-        this.erroreLungMail = false;
-        this.erroreLungNome = false;
-        var name = this.form_reg.value.nameRegister;
-        var email = this.form_reg.value.emailRegister;
-        var password = this.form_reg.value.passwordRegister;
-        var task = this.form_reg.value.taskRegister;
-        if (name && email && password && task) {
-            this.registerService.sendRegister({ name: name, email: email, password: password, task: task })
-                .subscribe(function (res) {
-                _this.form_reg.reset();
-                _this.regCompletata = true;
-            }, function (err) {
-                if (err.error === 'Name already exists') {
-                    _this.erroreNomeEsistente = true;
+        return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function () {
+            var name_1, email, password, task, registerServicePromise, errorPromise_1;
+            var _this = this;
+            return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 4, , 5]);
+                        this.erroreNomeEsistente = false;
+                        this.erroreMailEsistente = false;
+                        this.erroreVuoto = false;
+                        this.erroreLungPass = false;
+                        this.erroreMail = false;
+                        this.regCompletata = false;
+                        this.erroreLungMail = false;
+                        this.erroreLungNome = false;
+                        name_1 = this.form_reg.value.nameRegister;
+                        email = this.form_reg.value.emailRegister;
+                        password = this.form_reg.value.passwordRegister;
+                        task = this.form_reg.value.taskRegister;
+                        if (!(name_1 && email && password && task)) return [3 /*break*/, 2];
+                        return [4 /*yield*/, this.registerService.sendRegister({ name: name_1, email: email, password: password, task: task })];
+                    case 1:
+                        registerServicePromise = _a.sent();
+                        registerServicePromise.subscribe(function (res) {
+                            _this.form_reg.reset();
+                            _this.regCompletata = true;
+                        }, function (err) {
+                            if (err.error === 'Name already exists') {
+                                _this.erroreNomeEsistente = true;
+                            }
+                            else if (err.error === 'Email already exists') {
+                                _this.erroreMailEsistente = true;
+                            }
+                            else if (err.error === '"name" length must be at least 6 characters long') {
+                                _this.erroreLungNome = true;
+                            }
+                            else if (err.error === '"email" length must be at least 6 characters long') {
+                                _this.erroreLungMail = true;
+                            }
+                            else if (err.error === '"email" must be a valid email') {
+                                _this.erroreMail = true;
+                            }
+                            else if (err.error === '"password" length must be at least 6 characters long') {
+                                _this.erroreLungPass = true;
+                            }
+                            // text con errori DA SERVER
+                            console.log(err.error);
+                        });
+                        return [3 /*break*/, 3];
+                    case 2:
+                        // text con errori con cambi non presenti
+                        this.erroreVuoto = true;
+                        _a.label = 3;
+                    case 3: return [3 /*break*/, 5];
+                    case 4:
+                        errorPromise_1 = _a.sent();
+                        this.router.navigate(['/auth/login']);
+                        // da andare in pagina di login, MA: sarebbe poi da fare un back a questa pagina quando si è fatto effettivamente il login
+                        console.log("sono qui");
+                        console.log("SEND ORDER err", errorPromise_1);
+                        return [3 /*break*/, 5];
+                    case 5: return [2 /*return*/];
                 }
-                else if (err.error === 'Email already exists') {
-                    _this.erroreMailEsistente = true;
-                }
-                else if (err.error === '"name" length must be at least 6 characters long') {
-                    _this.erroreLungNome = true;
-                }
-                else if (err.error === '"email" length must be at least 6 characters long') {
-                    _this.erroreLungMail = true;
-                }
-                else if (err.error === '"email" must be a valid email') {
-                    _this.erroreMail = true;
-                }
-                else if (err.error === '"password" length must be at least 6 characters long') {
-                    _this.erroreLungPass = true;
-                }
-                // text con errori DA SERVER
-                console.log(err.error);
             });
-        }
-        else {
-            // text con errori con cambi non presenti
-            this.erroreVuoto = true;
-        }
+        });
     };
     RegisterComponent.ctorParameters = function () { return [
         { type: _services_register_register_service__WEBPACK_IMPORTED_MODULE_4__["RegisterService"] },
@@ -6662,28 +6682,47 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../environments/environment */ "./src/environments/environment.ts");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _refresh_token_refresh_token_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../refresh-token/refresh-token.service */ "./src/app/services/refresh-token/refresh-token.service.ts");
 
 
 
+
+
+// import Class
+// import for refresh-token
 
 var url = _environments_environment__WEBPACK_IMPORTED_MODULE_1__["environment"].serverURL + "/auth/register";
-var httpOptions = {
-    headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpHeaders"]({
-        'Content-Type': 'application/json',
-        'auth-token': 'text'
-    })
-};
 var RegisterService = /** @class */ (function () {
-    function RegisterService(http) {
+    function RegisterService(refreshToken, http) {
+        this.refreshToken = refreshToken;
         this.http = http;
     }
     RegisterService.prototype.sendRegister = function (registerJson) {
-        console.log(registerJson);
-        return this.http.post(url, registerJson, httpOptions);
+        return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function () {
+            var promRefeshToken, ErrorRefreshToken_1;
+            return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.refreshToken.refreshToken()];
+                    case 1:
+                        promRefeshToken = _a.sent();
+                        console.log(promRefeshToken);
+                        // Ora posso fare la richiesta
+                        return [2 /*return*/, this.http.post(url, registerJson)];
+                    case 2:
+                        ErrorRefreshToken_1 = _a.sent();
+                        return [2 /*return*/, Object(rxjs__WEBPACK_IMPORTED_MODULE_3__["throwError"])(ErrorRefreshToken_1)];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
     };
     RegisterService.ctorParameters = function () { return [
-        { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClient"] }
+        { type: _refresh_token_refresh_token_service__WEBPACK_IMPORTED_MODULE_5__["RefreshTokenService"] },
+        { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClient"] }
     ]; };
     RegisterService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Injectable"])({

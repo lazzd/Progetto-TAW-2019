@@ -2,32 +2,36 @@ import { environment } from "../../../environments/environment";
 
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 // import Class
+// import for refresh-token
+import { RefreshTokenService } from '../refresh-token/refresh-token.service';
 import { Register } from '../../classes/register';
 
 const url = environment.serverURL + "/auth/register";
-
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json',
-    'auth-token': 'text'
-  })
-};
 
 @Injectable({
   providedIn: 'root'
 })
 export class RegisterService {
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private refreshToken: RefreshTokenService,
+    private http: HttpClient) { }
 
-  sendRegister(registerJson: Register): Observable<any> {
-    console.log(registerJson);
-    return this.http.post<any>(url, registerJson, httpOptions);
+
+  async sendRegister(registerJson: Register): Promise<Observable<string>> {
+    try {
+      let promRefeshToken = await this.refreshToken.refreshToken();
+      console.log(promRefeshToken);
+      // Ora posso fare la richiesta
+      return this.http.post<string>(url, registerJson);
+    } catch (ErrorRefreshToken) {
+      return throwError(ErrorRefreshToken);
+    }
   }
 
 }
