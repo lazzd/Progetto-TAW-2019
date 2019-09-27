@@ -6,6 +6,8 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 
 // import Services
 import { LoginService } from '../../services/login/login.service';
+import { LogoutService } from '../../services/logout/logout.service';
+
 // import Class
 import { Login } from '../../classes/login';
 import { FormGroup, FormControl } from '@angular/forms';
@@ -27,6 +29,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private loginService: LoginService,
+    private logoutService: LogoutService,
     private router: Router,
     private jwt: JwtHelperService) { }
 
@@ -34,8 +37,37 @@ export class LoginComponent implements OnInit {
     this.form_login = new FormGroup({
       emailLogin: new FormControl(),
       passwordLogin: new FormControl()
-    })
+    });
+    if(this.isLogged())
+      this.logout();
   }
+
+  isLogged():boolean{
+    const AccessToken = localStorage.getItem('AccessToken');
+    const RefreshToken = localStorage.getItem('RefreshToken');
+    const UserName = localStorage.getItem('UserName');
+    const UserTask = localStorage.getItem('UserTask');
+    if(AccessToken || RefreshToken || UserName || UserTask)
+      return true;
+    else
+      return false;
+  }
+
+  logout() {
+    console.log("GGGGGGGGGGGGGGGGG")
+    this.logoutService.logout()
+      .subscribe(
+        (res: any) => {
+          console.log("LOGOUT SUCCESS", res);
+          this.router.navigate(['/auth/login']);
+        },
+        (err: any) => {
+          console.log("LOGOUT ERROR", err);
+          this.router.navigate(['/auth']);
+        }
+      )
+  }
+
 
   returnAuth(): void {
     this.router.navigate(['/auth']);

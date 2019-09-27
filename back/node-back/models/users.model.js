@@ -28,6 +28,10 @@ let UsersSchema = new mongoose.Schema({
     task: {
         type: String,
         require: true
+    },
+    RefreshToken: {
+        type: String,
+        default: null
     }
 });
 

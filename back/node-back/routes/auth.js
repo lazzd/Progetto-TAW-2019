@@ -14,7 +14,7 @@ let verifyAccessToken = require('./verifyAccessToken');
 let RefreshVerify = require('./verifyRefreshToken');
 
 // const time tokens' expire
-const AccessExpire = '7d';
+const AccessExpire = '5000';
 const RefreshExpire = '7d';
 
 // per validazione schema, fai in tutti i file
@@ -32,7 +32,10 @@ function createJwt(bodyJson) {
     }, process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: AccessExpire });
     // REFRESH TOKEN, LONGER DURATE
-    const RefreshToken = jwt.sign({}, process.env.REFRESH_TOKEN_SECRET, { expiresIn: RefreshExpire });
+    const RefreshToken = jwt.sign({
+        _id: bodyJson.id,
+        name: bodyJson.name
+    }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: RefreshExpire });
     // set the header
     console.log(AccessToken);
     console.log(RefreshToken);
@@ -118,24 +121,75 @@ router.post("/login", async function (req, res, next) {
             if (!validPass) return res.status(400).send('Invalid password');
             const jwtToken = createJwt(user);
             console.log(jwtToken);
-            return res.status(201).header('auth-token', jwtToken.AccessToken).send(jwtToken);
+            user.RefreshToken = jwtToken.RefreshToken;
+            await user.save()
+                .then(doc => {
+                    if (!doc || doc.length === 0) {
+                        return res.status(500).send(doc);
+                    }
+                    res.status(201).header('auth-token', jwtToken.AccessToken).send(jwtToken);
+                })
+                .catch(err => res.status(500).json(err));
         }
     } catch (err) {
         return res.status(400).send(err);
     }
 });
 
-router.post("/refresh-token", RefreshVerify, async function (req, res, next) {
+router.post("/logout", async function (req, res, next) {
+    try {
+        // il body deve contere il RefreshToken
+        if (!req.body)
+            return res.status(400).send('Request body is missing');
+        else {
+            console.log(req.body)
+            // Il refresh Token usati univoci? Altrimenti Find e poi map
+            const user = await UsersModel.findOne({ name: req.body.UserName });
+            if (user) {
+                user.RefreshToken = null;
+                await user.save()
+                    .then(doc => {
+                        if (!doc || doc.length === 0) {
+                            return res.status(500).send(doc);
+                        }
+                        res.status(201).send({});
+                    })
+                    .catch(err => res.status(500).json(err));
+            }
+            else {
+                return res.status(201).send("Logout");
+            }
+        }
+    } catch (err) {
+        return res.status(400).send(err);
+    }
+});
+
+router.post("/refreshToken", RefreshVerify, async function (req, res, next) {
     try {
         if (!req.body)
             return res.status(400).send('Request body is missing');
-        else if (!req.body.AccessToken || !req.body.AccessToken)
+        else if (!req.body.AccessToken || !req.body.RefreshToken)
             return res.status(400).send('Missing parameters');
         else {
-            let decoded = jwt.decode(req.body.AccessToken);
-            console.log(decoded);
-            const jwtToken = refreshAccessJwt(decoded);
-            return res.status(201).header('auth-token', jwtToken.AccessToken).send(jwtToken);
+            const decRefreshToken = jwt.decode(req.body.RefreshToken);
+            const nameRT = decRefreshToken.name;
+            const user = await UsersModel.findOne({ name: nameRT });
+            if (user) {
+                if (user.RefreshToken == req.body.RefreshToken) {
+                    console.log("LE STRINGHE MATCHANO SU RT");
+                    const decAccessToken = jwt.decode(req.body.AccessToken);
+                    const jwtToken = refreshAccessJwt(decAccessToken);
+                    return res.status(201).header('auth-token', jwtToken.AccessToken).send(jwtToken);
+                }
+                else {
+                    return res.status(201).send({"error": "RefreshToken doens't match with DB"});
+                }
+            }
+            else {
+                return res.status(201).send({"error": "User doesn't present in DB"});
+            }
+            // controllo DB if RefreshToken is present
         }
     } catch (err) {
         console.log(err);

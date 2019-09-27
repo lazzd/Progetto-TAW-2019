@@ -17,13 +17,14 @@ router.get("/", verifyAccessToken, async function (req, res, next) {
     try {
         // search by seats
         if (req.query.seats) {
-            if (isNaN(req.query.seats))
+            if (isNaN(req.query.seats)) {
                 return res.status(400).send("Id_order isn't a number");
+            }
             await TablesModel.find({ $and: [{ seats: { $gte: req.query.seats } }, { busy: false }] })
                 .then(doc => res.json(doc))
                 .catch(err => res.status(500).json(err));
         }
-        if (req.query.waiter) {
+        else if (req.query.waiter) {
             await TablesModel.find({ $and: [{ waiter: req.query.waiter }, { busy: true }] })
                 .then(doc => res.json(doc))
                 .catch(err => res.status(500).json(err));

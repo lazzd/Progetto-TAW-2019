@@ -95,9 +95,19 @@ export class SidenavCookComponent implements OnDestroy {
     this.mobileQuery.removeListener(this._mobileQueryListener);
   }
 
-  logout(){
-    this.logoutService.logout();
-    this.router.navigate(['/auth']);
+  logout() {
+    console.log("GGGGGGGGGGGGGGGGG")
+    this.logoutService.logout()
+      .subscribe(
+        (res: any) => {
+          console.log("LOGOUT SUCCESS", res);
+          this.router.navigate(['/auth']);
+        },
+        (err: any) => {
+          console.log("LOGOUT ERROR", err);
+          this.router.navigate(['/auth']);
+        }
+      )
   }
 
   setOff(place: string): void {
