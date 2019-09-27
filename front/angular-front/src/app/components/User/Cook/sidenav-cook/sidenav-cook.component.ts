@@ -67,7 +67,7 @@ export class SidenavCookComponent implements OnDestroy {
       console.log("EMIT: ", Order);
       // il suborder maggiore è sempre pushato nell'array (pop - last position)
       const ElementOrder: ElementOrder = Order.elements_order.pop();
-      const suborder: ElementMenu[] = ElementOrder.drinks_order;
+      const suborder: ElementMenu[] = ElementOrder.foods_order;
       if (suborder.length > 0) {
         this.suborders.push(new WaitSuborder(Order.table, Order.id_order, ElementOrder.id_suborder, Order.waiter, ElementOrder.state, suborder));
         if (this.place != 'free' && !this.ntf_free)

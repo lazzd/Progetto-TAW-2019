@@ -230,8 +230,6 @@ router.post("/", verifyAccessToken, async function (req, res, next) {
                     }
                 }
                 let model = new OrdersModel(req.body);
-                // first order with this id_order
-                model.num_suborders = 1;
                 let model_element_order = new ElementOrderModel(req.body);
                 if (!req.body.drinks_order) {
                     model_element_order.state.drinks_complete = true;
@@ -319,8 +317,6 @@ router.put("/:id_order", verifyAccessToken, async function (req, res, next) {
                     model_element_order.state.foods_complete = true;
                     model_element_order.state.foods_served = true;
                 }
-                //isOrderPresent.num_suborders += 1;
-                model_element_order.id_suborder = isOrderPresent.num_suborders;
                 isOrderPresent.elements_order.push(model_element_order);
                 if (isOrderPresent.state_order.all_served)
                     isOrderPresent.state_order.all_served = false;
