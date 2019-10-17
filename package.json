@@ -7,7 +7,8 @@
         "start-web": "cd ./front/Scripts/Web && AngularWeb-Linux.sh",
         "build-desktop": "cd ./front/Scripts/Desktop && AngularBuildElectron-Linux.sh",
         "start-desktop": "cd ./front/Scripts/Desktop && ElectronRun-Linux.sh",
-        "start-android": "cd ./front/angular-front/logicaldishes && cordova run android"
+        "build-android": "cd ./front/Scripts/Mobile && AngularCordovaBuildAndroid-Linux.sh",
+        "start-android": "cd ./front/Scripts/Mobile && CordovaRunAndroid-Linux.sh"
     },
     "dependencies": {},
     "devDependencies": {}
