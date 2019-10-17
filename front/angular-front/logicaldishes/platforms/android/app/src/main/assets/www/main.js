@@ -2068,8 +2068,16 @@ var SidenavBarmanComponent = /** @class */ (function () {
         this.mobileQuery.removeListener(this._mobileQueryListener);
     };
     SidenavBarmanComponent.prototype.logout = function () {
-        this.logoutService.logout();
-        this.router.navigate(['/auth']);
+        var _this = this;
+        console.log("GGGGGGGGGGGGGGGGG");
+        this.logoutService.logout()
+            .subscribe(function (res) {
+            console.log("LOGOUT SUCCESS", res);
+            _this.router.navigate(['/auth']);
+        }, function (err) {
+            console.log("LOGOUT ERROR", err);
+            _this.router.navigate(['/auth']);
+        });
     };
     SidenavBarmanComponent.prototype.setOff = function (place) {
         this.place = place;
@@ -3230,8 +3238,16 @@ var SidenavCashierComponent = /** @class */ (function () {
         this.mobileQuery.removeListener(this._mobileQueryListener);
     };
     SidenavCashierComponent.prototype.logout = function () {
-        this.logoutService.logout();
-        this.router.navigate(['/auth']);
+        var _this = this;
+        console.log("GGGGGGGGGGGGGGGGG");
+        this.logoutService.logout()
+            .subscribe(function (res) {
+            console.log("LOGOUT SUCCESS", res);
+            _this.router.navigate(['/auth']);
+        }, function (err) {
+            console.log("LOGOUT ERROR", err);
+            _this.router.navigate(['/auth']);
+        });
     };
     SidenavCashierComponent.prototype.setOff = function (place) {
         this.place = place;
@@ -3804,7 +3820,7 @@ var SidenavCookComponent = /** @class */ (function () {
             console.log("EMIT: ", Order);
             // il suborder maggiore è sempre pushato nell'array (pop - last position)
             var ElementOrder = Order.elements_order.pop();
-            var suborder = ElementOrder.drinks_order;
+            var suborder = ElementOrder.foods_order;
             if (suborder.length > 0) {
                 _this.suborders.push(new src_app_classes_wait_suborder__WEBPACK_IMPORTED_MODULE_6__["WaitSuborder"](Order.table, Order.id_order, ElementOrder.id_suborder, Order.waiter, ElementOrder.state, suborder));
                 if (_this.place != 'free' && !_this.ntf_free)
@@ -3830,8 +3846,16 @@ var SidenavCookComponent = /** @class */ (function () {
         this.mobileQuery.removeListener(this._mobileQueryListener);
     };
     SidenavCookComponent.prototype.logout = function () {
-        this.logoutService.logout();
-        this.router.navigate(['/auth']);
+        var _this = this;
+        console.log("GGGGGGGGGGGGGGGGG");
+        this.logoutService.logout()
+            .subscribe(function (res) {
+            console.log("LOGOUT SUCCESS", res);
+            _this.router.navigate(['/auth']);
+        }, function (err) {
+            console.log("LOGOUT ERROR", err);
+            _this.router.navigate(['/auth']);
+        });
     };
     SidenavCookComponent.prototype.setOff = function (place) {
         this.place = place;
@@ -3986,8 +4010,16 @@ var SidenavWaiterComponent = /** @class */ (function () {
         this.mobileQuery.removeListener(this._mobileQueryListener);
     };
     SidenavWaiterComponent.prototype.logout = function () {
-        this.logoutService.logout();
-        this.router.navigate(['/auth']);
+        var _this = this;
+        console.log("GGGGGGGGGGGGGGGGG");
+        this.logoutService.logout()
+            .subscribe(function (res) {
+            console.log("LOGOUT SUCCESS", res);
+            _this.router.navigate(['/auth']);
+        }, function (err) {
+            console.log("LOGOUT ERROR", err);
+            _this.router.navigate(['/auth']);
+        });
     };
     SidenavWaiterComponent.prototype.setOff = function (place) {
         this.set = true;
@@ -4974,7 +5006,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _auth0_angular_jwt__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @auth0/angular-jwt */ "./node_modules/@auth0/angular-jwt/index.js");
 /* harmony import */ var _services_login_login_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../services/login/login.service */ "./src/app/services/login/login.service.ts");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _services_logout_logout_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../services/logout/logout.service */ "./src/app/services/logout/logout.service.ts");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 
 
 // for routing
@@ -4983,16 +5016,42 @@ __webpack_require__.r(__webpack_exports__);
 // import Services
 
 
+
 var LoginComponent = /** @class */ (function () {
-    function LoginComponent(loginService, router, jwt) {
+    function LoginComponent(loginService, logoutService, router, jwt) {
         this.loginService = loginService;
+        this.logoutService = logoutService;
         this.router = router;
         this.jwt = jwt;
     }
     LoginComponent.prototype.ngOnInit = function () {
-        this.form_login = new _angular_forms__WEBPACK_IMPORTED_MODULE_5__["FormGroup"]({
-            emailLogin: new _angular_forms__WEBPACK_IMPORTED_MODULE_5__["FormControl"](),
-            passwordLogin: new _angular_forms__WEBPACK_IMPORTED_MODULE_5__["FormControl"]()
+        this.form_login = new _angular_forms__WEBPACK_IMPORTED_MODULE_6__["FormGroup"]({
+            emailLogin: new _angular_forms__WEBPACK_IMPORTED_MODULE_6__["FormControl"](),
+            passwordLogin: new _angular_forms__WEBPACK_IMPORTED_MODULE_6__["FormControl"]()
+        });
+        if (this.isLogged())
+            this.logout();
+    };
+    LoginComponent.prototype.isLogged = function () {
+        var AccessToken = localStorage.getItem('AccessToken');
+        var RefreshToken = localStorage.getItem('RefreshToken');
+        var UserName = localStorage.getItem('UserName');
+        var UserTask = localStorage.getItem('UserTask');
+        if (AccessToken || RefreshToken || UserName || UserTask)
+            return true;
+        else
+            return false;
+    };
+    LoginComponent.prototype.logout = function () {
+        var _this = this;
+        console.log("GGGGGGGGGGGGGGGGG");
+        this.logoutService.logout()
+            .subscribe(function (res) {
+            console.log("LOGOUT SUCCESS", res);
+            _this.router.navigate(['/auth/login']);
+        }, function (err) {
+            console.log("LOGOUT ERROR", err);
+            _this.router.navigate(['/auth']);
         });
     };
     LoginComponent.prototype.returnAuth = function () {
@@ -5043,6 +5102,7 @@ var LoginComponent = /** @class */ (function () {
     };
     LoginComponent.ctorParameters = function () { return [
         { type: _services_login_login_service__WEBPACK_IMPORTED_MODULE_4__["LoginService"] },
+        { type: _services_logout_logout_service__WEBPACK_IMPORTED_MODULE_5__["LogoutService"] },
         { type: _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"] },
         { type: _auth0_angular_jwt__WEBPACK_IMPORTED_MODULE_3__["JwtHelperService"] }
     ]; };
@@ -6498,20 +6558,31 @@ var LoginService = /** @class */ (function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LogoutService", function() { return LogoutService; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../environments/environment */ "./src/environments/environment.ts");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
 
 
+
+
+var url = _environments_environment__WEBPACK_IMPORTED_MODULE_1__["environment"].serverURL + "/auth/logout";
 var LogoutService = /** @class */ (function () {
-    function LogoutService() {
+    function LogoutService(http) {
+        this.http = http;
     }
     LogoutService.prototype.logout = function () {
+        var UserName = localStorage.getItem('UserName');
         localStorage.removeItem('AccessToken');
         localStorage.removeItem('RefreshToken');
         localStorage.removeItem('UserName');
         localStorage.removeItem('UserTask');
+        return this.http.post(url, { UserName: UserName });
     };
+    LogoutService.ctorParameters = function () { return [
+        { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClient"] }
+    ]; };
     LogoutService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Injectable"])({
             providedIn: 'root'
         })
     ], LogoutService);
@@ -6610,7 +6681,7 @@ __webpack_require__.r(__webpack_exports__);
 
 // for handler errors
 
-var url = _environments_environment__WEBPACK_IMPORTED_MODULE_1__["environment"].serverURL + "/auth/refresh-token";
+var url = _environments_environment__WEBPACK_IMPORTED_MODULE_1__["environment"].serverURL + "/auth/refreshToken";
 var RefreshTokenService = /** @class */ (function () {
     function RefreshTokenService(http, jwtHelper) {
         this.http = http;

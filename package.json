@@ -1,0 +1,14 @@
+{
+    "name": "logicaldishes",
+    "private": true,
+    "scripts": {
+        "install": "cd ./back/node-back && npm install && cd ../../front/angular-front && npm install && cd ./logicaldishes && npm install",
+        "start-backend": "cd ./back/node-back && npm run watch",
+        "start-web": "cd ./front/Scripts/Web && AngularWeb-Linux.sh",
+        "build-desktop": "cd ./front/Scripts/Desktop && AngularBuildElectron-Linux.sh",
+        "start-desktop": "cd ./front/Scripts/Desktop && ElectronRun-Linux.sh",
+        "start-android": "cd ./front/angular-front/logicaldishes && cordova run android"
+    },
+    "dependencies": {},
+    "devDependencies": {}
+}

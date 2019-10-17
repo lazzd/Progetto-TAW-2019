@@ -21,7 +21,7 @@ const RefreshExpire = '7d';
 const { registerValidation, loginValidation } = require('../validation');
 
 // funzione generica per creare JSON a seconda della chiamata effettuata
-function createJwt(bodyJson) {
+function createTokens(bodyJson) {
     // create the token , we can send information along jwt token
     // set the expire time of jwt
     const AccessToken = jwt.sign({
@@ -43,7 +43,7 @@ function createJwt(bodyJson) {
     return ({ AccessToken, RefreshToken });
 }
 
-function refreshAccessJwt(bodyJson) {
+function refreshAccessToken(bodyJson) {
     // create the token , we can send information along jwt token
     // set the expire time of jwt
     const AccessToken = jwt.sign({
@@ -91,7 +91,7 @@ router.post("/register", verifyAccessToken, async function (req, res, next) {
                     }
                     console.log(doc);
                     // ----------------------------------- nel doc dovrebbe esserci il _id necessario per il jwt, OK
-                    const jwtToken = createJwt(doc);
+                    const jwtToken = createTokens(doc);
                     res.io.emit("new-user-action", doc);
                     return res.status(201).send("Registration completed");
 
@@ -119,7 +119,7 @@ router.post("/login", async function (req, res, next) {
             // checking if the password is OK
             const validPass = await bcrypt.compare(req.body.password, user.password);
             if (!validPass) return res.status(400).send('Invalid password');
-            const jwtToken = createJwt(user);
+            const jwtToken = createTokens(user);
             console.log(jwtToken);
             user.RefreshToken = jwtToken.RefreshToken;
             await user.save()
@@ -179,7 +179,7 @@ router.post("/refreshToken", RefreshVerify, async function (req, res, next) {
                 if (user.RefreshToken == req.body.RefreshToken) {
                     console.log("LE STRINGHE MATCHANO SU RT");
                     const decAccessToken = jwt.decode(req.body.AccessToken);
-                    const jwtToken = refreshAccessJwt(decAccessToken);
+                    const jwtToken = refreshAccessToken(decAccessToken);
                     return res.status(201).header('auth-token', jwtToken.AccessToken).send(jwtToken);
                 }
                 else {
