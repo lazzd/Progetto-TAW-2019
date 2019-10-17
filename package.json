@@ -4,11 +4,11 @@
     "scripts": {
         "install": "cd ./back/node-back && npm install && cd ../../front/angular-front && npm install && cd ./logicaldishes && npm install",
         "start-backend": "cd ./back/node-back && npm run watch",
-        "start-web": "cd ./front/Scripts/Web && AngularWeb-Linux.sh",
-        "build-desktop": "cd ./front/Scripts/Desktop && AngularBuildElectron-Linux.sh",
-        "start-desktop": "cd ./front/Scripts/Desktop && ElectronRun-Linux.sh",
-        "build-android": "cd ./front/Scripts/Mobile && AngularCordovaBuildAndroid-Linux.sh",
-        "start-android": "cd ./front/Scripts/Mobile && CordovaRunAndroid-Linux.sh"
+        "start-web": "cd ./front/Scripts/Web && sh ./AngularWeb-Linux.sh",
+        "build-desktop": "cd ./front/Scripts/Desktop && sh ./AngularBuildElectron-Linux.sh",
+        "start-desktop": "cd ./front/Scripts/Desktop && sh ./ElectronRun-Linux.sh",
+        "build-android": "cd ./front/Scripts/Mobile && sh ./AngularCordovaBuildAndroid-Linux.sh",
+        "start-android": "cd ./front/Scripts/Mobile && sh ./CordovaRunAndroid-Linux.sh"
     },
     "dependencies": {},
     "devDependencies": {}

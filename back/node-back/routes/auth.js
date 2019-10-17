@@ -14,7 +14,7 @@ let verifyAccessToken = require('./verifyAccessToken');
 let RefreshVerify = require('./verifyRefreshToken');
 
 // const time tokens' expire
-const AccessExpire = '5000';
+const AccessExpire = '300000';
 const RefreshExpire = '7d';
 
 // per validazione schema, fai in tutti i file
