@@ -8,7 +8,7 @@ Progetto Corso Tecnologie e Applicazioni Web [CT0142], Università Ca' Foscari V
 
 - npm
 - Node.js 10.x
-- Android Sdk (build Android)
+- Android Sdk (solo per build Android)
 
 ## Building
 
@@ -20,6 +20,12 @@ Aprire terminale nella root del progetto (presenza cartelle back e front) ed ese
   npm install -g @angular/cli
   ```
 
+- Cordova, se non presente (solo per build Android)
+
+  ```
+  npm install -g cordova
+  ```
+  
 - Moduli necessari
 
   ```
