@@ -45,6 +45,9 @@ npm run start-backend
 
 **Frontend**
 
+Per l'utilizzo dell'Applicazione su Desktop e Android è prima necessario lanciare il comando di Build: una volta eseguito questo comando (solamente una volta) è poi possibile eseguire direttamente il solo comando di start per avviarla le volte successive.
+Se si è effettuata una build per una piattaforma (EX Desktop), per poter eseguire l'applicazione in una piattaforma differente (EX Android) è necessaria l'esecuzione del comando di build per la nuova piattaforma di esecuzione voluta (EX eseguendo build-android).
+
 - **Web**
 
   ```
