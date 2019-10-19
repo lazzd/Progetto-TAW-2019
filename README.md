@@ -10,6 +10,11 @@ Progetto Corso Tecnologie e Applicazioni Web [CT0142], Università Ca' Foscari V
 - Node.js 10.x
 - Android Sdk (solo per build Android)
 
+Opzionali:
+
+  - Git bash:
+    solo per utenti Windows. Sono però presenti Scripts .bat (presenti nelle rispettive cartelle Scripts su front e back) per permettere     la compilazione senza l'utilizzo di Git bash.
+
 ## Building
 
 Aprire terminale nella root del progetto (presenza cartelle back e front) ed eseguire i seguenti comandi.
