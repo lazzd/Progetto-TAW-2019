@@ -91,9 +91,8 @@ router.post("/register", verifyAccessToken, async function (req, res, next) {
                     }
                     console.log(doc);
                     // ----------------------------------- nel doc dovrebbe esserci il _id necessario per il jwt, OK
-                    const jwtToken = createTokens(doc);
                     res.io.emit("new-user-action", doc);
-                    return res.status(201).send("Registration completed");
+                    return res.status(201).send(JSON.stringify("Registration completed"));
 
                 })
                 .catch(err => {

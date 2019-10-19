@@ -15,28 +15,6 @@
 
 <body>
   <app-root></app-root>
-  <script type="text/javascript" src="cordova.js"></script>
-  <script>
-    (function () {
-      'use strict';
-
-      window.addEventListener = function () {
-        EventTarget.prototype.addEventListener.apply(this, arguments);
-      };
-
-      window.removeEventListener = function () {
-        EventTarget.prototype.removeEventListener.apply(this, arguments);
-      };
-
-      document.addEventListener = function () {
-        EventTarget.prototype.addEventListener.apply(this, arguments);
-      };
-
-      document.removeEventListener = function () {
-        EventTarget.prototype.removeEventListener.apply(this, arguments);
-      };
-    })();
-  </script>
 </body>
 
 </html>

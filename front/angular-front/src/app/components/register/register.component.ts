@@ -72,7 +72,7 @@ export class RegisterComponent implements OnInit {
       if (name && email && password && task) {
         let registerServicePromise = await this.registerService.sendRegister({ name, email, password, task } as Register);
         registerServicePromise.subscribe(
-          (res: string) => {
+          (res: any) => {
 
             this.form_reg.reset();
             this.regCompletata = true;

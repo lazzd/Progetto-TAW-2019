@@ -23,12 +23,12 @@ export class RegisterService {
     private http: HttpClient) { }
 
 
-  async sendRegister(registerJson: Register): Promise<Observable<string>> {
+  async sendRegister(registerJson: Register): Promise<Observable<any>> {
     try {
       let promRefeshToken = await this.refreshToken.refreshToken();
       console.log(promRefeshToken);
       // Ora posso fare la richiesta
-      return this.http.post<string>(url, registerJson);
+      return this.http.post<any>(url, registerJson);
     } catch (ErrorRefreshToken) {
       return throwError(ErrorRefreshToken);
     }
