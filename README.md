@@ -57,7 +57,7 @@ Se si è effettuata una build per una piattaforma (EX Desktop), per poter esegui
 - **Desktop**
 
   1.  Build Desktop
-
+  
      ```
      npm run build-desktop
      ```
