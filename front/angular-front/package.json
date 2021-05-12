@@ -28,7 +28,7 @@
     "@angular/router": "~8.0.3",
     "@auth0/angular-jwt": "^3.0.0",
     "@schematics/angular": "^8.1.2",
-    "chart.js": "^2.8.0",
+    "chart.js": "^2.9.4",
     "express": "^4.17.1",
     "ng2-charts": "^2.3.0",
     "rxjs": "~6.4.0",
